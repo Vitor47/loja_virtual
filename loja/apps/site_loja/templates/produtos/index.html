@@ -1,0 +1,119 @@
+{% extends 'site\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Produtos{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'main' %}
+
+<section class="margin-top">
+    <div class="container">
+        <div class="display-top-page-products">
+            <h2 class="title-page-product">Bicos de luz</h2>
+            <div id="filter" class="display-filter">
+                <div class="box-filter-1">
+                    <button class="btn" onclick="expandFilterCategory()">
+                        {% bs_icon 'funnel' size='1em' extra_classes="icon-filter" %}
+                    </button>
+                </div>
+
+                <div class="box-filter-2">
+                    <button class="btn" onclick="expandFilterOrder()">
+                        {% bs_icon 'arrow-down-up' size='1em' extra_classes="icon-filter" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="margin-top" id="select-filter">
+                <select class="form-control" aria-label="Default select example">
+                    <option selected>Selecione a categoria desejada</option>
+                    <option value="1">Bicos de luz</option>
+                    <option value="2">Geral</option>
+                    <option value="3">Fios de luz</option>
+                </select>
+            </div>
+
+            <div class="margin-top" id="select-order">
+                <select class="form-control" aria-label="Default select example">
+                    <option selected>Selecione a ordem desejada</option>
+                    <option value="1">Maior valor</option>
+                    <option value="2">Menor valor</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="display-item-products margin-top">
+            <div class="item-products"><img class="img-fluid"
+                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                <p class="p-card">Lampada 12w 6500k Blumenau</p>
+                <p class="p-value">R$ <span class="value">12,00</span></p>
+            </div>
+            <div class="item-products"><img class="img-fluid"
+                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                <p class="p-card">Lampada 12w 6500k Blumenau</p>
+                <p class="p-value">R$ <span class="value">12,00</span></p>
+            </div>
+            <div class="item-products"><img class="img-fluid"
+                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                <p class="p-card">Lampada 12w 6500k Blumenau</p>
+                <p class="p-value">R$ <span class="value">12,00</span></p>
+            </div>
+            <div class="item-products"><img class="img-fluid"
+                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                <p class="p-card">Lampada 12w 6500k Blumenau</p>
+                <p class="p-value">R$ <span class="value">12,00</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="margin-navbar-footer"></div>
+<footer class="nav-footer">
+    <div class="display-item">
+        <a href="{% url 'site_loja:home' %}">
+            <div class="box-selected">
+                {% bs_icon 'house-door-fill' size='2em' %}
+                <p class="p-footer">Inicio</p>
+            </div>
+        </a>
+        <div class="box-footer">
+            {% bs_icon 'star' size='2em' %}
+            <p class="p-footer">Favoritos</p>
+        </div>
+        <div class="box-footer">
+            {% bs_icon 'cart' size='2em' %}
+            <p class="p-footer">Carrinho</p>
+        </div>
+        <a href="{% url 'site_loja:login' %}">
+            <div class="box-footer">
+                {% bs_icon 'person' size='2em' %}
+                <p class="p-footer">Conta</p>
+            </div>
+        </a>
+    </div>
+</footer>
+{% endblock %}
+
+{% block 'body' %}
+<script>
+    $(document).ready(function () {
+        document.getElementById("select-filter").style.display = 'none';
+        document.getElementById("select-order").style.display = 'none';
+    });
+
+    function expandFilterCategory() {
+        document.getElementById("select-filter").style.display = 'block';
+        document.getElementById("select-order").style.display = 'none';
+    }
+
+    function expandFilterOrder() {
+        document.getElementById("select-filter").style.display = 'none';
+        document.getElementById("select-order").style.display = 'block';
+    }
+</script>
+{% endblock %}

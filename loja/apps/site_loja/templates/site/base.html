@@ -1,0 +1,83 @@
+{% load static %}
+{% load bootstrap_icons %}
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'general/css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'general/css/general.css' %}">
+  <link rel="stylesheet" href="{% static 'site/base_site/css/base_site.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.min.css' %}">
+  {% block 'head' %}{% endblock %}
+  <title>{% block 'title' %}{% endblock %}</title>
+</head>
+
+<body>
+  <div class="mobile">
+    <header class="header">
+      <a href="{% url 'site_loja:home' %}">
+        <p class="logo">{% bs_icon 'cart' size='1em' %} Cremonese LTDA</p>
+      </a>
+      <div class="main-search">
+        <div class="form-group has-search">
+          <span class="form-control-feedback">{% bs_icon 'search' %}</span>
+          <input type="text" class="form-control search-background-color" placeholder="O que você procura...">
+        </div>
+      </div>
+    </header>
+    <div class="margin-navbar"></div>
+
+    {% block 'main' %}
+    {% endblock %}
+
+    <div class="wa__btn_popup">
+      <div class="wa__btn_popup_txt">Precisa de ajuda? <strong>Converse conosco</strong></div>
+    </div>
+    <a class="btn wa__btn_popup">
+      {% bs_icon 'whatsapp' size='1.5em' %}
+    </a>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+  <script src="{% static 'vendor/OwlCarousel/dist/owl.carousel.js' %}"></script>
+  <script src="{% static 'vendor/OwlCarousel/dist/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'site/base_site/js/funcoes.js' %}"></script>
+  {% block 'body' %}
+  {% endblock %}
+
+  {% for message in messages %}
+  {% if message.tags == 'success' %}
+  <script>
+    swal({
+      title: "SUCESSO!",
+      text: "{{message}}",
+      icon: "success",
+      button: "OK",
+    });
+  </script>
+  {% endif %}
+  {% endfor %}
+
+  {% for message in messages %}
+  {% if message.tags == 'error' %}
+  <script>
+    swal({
+      title: "ERRO!",
+      text: "{{message}}",
+      icon: "error",
+      button: "OK",
+    });
+  </script>
+  {% endif %}
+  {% endfor %}
+</body>
+
+</html>
