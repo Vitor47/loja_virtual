@@ -21,35 +21,52 @@ Cadastrar Novo Usuário
             <div class="form-group row">
                 <div class="col-md-6">
                     <label class="form-label">Primeiro Nome<span style="color: red"> * </span>:</label>
-                    <input type="text" class="form-control" id="image_banner" name="image_banner" required>
+                    <input type="text" class="form-control" id="nome_user" name="nome_user" value="" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Permissão<span style="color: red"> * </span>:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="super_admin">
+                        <label class="form-label" for="super_admin">
+                            Super Administrador
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="membro_equipe" checked>
+                        <label class="form-label" for="membro_equipe">
+                            Membro da Equipe
+                        </label>
+                      </div>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-md-6">
-                    <label class="form-label">Segundo Nome<span style="color: red"> * </span>:</label>
-                    <input type="text" class="form-control" id="image_banner" name="image_banner" required>
+                    <label class="form-label">Segundo Nome <span style="color: red"> * </span>:</label>
+                    <input type="text" class="form-control" id="sobrenome_user" name="sobrenome_user" value="" required>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-md-6">
                     <label class="form-label">Usuário<span style="color: red"> * </span>:</label>
-                    <input type="text" class="form-control" id="image_banner" name="image_banner" required>
+                    <label class="form-label"><span style="color: red"> "Observação nome.sobrenome sem acento e sem letras maiusculas" </span></label>
+                    <input type="text" class="form-control" id="username_user" name="username_user" value="" required>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-md-6">
                     <label class="form-label">E-mail<span style="color: red"> * </span>:</label>
-                    <input type="email" class="form-control" id="image_banner" name="image_banner" required>
+                    <input type="email" class="form-control" id="email_user" name="email_user" value="" required>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-md-6">
                     <label class="form-label">Senha<span style="color: red"> * </span>:</label>
-                    <input type="email" class="form-control" id="senha_user" name="senha_user" required minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();">
+                    <input type="password" class="form-control" id="senha_user" name="senha_user" value="" required minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();">
                     <span id="password-status"></span>
                 </div>
             </div>
@@ -57,7 +74,7 @@ Cadastrar Novo Usuário
             <div class="form-group row">
                 <div class="col-md-6">
                     <label class="form-label">Confirmar Senha<span style="color: red"> * </span>:</label>
-                    <input type="email" class="form-control" id="image_banner" name="image_banner" required minlength="6" maxlength="12">
+                    <input type="password" class="form-control" id="confirmar_senha_user" name="confirmar_senha_user" value="" required minlength="6" maxlength="12">
                 </div>
             </div>
 
