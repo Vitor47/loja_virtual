@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     'loja.apps.administrador',
     'loja.apps.site_loja',
     'django_bootstrap_icons',
-    'localflavor',
 ]
 
 MIDDLEWARE = [

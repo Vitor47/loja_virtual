@@ -2,26 +2,26 @@
 {% load static %}
 {% load bootstrap_icons %}
 
-{% block 'title' %}Usuários{% endblock %}
+{% block 'title' %}Grupo de Acesso{% endblock %}
 
 {% block 'head' %}
 {% endblock %}
 
 {% block 'title-page' %}
-Lista de Usuários Cadastrados
+Grupo de Acesso
 {% endblock %}
 
 {% block 'dashboard' %}
 <div class="container">
     <div class="margin-top margin-bottom">
-        <h2>Lista de Usuários Cadastrados </h2>
+        <h2>Grupo de Acesso </h2>
     </div>
 
     <div class="margin margin-top margin-bottom">
         <div class="row">
             <div class="col-md-12">
-                <a href="{% url 'administrador:create_user' %}" class="btn btn-success">{% bs_icon 'person' %} Cadastrar
-                    Usuário</a>
+                <a href="{% url 'administrador:create_grupo_acesso' %}" class="btn btn-success">{% bs_icon 'people' %} Cadastrar
+                    Grupo Acesso</a>
             </div>
         </div>
     </div>
@@ -31,41 +31,28 @@ Lista de Usuários Cadastrados
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nome</th>
-                <th scope="col">Usuário</th>
-                <th scope="col">E-mail</th>
-                <th scope="col">Status</th>
                 <th scope="col">Ações</th>
             </tr>
         </thead>
         <tbody>
-            {% if users.count > 0 %}
-            {% for item in users %}
+            {% if groups.count > 0 %}
+            {% for item in groups %}
             <tr>
                 <th scope="row"> {{ forloop.counter }}</th>
-                <td>{{ item.first_name }} {{ item.last_name }}</td>
-                <td>{{ item.username }}</td>
-                <td>{{ item.email }}</td>
-                {% if item.is_active == True %}
-                <td><span style="cursor: context-menu;" class="btn btn-success">Ativo</span></td>
-                {% else %}
-                <td><span style="cursor: context-menu;" class="btn btn-danger">Inativo</span></td>
-                {% endif %}
-
-                {% if item.email == "vitormateusmiolo@gmail.com" %}
-                <td><span style="cursor: context-menu;" class="btn btn-primary">Super administrador</span></td>
-                {% else %}
+                <td>{{ item.name }}</td>
                 <td>
                     <form method="GET" action=" {% url 'administrador:delete_user' item.id %} ">
+                        <a href="{% url 'administrador:add_users_group' item.id %}" class="btn btn-success">{% bs_icon 'person' %} Adicionar Usuários</a>
+                        <a href="{% url 'administrador:add_permission_group' %}" class="btn btn-info">{% bs_icon 'bookmark-check' %} Adicionar Permissões</a>
                         <a href="{% url 'administrador:edit_user' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
                         <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
                             <i>{% bs_icon 'trash' %}</i> Excluir</button>
                     </form>
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
             {% else %}
-            <td>Nenhum Usuário encontrado</td>
+            <td>Grupo de Acesso encontrado</td>
             {% endif %}
         </tbody>
     </table>

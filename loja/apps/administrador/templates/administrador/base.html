@@ -2,6 +2,7 @@
 {% load bootstrap_icons %}
 <!doctype html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,9 +37,9 @@
       <li>
         <a href="{% url 'administrador:produto' %}">
           <i>{% bs_icon 'basket' %}</i>
-          <span class="links_name">Produto</span>
+          <span class="links_name">Produtos</span>
         </a>
-        <span class="tooltip">Produto</span>
+        <span class="tooltip">Produtos</span>
       </li>
       <li>
         <a href="{% url 'administrador:configuracao' %}">
@@ -64,13 +65,19 @@
       </li>-->
 
       <li>
-        <a href="{% url 'administrador:list_user' %}">
-          <i>{% bs_icon 'person' %}</i>
-          <span class="links_name">Usuários</span>
-        </a>
-        <span class="tooltip">Usuários</span>
+        <div class="dropdown">
+          <a class="dropbtn">
+            <i>{% bs_icon 'person-workspace' %}</i>
+            <span class="links_name">Sistema</span>
+          </a>
+          <div class="dropdown-content">
+            <a class="btn-submenu" href="{% url 'administrador:list_user' %}"><span class="margin-icon">{% bs_icon 'person' %}</span> Usuários</a>
+            <a class="btn-submenu" href="{% url 'administrador:grupo_acesso' %}"><span class="margin-icon">{% bs_icon 'person-plus' %}</span> Grupo de Acesso</a>
+            <a class="btn-submenu" href="#"><span class="margin-icon">{% bs_icon 'box2' %}</span> Estoque</a>
+          </div>
+        </div>
+        <span class="tooltip">Sistema</span>
       </li>
-
     </ul>
   </div>
 
