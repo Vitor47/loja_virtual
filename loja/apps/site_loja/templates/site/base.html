@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="{% static 'general/css/base.css' %}">
   <link rel="stylesheet" href="{% static 'general/css/general.css' %}">
   <link rel="stylesheet" href="{% static 'site/base_site/css/base_site.css' %}">
+  <link rel="stylesheet" href="{% static 'site/base_site/css/base_site_desktop.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.min.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.css' %}">
@@ -19,6 +20,21 @@
 </head>
 
 <body>
+  <div class="desktop">
+    <!--Header-->
+    <header>
+
+    </header>
+
+    {% block 'main_desktop' %}
+    <!--main da página-->
+    {% endblock %}
+
+    <!--Footer-->
+    <footer>
+
+    </footer>
+  </div>
   <div class="mobile">
     <header class="header">
       <a href="{% url 'site_loja:home' %}">
