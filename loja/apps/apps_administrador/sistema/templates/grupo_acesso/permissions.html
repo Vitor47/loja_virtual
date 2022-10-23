@@ -1,0 +1,47 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+
+{% block 'title' %}Cadastrar Permissões no Grupo de Acesso {{grupo.name}}{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'title-page' %}
+Cadastrar Permissões no Grupo de Acesso {{grupo.name}}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="adicionar-cliente">
+        <form class="margin-top" action="{% url 'apps_administrador.sistema:add_permission_group' grupo.id %}" method="POST"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+            <p><span style="color: red"> Atenção para marcar multiplos acessos assegure o control e clique nos demais
+                </span></p>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Permissões </label>
+                    <select multiple="" name="select-multiplo" class="form-control"
+                        style="height: 400px; resize: auto;">
+                        {% for permissao in permissoes %}
+                            <option value="{{permissao.id}}">{{permissao.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="margin margin-top margin-bottom">
+                <button type="submit" class="btn-principal">Cadastrar</button>
+                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'administrador/usuarios/js/usuarios.js' %}" type="text/javascript"></script>
+{% endblock %}
