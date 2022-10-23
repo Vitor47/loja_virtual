@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'general/css/base.css' %}">
   <link rel="stylesheet" href="{% static 'general/css/general.css' %}">
-  <link rel="stylesheet" href="{% static 'site/base_site/css/base_site.css' %}">
-  <link rel="stylesheet" href="{% static 'site/base_site/css/base_site_desktop.css' %}">
+  <link rel="stylesheet" href="{% static 'site/base_site/css/mobile/mobile.css' %}">
+  <link rel="stylesheet" href="{% static 'site/base_site/css/desktop/desktop.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.min.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.css' %}">
@@ -20,23 +20,14 @@
 </head>
 
 <body>
-  <div class="desktop">
-    <!--Header-->
-    <header>
+  <div >
+    <!--Header Desktop-->
+    <header class="desktop">
 
     </header>
 
-    {% block 'main_desktop' %}
-    <!--main da página-->
-    {% endblock %}
-
-    <!--Footer-->
-    <footer>
-
-    </footer>
-  </div>
-  <div class="mobile">
-    <header class="header">
+    <!--Header Mobile-->
+    <header class="mobile header">
       <a href="{% url 'site_loja:home' %}">
         <p class="logo">{% bs_icon 'cart' size='1em' %} Cremonese LTDA</p>
       </a>
@@ -47,7 +38,9 @@
         </div>
       </div>
     </header>
+
     <div class="margin-navbar"></div>
+
 
     {% block 'main' %}
     {% endblock %}
@@ -58,7 +51,11 @@
     <a class="btn wa__btn_popup">
       {% bs_icon 'whatsapp' size='1.5em' %}
     </a>
-  </div>
+
+    <!--Footer Desktop-->
+    <footer class="desktop">
+
+    </footer>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>

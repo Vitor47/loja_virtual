@@ -26,7 +26,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'loja.apps.administrador',
+    'loja.apps.apps_administrador.banner',
+    'loja.apps.apps_administrador.cliente',
+    'loja.apps.apps_administrador.configuracao',
+    'loja.apps.apps_administrador.dashboard',
+    'loja.apps.apps_administrador.produto',
+    'loja.apps.apps_administrador.sistema',
     'loja.apps.site_loja',
     'django_bootstrap_icons',
 ]
@@ -46,7 +51,7 @@ ROOT_URLCONF = 'loja.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'loja', 'apps', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -108,8 +113,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'templates/static'),)
-STATIC_ROOT = os.path.join('static')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#STATIC_ROOT = os.path.join('static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
