@@ -12,12 +12,14 @@ from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from .models import Configuracao
 
 @login_required(login_url="/admin")
+@permission_required('configuracao.view_configuracao')
 def configuracao(request):
     if request.method == "GET":
-        list_configs = Configuracao.objects.all()
+        list_configs = Configuracao.objects.all().order_by('-id')
         return render(request, "configuracao/index.html", {'configuracao': list_configs})
 
 @login_required(login_url="/admin")
+@permission_required('configuracao.create_configuracao')
 def create_configuracao(request):
     if request.method == "GET":
         return render(request, "configuracao/create.html")
@@ -43,6 +45,7 @@ def create_configuracao(request):
             return redirect('/admin/create_configuracao/')
 
 @login_required(login_url="/admin")
+@permission_required('configuracao.change_configuracao')
 def edit_configuracao(request, id):
     item = Configuracao.objects.get(id=id)
     if request.method == 'GET':
@@ -67,6 +70,7 @@ def edit_configuracao(request, id):
             return redirect(f'/admin/edit_configuracao/{id}')
 
 @login_required(login_url="/admin")
+@permission_required('configuracao.delete_configuracao')
 def delete_configuracao(request, id):
     item = Configuracao.objects.get(id=id)
     if request.method == "GET":

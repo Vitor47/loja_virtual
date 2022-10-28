@@ -1,4 +1,5 @@
 #Paginator
+from math import prod
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 #Cria Data Automático
 from sqlite3 import Date
@@ -8,29 +9,25 @@ from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required, permission_required
 #Retornar templates
 from django.shortcuts import redirect, render
+from django.template.response import TemplateResponse
 #Importa demais coisas
-from django.contrib.auth.models import User, Permission, Group
+from django.contrib.auth.models import User
 from slug import slug
 #Cria LOG dos registros
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 #Permissões
 
-from .models import Produto, ProdutoAtributo, ProdutoCategoria, ProdutoImagens, ProdutoTipo
+from .models import Produto, ProdutoAtributo, ProdutoCategoria, ProdutoImagens, ProdutoTipo, ProdutoAtributoProduto
 
 @login_required(login_url="/admin")
 def produto(request):
-    list_products = Produto.objects.all()
-    paginator = Paginator(list_products, 3) # Mostra 25 contatos por página
-
-    # Make sure page request is an int. If not, deliver first page.
-    # Esteja certo de que o `page request` é um inteiro. Se não, mostre a primeira página.
+    list_products = Produto.objects.all().order_by('-id')
+    paginator = Paginator(list_products, 10)
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:
         page = 1
-
-    # Se o page request (9999) está fora da lista, mostre a última página.
     try:
         products = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -39,24 +36,15 @@ def produto(request):
 
 @login_required(login_url="/admin")
 def search_produto(request):
-    list_products = Produto.objects.all()
-    #usuarios = User.objects.all()
+    list_products = Produto.objects.all().order_by('-id')
     consulta_nome = request.GET.get('pesquisar_por_nome')
-    #q = request.GET.get('pesquisar_por')
-
-    # Buscar por usuário
     if consulta_nome is not None:
         list_products = list_products.filter(nome__icontains=consulta_nome)
-    paginator = Paginator(list_products, 3) # Mostra 25 contatos por página
-
-    # Make sure page request is an int. If not, deliver first page.
-    # Esteja certo de que o `page request` é um inteiro. Se não, mostre a primeira página.
+    paginator = Paginator(list_products, 10)
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:
         page = 1
-
-    # Se o page request (9999) está fora da lista, mostre a última página.
     try:
         products = paginator.page(page)
     except (EmptyPage, InvalidPage):
@@ -68,8 +56,7 @@ def create_produto(request):
     if request.method == "GET":
         list_tipos = ProdutoTipo.objects.all()
         list_categoria = ProdutoCategoria.objects.all()
-        list_atributos = ProdutoAtributo.objects.all()
-        return render(request, "produto/create.html", {'tipos': list_tipos, 'categorias': list_categoria, 'atributos': list_atributos})
+        return render(request, "produto/create.html", {'tipos': list_tipos, 'categorias': list_categoria})
     elif request.method == "POST":
         try:
             user = User.objects.get(id=request.user.id)
@@ -81,7 +68,6 @@ def create_produto(request):
             desconto = request.POST.get('desconto_produto')
             tipo = request.POST.get('tipo_produto')
             categoria = request.POST.get('categoria_produto')
-            atributo = request.POST.get('atributo_produto')
 
             valor_formatado = valor.replace("R$:","").replace(".", "").replace(",", ".")
             valor_formatado_desconto = desconto.replace("R$:","").replace(".", "").replace(",", ".")
@@ -95,7 +81,6 @@ def create_produto(request):
                 desconto = valor_formatado_desconto,
                 status = True,
                 categoria_id = int(categoria),
-                atributo_id = int(atributo),
                 tipo_id = int(tipo),
                 descricao = descricao,
                 user_cad = user,
@@ -133,10 +118,9 @@ def edit_produto(request, id):
     item = Produto.objects.get(id=id)
     list_tipos = ProdutoTipo.objects.all()
     list_categoria = ProdutoCategoria.objects.all()
-    list_atributos = ProdutoAtributo.objects.all()
     list_imagens = ProdutoImagens.objects.filter(produto_id=id)
     if request.method == 'GET':
-        return render(request, "produto/edit.html", {'produto': item, 'tipos': list_tipos, 'categorias': list_categoria, 'atributos': list_atributos, 'imagens': list_imagens})
+        return render(request, "produto/edit.html", {'produto': item, 'tipos': list_tipos, 'categorias': list_categoria, 'imagens': list_imagens})
     elif request.method == "POST":
         try:
             user = User.objects.get(id=request.user.id)
@@ -149,7 +133,6 @@ def edit_produto(request, id):
             desconto = request.POST.get('desconto_produto')
             tipo = request.POST.get('tipo_produto')
             categoria = request.POST.get('categoria_produto')
-            atributo = request.POST.get('atributo_produto')
 
             valor_formatado = valor.replace("R$:","").replace(".", "").replace(",", ".")
             valor_formatado_desconto = desconto.replace("R$:","").replace(".", "").replace(",", ".")
@@ -171,7 +154,6 @@ def edit_produto(request, id):
             item.desconto = valor_formatado_desconto
             item.tipo_id = int(tipo)
             item.categoria_id = int(categoria)
-            item.atributo_id = int(atributo)
             item.descricao = descricao
             item.data_cad = item.data_cad
             item.user_cad = item.user_cad
@@ -196,7 +178,6 @@ def edit_produto(request, id):
             messages.success(request, "Produto editado com sucesso!")
             return redirect(f'/admin/produto/')
         except Exception as e:
-            print(e)
             messages.error(request, "Produto não editado algum erro inesperado!")
             return redirect(f'/admin/edit_produto/{id}')
 
@@ -224,3 +205,196 @@ def delete_image_produto(request, id):
 
         messages.success(request, "Imagem deletada com sucesso!")
         return redirect(f'/admin/edit_produto/{item.produto_id}')
+
+@login_required(login_url="/admin")
+def categoria_produto(request):
+    if request.method == "GET":
+        categorias = ProdutoCategoria.objects.all().order_by('-id')
+        return render(request, "produto/categoria/index.html", {'categorias': categorias})
+
+@login_required(login_url="/admin")
+def create_categoria_produto(request):
+    if request.method == "GET":
+        return render(request, "produto/categoria/create.html")
+    elif request.method == "POST":
+        try:
+            nome = request.POST.get('nome_categoria')
+            icone = request.POST.get('icone_categoria')
+            categoria = ProdutoCategoria (
+                nome = nome,
+                icone = icone,
+                slug = slug(nome)
+            )
+            categoria.save()
+
+            categoria.slug = slug(categoria.nome) + "_" + str(categoria.id)
+            categoria.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoCategoria).id,
+                categoria.id, f"ADD -> {categoria.id}", ADDITION, 'A categoria %s foi adicionada' %categoria.id
+            )
+
+            messages.success(request, "Categoria adicionada com sucesso!")
+            return redirect('/admin/categoria_produto/')
+        except Exception as e:
+            messages.error(request, "Categoria não adicionada aconteceu algum erro inesperado!")
+            return redirect('/admin/categoria_produto/')
+
+@login_required(login_url="/admin")
+def edit_categoria_produto(request, id):
+    categoria = ProdutoCategoria.objects.get(id=id)
+    if request.method == "GET":
+        return render(request, "produto/categoria/edit.html", {"categoria": categoria})
+    elif request.method == "POST":
+        try:
+            nome = request.POST.get('nome_categoria')
+            icone = request.POST.get('icone_categoria')
+
+            categoria.nome = nome
+            categoria.icone = icone
+            categoria.slug = slug(categoria.nome) + "_" + str(categoria.id)
+            categoria.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoCategoria).id,
+                categoria.id, f"EDIT -> {categoria.id}", CHANGE, 'A categoria %s editado' %categoria.id
+            )
+
+            messages.success(request, "Categoria editada com sucesso!")
+            return redirect('/admin/categoria_produto/')
+        except Exception as e:
+            messages.error(request, "Categoria não editada aconteceu algum erro inesperado!")
+            return redirect('/admin/categoria_produto/')
+
+@login_required(login_url="/admin")
+def delete_categoria_produto(request, id):
+    categoria = ProdutoCategoria.objects.get(id=id)
+    if request.method == "GET":
+        LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoAtributo).id,
+            categoria.id, f"DELETE -> {categoria.id}", DELETION, 'A categoria %s foi deletada' %categoria.id
+        )
+
+        categoria.delete()
+
+        messages.success(request, "A categoria foi deletada!")
+        return redirect('/admin/categoria_produto/')
+
+@login_required(login_url="/admin")
+def atributo_produto(request):
+    atributos = ProdutoAtributo.objects.all().order_by('-id')
+    if request.method == "GET":
+        return render(request, "produto/atributo/index.html", {'atributos': atributos})
+
+@login_required(login_url="/admin")
+def create_atributo_produto(request):
+    if request.method == "GET":
+        return render(request, "produto/atributo/create.html")
+    elif request.method == "POST":
+        try:
+            nome = request.POST.get('nome_atributo')
+            valor = request.POST.get('valor_atributo')
+            atributo = ProdutoAtributo (
+                nome = nome,
+                valor = valor,
+            )
+            atributo.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoAtributo).id,
+                atributo.id, f"ADD -> {atributo.id}", ADDITION, 'O Atributo %s foi adicionado' %atributo.id
+            )
+
+            messages.success(request, "Atributo adicionado com sucesso!")
+            return redirect('/admin/atributo_produto/')
+        except Exception as e:
+            messages.error(request, "Atributo não adicionado aconteceu algum erro inesperado!")
+            return redirect('/admin/atributo_produto/')
+
+@login_required(login_url="/admin")
+def edit_atributo_produto(request, id):
+    atributo = ProdutoAtributo.objects.get(id=id)
+    if request.method == "GET":
+        return render(request, "produto/atributo/edit.html", {"atributo": atributo})
+    elif request.method == "POST":
+        try:
+            nome = request.POST.get('nome_atributo')
+            valor = request.POST.get('valor_atributo')
+
+            atributo.nome = nome
+            atributo.valor = valor
+            atributo.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoAtributo).id,
+                atributo.id, f"EDIT -> {atributo.id}", CHANGE, 'O atributo %s foi editado' %atributo.id
+            )
+
+            messages.success(request, "Atributo editado com sucesso!")
+            return redirect('/admin/atributo_produto/')
+        except Exception as e:
+            messages.error(request, "Atributo não editado aconteceu algum erro inesperado!")
+            return redirect('/admin/atributo_produto/')
+
+@login_required(login_url="/admin")
+def delete_atributo_produto(request, id):
+    atributo = ProdutoAtributo.objects.get(id=id)
+    if request.method == "GET":
+
+        LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoAtributo).id,
+            atributo.id, f"EDIT -> {atributo.id}", DELETION, 'O atributo %s foi deletado' %atributo.id
+        )
+
+        atributo.delete()
+
+        messages.success(request, "Atributo deletado com sucesso!")
+        return redirect('/admin/atributo_produto/')
+
+@login_required(login_url="/admin")
+def produto_atributo_produto(request, id):
+    atributo = ProdutoAtributo.objects.get(id=id)
+    produtos = Produto.objects.all().order_by('-id')
+    table_relacionada = ProdutoAtributoProduto.objects.filter(atributo_id=id)
+    if request.method == "GET":
+        products = []
+        marcado = False
+        for produto in produtos:
+            for item in table_relacionada:
+                if item.produto_id == produto.id:
+                    marcado = True
+                    break
+                else:
+                    marcado = False
+
+            produto = {
+                'id': produto.id,
+                'nome': produto.nome,
+                'categoria': produto.categoria.nome,
+                'tipo': produto.tipo.get_tipo_id_display,
+                'data_cad': produto.data_cad,
+                'marcado': marcado,
+            }
+            products.append(produto)
+
+        context = {}
+        context['produtos'] = products
+        context['table_relacionada'] = table_relacionada
+        context['atributo'] = atributo
+        return TemplateResponse(request, "produto/atributo/produto_atributo.html", context)
+    elif request.method == "POST":
+        try:
+            list_id_products = request.POST.getlist('produto_id[]')
+            for i in table_relacionada:
+                i.delete()
+            for i in list_id_products:
+                produto = ProdutoAtributoProduto (
+                atributo_id = atributo.id,
+                produto_id = i,
+                )
+                produto.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoAtributo).id,
+                atributo.id, f"ADD -> {atributo.nome}", ADDITION, 'Os produtos foram adicionados ao atributo'
+            )
+
+            messages.success(request, "Os produtos foram adicionados ao atributo!")
+            return redirect('/admin/atributo_produto/')
+        except Exception as e:
+            messages.error(request, "Os produtosnão foram adicionados ao atributo, algum erro inesperado!")
+            return redirect('/admin/atributo_produto/')

@@ -66,10 +66,11 @@ function DeleteImage(_id) {
     })
         .then((willDelete) => {
             if (willDelete) {
-                location.href = "/auth/delete_image_produto/" + id;
+                location.href = "/admin/delete_image_produto/" + id;
             }
             else {
                 swal("Imagem não deletada!");
             }
         });
 }
+

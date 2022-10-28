@@ -19,13 +19,12 @@ Lista de Produtos Cadastrados
 
     <div class="margin margin-top margin-bottom">
         <div class="row">
-            <div class="col-md-4 margin-bottom">
+            {% if perms.produto.add_produto %}
+            <div class="col-md-8 margin-bottom">
                 <a href="{% url 'apps_administrador.produto:create_produto' %}" class="btn btn-success">{% bs_icon 'basket' %}
                     Cadastrar Produto</a>
             </div>
-            <div class="col-md-4">
-
-            </div>
+            {% endif %}
             <div class="col-md-4">
                 <form method="GET" action=" {% url 'apps_administrador.produto:search_produto' %} ">
                     <div class="form-group input-group">
@@ -68,9 +67,13 @@ Lista de Produtos Cadastrados
                 {% endif %}
                 <td data-label="Ações">
                     <form method="GET" action=" {% url 'apps_administrador.produto:delete_produto' item.id %} ">
+                        {% if perms.produto.change_produto %}
                         <a href="{% url 'apps_administrador.produto:edit_produto' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
+                        {% endif %}
+                        {% if perms.produto.delete_produto %}
                         <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
                             <i>{% bs_icon 'trash' %}</i> Excluir</button>
+                        {% endif %}
                     </form>
                 </td>
             </tr>
@@ -84,8 +87,7 @@ Lista de Produtos Cadastrados
     <div class="pagination">
         <span class="step-links">
             {% if produtos.has_previous %}
-            <a class="btn-left" href="?page={{ produtos.previous_page_number }}">{% bs_icon 'arrow-left-circle'
-                size='1.5em' %}</a>
+            <a class="btn-left" href="?page={{ produtos.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>
             {% endif %}
 
             <span class="current">
@@ -93,8 +95,7 @@ Lista de Produtos Cadastrados
             </span>
 
             {% if produtos.has_next %}
-            <a class="btn-right" href="?page={{ produtos.next_page_number }}">{% bs_icon 'arrow-right-circle'
-                size='1.5em' %}</a>
+            <a class="btn-right" href="?page={{ produtos.next_page_number }}">{% bs_icon 'arrow-right-circle' size='1.5em' %}</a>
             {% endif %}
         </span>
     </div>

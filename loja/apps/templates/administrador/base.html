@@ -15,7 +15,7 @@
 <body>
   <div class="sidebar">
     <div class="logo-details">
-      <div class="logo_name">Cremogel LTDA</div>
+      <div class="logo_name">Cremonesse LTDA</div>
       <i id="btn">{% bs_icon 'list' size='1.5em' %}</i>
     </div>
     <ul class="nav-list">
@@ -26,6 +26,7 @@
         </a>
         <span class="tooltip">Dashboard</span>
       </li>
+      {% if perms.banner.view_banner %}
       <li>
         <a href="{% url 'apps_administrador.banner:banner' %}">
           <i>{% bs_icon 'card-image' %}</i>
@@ -33,13 +34,26 @@
         </a>
         <span class="tooltip">Banner</span>
       </li>
+      {% endif %}
+      {% if perms.produto.view_produto %}
       <li>
-        <a href="{% url 'apps_administrador.produto:produto' %}">
-          <i>{% bs_icon 'basket' %}</i>
-          <span class="links_name">Produtos</span>
-        </a>
-        <span class="tooltip">Produtos</span>
+        <div class="dropdown">
+          <a class="dropbtn">
+            <i>{% bs_icon 'basket' %}</i>
+            <span class="links_name">Produto</span>
+          </a>
+          <div class="dropdown-content">
+            {% if perms.user.view_user %}
+            <a class="btn-submenu" href="{% url 'apps_administrador.produto:produto' %}"><span class="margin-icon">{% bs_icon 'basket' %}</span> Gerenciar Produto</a>
+            <a class="btn-submenu" href="{% url 'apps_administrador.produto:categoria_produto' %}"><span class="margin-icon">{% bs_icon 'bookmarks' %}</span> Categorias Produto</a>
+            <a class="btn-submenu" href="{% url 'apps_administrador.produto:atributo_produto' %}"><span class="margin-icon">{% bs_icon 'bookmark-star' %}</span> Atributo de Produto</a>
+            {% endif %}
+          </div>
+        </div>
+        <span class="tooltip">Produto</span>
       </li>
+      {% endif %}
+      {% if perms.configuracao.view_configuracao %}
       <li>
         <a href="{% url 'apps_administrador.configuracao:configuracao' %}">
           <i>{% bs_icon 'gear' %}</i>
@@ -47,7 +61,8 @@
         </a>
         <span class="tooltip">Configurações</span>
       </li>
-
+      {% endif %}
+      {% if perms.cliente.view_cliente %}
       <li>
         <a href="{% url 'apps_administrador.cliente:cliente' %}">
           <i>{% bs_icon 'people' %}</i>
@@ -55,6 +70,8 @@
         </a>
         <span class="tooltip">Clientes</span>
       </li>
+      {% endif %}
+
       <!--<li>
         <a href="#">
           <i class='bx bx-cog'></i>
@@ -70,8 +87,12 @@
             <span class="links_name">Sistema</span>
           </a>
           <div class="dropdown-content">
+            {% if perms.user.view_user %}
             <a class="btn-submenu" href="{% url 'apps_administrador.sistema:list_user' %}"><span class="margin-icon">{% bs_icon 'person' %}</span> Usuários</a>
+            {% endif %}
+            {% if perms.group.view_group %}
             <a class="btn-submenu" href="{% url 'apps_administrador.sistema:grupo_acesso' %}"><span class="margin-icon">{% bs_icon 'person-plus' %}</span> Grupo de Acesso</a>
+            {% endif %}
             <a class="btn-submenu" href="#"><span class="margin-icon">{% bs_icon 'box2' %}</span> Estoque</a>
           </div>
         </div>
