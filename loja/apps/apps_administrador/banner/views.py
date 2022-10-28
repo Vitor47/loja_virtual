@@ -18,12 +18,13 @@ from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from .models import Banner
 
 @login_required(login_url="/admin")
+@permission_required('banner.view_banner')
 def banner(request):
-    banner = Banner.objects.all()
+    banner = Banner.objects.all().order_by('-id')
     return render(request, "banner/index.html", {'banner': banner})
 
 @login_required(login_url="/admin")
-@permission_required('administrador.add_banner', login_url="/admin/banner/")
+@permission_required('banner.add_banner')
 def create_banner(request):
     if request.method == "GET":
         return render(request, "banner/create.html")
@@ -51,6 +52,7 @@ def create_banner(request):
             return redirect('/admin/create_banner/')
 
 @login_required(login_url="/admin")
+@permission_required('banner.change_banner')
 def edit_banner(request, id):
     item = Banner.objects.get(id=id)
     if request.method == 'GET':
@@ -86,6 +88,7 @@ def edit_banner(request, id):
             return redirect(f'/admin/edit_banner/{id}')
 
 @login_required(login_url="/admin")
+@permission_required('banner.change_banner')
 def delete_banner(request, id):
     item = Banner.objects.get(id=id)
     if request.method == "GET":

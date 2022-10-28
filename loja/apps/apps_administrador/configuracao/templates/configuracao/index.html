@@ -19,9 +19,11 @@ Lista de Configurações Cadastradas
 
     <div class="margin margin-top margin-bottom">
         <div class="row">
+            {% if perms.configuracao.add_configuracao %}
             <div class="col-md-4">
                 <a href="{% url 'apps_administrador.configuracao:create_configuracao' %}" class="btn btn-success">{% bs_icon 'gear' %} Cadastrar Configuração</a>
             </div>
+            {% endif %}
         </div>
     </div>
 
@@ -43,10 +45,14 @@ Lista de Configurações Cadastradas
                 <td data-label="Valor">{{ item.valor }}</td>
                 <td data-label="Ações">
                     <form method="GET" action=" {% url 'apps_administrador.configuracao:delete_configuracao' item.id %} ">
+                        {% if perms.configuracao.change_configuracao %}
                         <a href="{% url 'apps_administrador.configuracao:edit_configuracao' item.id %}" class="btn btn-warning">{% bs_icon 'pencil'%} Editar</a>
+                        {% endif %}
+                        {% if perms.configuracao.delete_configuracao %}
                         <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
                             <i>{% bs_icon 'trash' %}</i> Excluir
                         </button>
+                        {% endif %}
                     </form>
                 </td>
             </tr>

@@ -54,28 +54,16 @@ Editar Produto {{ produto.nome }}
                     <label class="form-label">Categoria<span style="color: red"> * </span>:</label>
                     <select class="form-control" id="categoria_produto" name="categoria_produto" aria-label="Default select example" required>
                         {% for categoria in categorias %}
-                        {% if categoria.categoria_id == produto.categoria_id %}
-                            <option value="{{categoria.categoria_id}}" selected>{{categoria.get_categoria_id_display}}</option>
+                        {% if categoria.id == produto.categoria_id %}
+                            <option value="{{categoria.id}}" selected>{{categoria.nome}}</option>
                         {% else %}
-                        <option value="{{categoria.categoria_id}}">{{categoria.get_categoria_id_display}}</option>
+                        <option value="{{categoria.id}}">{{categoria.nome}}</option>
                         {% endif %}
                         {% endfor %}
                     </select>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-6">
-                    <label class="form-label">Atributo<span style="color: red"> * </span>:</label>
-                    <select class="form-control" id="atributo_produto" name="atributo_produto" aria-label="Default select example" required>
-                        {% for atributo in atributos %}
-                        {% if atributo.atributo_id == produto.atributo_id %}
-                        <option value="{{atributo.atributo_id}}" selected>{{atributo.get_atributo_id_display}}</option>
-                        {% else %}
-                        <option value="{{atributo.atributo_id}}">{{atributo.get_atributo_id_display}}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
                 <div class="col-md-6">
                     <label class="form-label">Status<span style="color: red"> * </span>:</label>
                     <select class="form-control" id="status" name="status" aria-label="Default select example">

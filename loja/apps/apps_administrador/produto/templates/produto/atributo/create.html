@@ -1,30 +1,33 @@
 {% extends 'administrador\base.html' %}
 {% load static %}
 
-{% block 'title' %}Cadastrar Novo Grupo de Acesso{% endblock %}
+{% block 'title' %}Cadastrar Novo Atributo{% endblock %}
 
 {% block 'head' %}
 {% endblock %}
 
 {% block 'title-page' %}
-Cadastrar Novo Grupo de Acesso
+Cadastrar Novo Atributo
 {% endblock %}
 
 {% block 'dashboard' %}
 <div class="container">
     <div class="adicionar-cliente">
-        <form class="margin-top" action="{% url 'apps_administrador.sistema:create_grupo_acesso' %}" method="POST"
-            enctype="multipart/form-data">
+        <form class="margin-top" action="{% url 'apps_administrador.produto:create_atributo_produto' %}" method="POST">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
-
             <div class="form-group row">
                 <div class="col-md-6">
-                    <label class="form-label">Nome do Grupo<span style="color: red"> * </span>:</label>
-                    <input type="text" class="form-control" id="nome_group" name="nome_group" value="" required>
+                    <label class="form-label">Nome<span style="color: red"> * </span>:</label>
+                    <input type="text" class="form-control" name="nome_atributo" id="nome_atributo" required>
                 </div>
             </div>
-
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Valor<span style="color: red"> * </span>:</label>
+                    <input type="text" class="form-control" name="valor_atributo" id="valor_atributo" required>
+                </div>
+            </div>
             <div class="margin margin-top margin-bottom">
                 <button type="submit" class="btn-principal">Cadastrar</button>
                 <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>

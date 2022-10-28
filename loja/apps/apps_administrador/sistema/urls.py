@@ -14,6 +14,8 @@ urlpatterns = [
     path('delete_user/<int:id>', views.delete_user, name='delete_user'),
     path('grupo_acesso/', views.grupo_acesso, name='grupo_acesso'),
     path('create_grupo_acesso/', views.create_grupo_acesso, name='create_grupo_acesso'),
+    path('edit_grupo_acesso/<int:id>', views.edit_grupo_acesso, name='edit_grupo_acesso'),
+    path('delete_grupo_acesso/<int:id>', views.delete_grupo_acesso, name='delete_grupo_acesso'),
     path('add_users_group/<int:id_group>', views.add_users_group, name='add_users_group'),
     path('add_permission_group/<int:id_group>', views.add_permission_group, name='add_permission_group'),
     ]

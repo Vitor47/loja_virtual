@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.hashers import make_password
 #Retornar templates
 from django.shortcuts import redirect, render
+from django.template.response import TemplateResponse
 #Importa demais coisas
 from django.contrib.auth.models import User, Permission, Group
 from slug import slug
@@ -15,7 +16,6 @@ from slug import slug
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 #Permissões
-
 from .models import Auditoria
 
 def login(request):
@@ -144,12 +144,14 @@ def sair(request):
     return redirect('/admin')
 
 @login_required(login_url="/admin")
+@permission_required('user.view_user')
 def list_user(request):
     if request.method == "GET":
-        list_users = User.objects.all()
+        list_users = User.objects.all().order_by('-id')
         return render(request, "usuarios/index.html", {'users': list_users})
 
 @login_required(login_url="/admin")
+@permission_required('user.add_user')
 def create_user(request):
     if request.method == "GET":
         return render(request, "usuarios/create.html")
@@ -215,6 +217,7 @@ def create_user(request):
             return redirect(f'/admin/create_user/')
 
 @login_required(login_url="/admin")
+@permission_required('user.change_user')
 def edit_user(request, id):
     user = User.objects.get(id=id)
     if request.method == "GET":
@@ -288,6 +291,7 @@ def edit_user(request, id):
             return redirect(f'/admin/edit_user/{id}')
 
 @login_required(login_url="/admin")
+@permission_required('user.delete_user')
 def delete_user(request, id):
     item = User.objects.get(id=id)
     if request.method == "GET":
@@ -305,12 +309,14 @@ def delete_user(request, id):
         return redirect('/admin/usuario/')
 
 @login_required(login_url="/admin")
+@permission_required('group.view_group')
 def grupo_acesso(request):
     if request.method == "GET":
-        groups = Group.objects.all()
+        groups = Group.objects.all().order_by('-id')
         return render(request, "grupo_acesso/index.html", {'groups': groups})
 
 @login_required(login_url="/admin")
+@permission_required('group.add_group')
 def create_grupo_acesso(request):
     if request.method == "GET":
         return render(request, "grupo_acesso/create.html")
@@ -336,22 +342,79 @@ def create_grupo_acesso(request):
             messages.success(request, "Grupo criado com sucesso!")
             return redirect('/admin/grupo_acesso/')
         except Exception as e:
-            print(e)
             messages.error(request, "Grupo não criado algum erro inesperado!")
             return redirect(f'/admin/grupo_acesso/')
 
 @login_required(login_url="/admin")
-def add_users_group(request, id_group):
-    users = User.objects.exclude(is_superuser__gte=True).all()
-    grupo = Group.objects.get(id=id_group)
-    users_in_group = grupo.user_set.all()
+@permission_required('group.change_group')
+def edit_grupo_acesso(request, id):
+    group = Group.objects.get(id=id)
     if request.method == "GET":
-        return render(request, "grupo_acesso/users.html", {'users': users, 'grupo': grupo, 'users_in_group':users_in_group})
+        return render(request, "grupo_acesso/edit.html", {'group': group})
+    elif request.method == "POST":
+        try:
+            nome = request.POST.get('nome_group')
+            group.name = nome
+            group.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Group).id,
+                group.id, f"EDIT -> {group.name}", CHANGE, 'O grupo %s foi editado' %group.id
+            )
+
+            messages.success(request, "O grupo foi editado com sucesso!")
+            return redirect('/admin/grupo_acesso/')
+        except Exception as e:
+            messages.error(request, "O grupo não foi editado algum erro inesperado!")
+            return redirect(f'/admin/edit_grupo_acesso/{id}')
+
+@login_required(login_url="/admin")
+@permission_required('group.change_group')
+def delete_grupo_acesso(request, id):
+    if request.method == "GET":
+        group = Group.objects.get(id=id)
+        
+        LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Group).id,
+            group.id, f"DELETE -> {group.name}", DELETION, 'O grupo %s foi deletado' %group.id
+        )
+
+        group.delete()
+        messages.success(request, "O grupo foi deletado com sucesso!")
+        return redirect('/admin/grupo_acesso/')
+
+@login_required(login_url="/admin")
+@permission_required('group.add_group')
+def add_users_group(request, id_group):
+    users = User.objects.exclude(is_superuser__gte=True).all().order_by('-id')
+    grupo = Group.objects.get(id=id_group).order_by('-id')
+    users_in_group = grupo.user_set.all().order_by('-id')
+    marcado = False
+    if request.method == "GET":
+        usuarios = []
+        for user in users:
+            for user_in_group in users_in_group:
+                if user.id ==  user_in_group.id:
+                    marcado = True
+                    break
+                else:
+                    marcado = False
+
+            usuario = {
+                'id': user.id,
+                'nome': user.first_name + " " + user.last_name,
+                'usuario': user.username,
+                'marcado': marcado
+            }
+            usuarios.append(usuario)
+
+        context = {}
+        context['usuarios'] = usuarios
+        context['grupo'] = grupo
+        return TemplateResponse(request, "grupo_acesso/users.html", context)
     elif request.method == "POST":
         try:
 
             list_id_users = request.POST.getlist('user_id[]')
-            list_users = User.objects.all().exclude(is_superuser=True).values_list(flat=True)
+            list_users = User.objects.all().exclude(is_superuser=True).values_list(flat=True).order_by('-id')
             for i in list_users:
                 user = User.objects.get(id=i)
                 group = Group.objects.get(id=id_group)
@@ -363,44 +426,74 @@ def add_users_group(request, id_group):
                 user.groups.add(group)
 
             LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Group).id,
-                grupo.id, f"ADD ->", ADDITION, 'Os Usuários %s foram adicionados ao grupo' %grupo.id
+                grupo.id, f"ADD ->", ADDITION, 'Os Usuários foram adicionados ao grupo %s' %grupo.id
             )
 
             messages.success(request, "Usuários foram adicionados ao grupo com sucesso!")
             return redirect('/admin/grupo_acesso/')
         except Exception as e:
-            print(e)
             messages.error(request, "Usuários não foram adicionados ao grupo algum erro inesperado!")
             return redirect('/admin/grupo_acesso/')
 
 @login_required(login_url="/admin")
+@permission_required('group.add_group')
 def add_permission_group(request, id_group):
     grupo = Group.objects.get(id=id_group)
-    permissoes = Permission.objects.all()
+    content_type_ids = []
+    content_type_ids.append(ContentType.objects.get(model='user').id)
+    content_type_ids.append(ContentType.objects.get(model='permission').id)
+    content_type_ids.append(ContentType.objects.get(model='group').id)
+    content_type_ids.append(ContentType.objects.get(model='session').id)
+    content_type_ids.append(ContentType.objects.get(model='contenttype').id)
+    content_type_ids.append(ContentType.objects.get(model='logentry').id)
+    content_type_ids.append(ContentType.objects.get(model='auditoria').id)
+    content_type_ids.append(ContentType.objects.get(model='produtoimagens').id)
+    content_type_ids.append(ContentType.objects.get(model='endereco').id)
+    permissoes = Permission.objects.exclude(content_type_id__in=content_type_ids)
     if request.method == "GET":
-        return render(request, "grupo_acesso/permissions.html", {'grupo': grupo, 'permissoes' :permissoes})
+        table_relacionada = grupo.permissions.all().order_by('-id')
+        permissions = []
+        marcado = False
+        for permissao in permissoes:
+            for item in table_relacionada:
+                if item.name == permissao.name:
+                    marcado = True
+                    break
+                else:
+                    marcado = False
+
+            permissao = {
+                'id': permissao.id,
+                'name': permissao.name,
+                'marcado': marcado,
+            }
+            permissions.append(permissao)
+
+        context = {}
+        context['permissoes'] = permissions
+        context['table_relacionada'] = table_relacionada
+        context['grupo'] = grupo
+        return TemplateResponse(request, "grupo_acesso/permissions.html", context)
     elif request.method == "POST":
         try:
-            nome = request.POST.get('nome_group')
-            try:
-                name = Group.objects.get(name=nome)
-                if name:
-                    messages.error(request, "Erro! Já existe um grupo com o mesmo nome!")
-                    return redirect('/admin/create_grupo_acesso/')
+            list_id_permissions = request.POST.getlist('permissao_id[]')
+            list_permissions = Permission.objects.all().values_list(flat=True).order_by('-id')
+            for i in list_permissions:
+                permission = Permission.objects.get(id=i)
+                grupo = Group.objects.get(id=id_group)
+                grupo.permissions.remove(permission)
 
-            except Group.DoesNotExist:
-                group = Group (
-                    name = nome, 
-                )
-                group.save()
+            for y in list_id_permissions:
+                permission = Permission.objects.get(id=y)
+                grupo = Group.objects.get(id=id_group)
+                grupo.permissions.add(permission)
 
             LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Group).id,
-                group.id, f"ADD -> {group.name}", ADDITION, 'O grupo %s foi adicionado' %group.id
+                grupo.id, f"ADD -> {grupo.name}", ADDITION, 'As permissões foram adicionadas ao grupo'
             )
 
-            messages.success(request, "Grupo criado com sucesso!")
+            messages.success(request, "As permissões foram adicionadas ao grupo!")
             return redirect('/admin/grupo_acesso/')
         except Exception as e:
-            print(e)
-            messages.error(request, "Grupo não criado algum erro inesperado!")
+            messages.error(request, "As permissões não foram criadas algum erro inesperado!")
             return redirect(f'/admin/grupo_acesso/')

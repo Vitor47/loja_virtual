@@ -12,7 +12,7 @@ from .models import Cliente
 
 @login_required(login_url="/admin")
 def cliente(request):
-    list_clientes = Cliente.objects.all()
+    list_clientes = Cliente.objects.all().order_by('-id')
     paginator = Paginator(list_clientes, 10)
     try:
         page = int(request.GET.get('page', '1'))
@@ -26,7 +26,7 @@ def cliente(request):
 
 @login_required(login_url="/admin")
 def search_cliente(request):
-    list_clientes = Cliente.objects.all()
+    list_clientes = Cliente.objects.all().order_by('-id')
     consulta_nome = request.GET.get('pesquisar_por_nome')
     if consulta_nome is not None:
         list_clientes = list_clientes.filter(nome__icontains=consulta_nome)

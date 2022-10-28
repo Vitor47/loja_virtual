@@ -14,9 +14,11 @@ Lista de Banners Cadastrados
         <h2>Lista de Banners Cadastrados</h2>
     </div>
 
+    {% if perms.banner.add_banner %}
     <div class="margin margin-top margin-bottom">
         <a href="{% url 'apps_administrador.banner:create_banner' %}" class="btn btn-success">{% bs_icon 'card-image' %} Cadastrar Banner</a>
     </div>
+    {% endif %}
 
     <table class="table table-hover">
         <thead class="thead-dark ">
@@ -40,9 +42,13 @@ Lista de Banners Cadastrados
                 {% endif %}
                 <td data-label="Ações">
                     <form method="GET" action=" {% url 'apps_administrador.banner:delete_banner' item.id %} ">
+                        {% if perms.banner.change_banner %}
                         <a href="{% url 'apps_administrador.banner:edit_banner' item.id %}" class="btn btn-warning">{% bs_icon 'pencil'%} Editar</a>
+                        {% endif %}
+                        {% if perms.banner.delete_banner %}
                         <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
                             <i>{% bs_icon 'trash' %}</i> Excluir</button>
+                        {% endif %}
                     </form>
                 </td>
             </tr>
