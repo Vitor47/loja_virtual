@@ -480,3 +480,13 @@ body {
     background-color: var(--dark-color);
     border-radius: 4px;
 }
+
+@media screen and (max-width: 640px) {
+    .margin-item-mobile {
+        margin: 22px;
+    }
+}
+
+.margin-top-novidades {
+    margin-top: 42px;
+}

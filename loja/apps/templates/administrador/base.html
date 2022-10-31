@@ -43,9 +43,13 @@
             <span class="links_name">Produto</span>
           </a>
           <div class="dropdown-content">
-            {% if perms.user.view_user %}
+            {% if perms.produto.view_produto %}
             <a class="btn-submenu" href="{% url 'apps_administrador.produto:produto' %}"><span class="margin-icon">{% bs_icon 'basket' %}</span> Gerenciar Produto</a>
+            {% endif %}
+            {% if perms.produto.view_produtocategoria %}
             <a class="btn-submenu" href="{% url 'apps_administrador.produto:categoria_produto' %}"><span class="margin-icon">{% bs_icon 'bookmarks' %}</span> Categorias Produto</a>
+            {% endif %}
+            {% if perms.produto.view_produtoatributo %}
             <a class="btn-submenu" href="{% url 'apps_administrador.produto:atributo_produto' %}"><span class="margin-icon">{% bs_icon 'bookmark-star' %}</span> Atributo de Produto</a>
             {% endif %}
           </div>

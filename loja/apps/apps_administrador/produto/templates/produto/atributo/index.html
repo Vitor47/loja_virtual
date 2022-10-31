@@ -19,7 +19,7 @@ Lista de Atributos Cadastrados
 
     <div class="margin margin-top margin-bottom">
         <div class="row">
-            {% if perms.produto.add_produto %}
+            {% if perms.produto.add_produtoatributo %}
             <div class="col-md-8 margin-bottom">
                 <a href="{% url 'apps_administrador.produto:create_atributo_produto' %}" class="btn btn-success">{% bs_icon 'bookmark-star' %}
                     Cadastrar Atributo</a>
@@ -46,13 +46,13 @@ Lista de Atributos Cadastrados
                 <td data-label="Valor">{{item.valor}}</td>
                 <td data-label="Ações">
                     <form method="GET" action=" {% url 'apps_administrador.produto:delete_atributo_produto' item.id %} ">
-                        {% if perms.produto.change_produto %}
+                        {% if perms.produto.add_produtoatributo %}
                         <a href="{% url 'apps_administrador.produto:produto_atributo_produto' item.id %}" class="btn btn-primary margin-bottom">{% bs_icon 'basket' %} Produtos com atributo</a>
                         {% endif %}
-                        {% if perms.produto.change_produto %}
+                        {% if perms.produto.change_produtoatributo %}
                         <a href="{% url 'apps_administrador.produto:edit_atributo_produto' item.id %}" class="btn btn-warning margin-bottom">{% bs_icon 'pencil' %} Editar</a>
                         {% endif %}
-                        {% if perms.produto.delete_produto %}
+                        {% if perms.produto.delete_produtoatributo %}
                         <button type="submit" class="btn btn-danger show_confirm margin-bottom" data-toggle="tooltip" title='Excluir'>
                             <i>{% bs_icon 'trash' %}</i> Excluir</button>
                         {% endif %}
