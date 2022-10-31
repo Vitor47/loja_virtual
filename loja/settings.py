@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'loja.apps.apps_administrador.dashboard',
     'loja.apps.apps_administrador.produto',
     'loja.apps.apps_administrador.sistema',
+    'loja.apps.apps_administrador.estoque',
     'loja.apps.site_loja',
     'django_bootstrap_icons',
 ]

@@ -1,5 +1,4 @@
 #Paginator
-from math import prod
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 #Cria Data Automático
 from sqlite3 import Date
@@ -21,6 +20,7 @@ from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from .models import Produto, ProdutoAtributo, ProdutoCategoria, ProdutoImagens, ProdutoTipo, ProdutoAtributoProduto
 
 @login_required(login_url="/admin")
+@permission_required('produto.view_produto')
 def produto(request):
     list_products = Produto.objects.all().order_by('-id')
     paginator = Paginator(list_products, 10)
@@ -35,6 +35,7 @@ def produto(request):
     return render(request, "produto/index.html", {'produtos': products})
 
 @login_required(login_url="/admin")
+@permission_required('produto.view_produto')
 def search_produto(request):
     list_products = Produto.objects.all().order_by('-id')
     consulta_nome = request.GET.get('pesquisar_por_nome')
@@ -52,6 +53,7 @@ def search_produto(request):
     return render(request, "produto/index.html", {'produtos': products})
 
 @login_required(login_url="/admin")
+@permission_required('produto.add_produto')
 def create_produto(request):
     if request.method == "GET":
         list_tipos = ProdutoTipo.objects.all()
@@ -114,6 +116,7 @@ def create_produto(request):
             return redirect(f'/admin/create_produto/')
 
 @login_required(login_url="/admin")
+@permission_required('produto.change_produto')
 def edit_produto(request, id):
     item = Produto.objects.get(id=id)
     list_tipos = ProdutoTipo.objects.all()
@@ -182,6 +185,7 @@ def edit_produto(request, id):
             return redirect(f'/admin/edit_produto/{id}')
 
 @login_required(login_url="/admin")
+@permission_required('produto.delete_produto')
 def delete_produto(request, id):
     item = Produto.objects.get(id=id)
     if request.method == "GET":
@@ -194,6 +198,7 @@ def delete_produto(request, id):
         return redirect(f'/admin/produto/')
 
 @login_required(login_url="/admin")
+@permission_required('produto.delete_produto')
 def delete_image_produto(request, id):
     item = ProdutoImagens.objects.get(id=id)
     if request.method == "GET":
@@ -207,12 +212,14 @@ def delete_image_produto(request, id):
         return redirect(f'/admin/edit_produto/{item.produto_id}')
 
 @login_required(login_url="/admin")
+@permission_required('produto.view_produtocategoria')
 def categoria_produto(request):
     if request.method == "GET":
         categorias = ProdutoCategoria.objects.all().order_by('-id')
         return render(request, "produto/categoria/index.html", {'categorias': categorias})
 
 @login_required(login_url="/admin")
+@permission_required('produto.add_produtocategoria')
 def create_categoria_produto(request):
     if request.method == "GET":
         return render(request, "produto/categoria/create.html")
@@ -241,6 +248,7 @@ def create_categoria_produto(request):
             return redirect('/admin/categoria_produto/')
 
 @login_required(login_url="/admin")
+@permission_required('produto.change_produtocategoria')
 def edit_categoria_produto(request, id):
     categoria = ProdutoCategoria.objects.get(id=id)
     if request.method == "GET":
@@ -266,6 +274,7 @@ def edit_categoria_produto(request, id):
             return redirect('/admin/categoria_produto/')
 
 @login_required(login_url="/admin")
+@permission_required('produto.delete_produtocategoria')
 def delete_categoria_produto(request, id):
     categoria = ProdutoCategoria.objects.get(id=id)
     if request.method == "GET":
@@ -279,12 +288,14 @@ def delete_categoria_produto(request, id):
         return redirect('/admin/categoria_produto/')
 
 @login_required(login_url="/admin")
+@permission_required('produto.view_produtoatributo')
 def atributo_produto(request):
     atributos = ProdutoAtributo.objects.all().order_by('-id')
     if request.method == "GET":
         return render(request, "produto/atributo/index.html", {'atributos': atributos})
 
 @login_required(login_url="/admin")
+@permission_required('produto.add_produtoatributo')
 def create_atributo_produto(request):
     if request.method == "GET":
         return render(request, "produto/atributo/create.html")
@@ -309,6 +320,7 @@ def create_atributo_produto(request):
             return redirect('/admin/atributo_produto/')
 
 @login_required(login_url="/admin")
+@permission_required('produto.change_produtoatributo')
 def edit_atributo_produto(request, id):
     atributo = ProdutoAtributo.objects.get(id=id)
     if request.method == "GET":
@@ -333,6 +345,7 @@ def edit_atributo_produto(request, id):
             return redirect('/admin/atributo_produto/')
 
 @login_required(login_url="/admin")
+@permission_required('produto.delete_produtoatributo')
 def delete_atributo_produto(request, id):
     atributo = ProdutoAtributo.objects.get(id=id)
     if request.method == "GET":
@@ -347,6 +360,7 @@ def delete_atributo_produto(request, id):
         return redirect('/admin/atributo_produto/')
 
 @login_required(login_url="/admin")
+@permission_required('produto.add_produtoatributo')
 def produto_atributo_produto(request, id):
     atributo = ProdutoAtributo.objects.get(id=id)
     produtos = Produto.objects.all().order_by('-id')

@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', include('loja.apps.apps_administrador.dashboard.urls', namespace='loja.apps.apps_administrador.dashboard')),
     path('admin/', include('loja.apps.apps_administrador.produto.urls', namespace='loja.apps.apps_administrador.produto')),
     path('admin/', include('loja.apps.apps_administrador.sistema.urls', namespace='loja.apps.apps_administrador.sistema')),
+    #path('admin/', include('loja.apps.apps_administrador.estoque.urls', namespace='loja.apps.apps_administrador.estoque')),
     path('', include('loja.apps.site_loja.urls', namespace='loja.apps.site_loja')),
 ]
 

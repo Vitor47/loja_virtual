@@ -63,7 +63,7 @@ $('#carousel2').owlCarousel({
       items: 3
     },
     1000: {
-      items: 5
+      items: 4
     }
   }
 })
@@ -87,7 +87,7 @@ $('#carousel3').owlCarousel({
       items: 3
     },
     1000: {
-      items: 5
+      items: 4
     }
   }
 })
@@ -112,7 +112,7 @@ $('#products_relacionados').owlCarousel({
       items: 3
     },
     1000: {
-      items: 5
+      items: 4
     }
   }
 })
