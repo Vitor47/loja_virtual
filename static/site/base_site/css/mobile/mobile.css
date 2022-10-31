@@ -40,7 +40,7 @@ body {
 
 .display-item-products {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
 }
 
 .display-filter {
@@ -429,23 +429,6 @@ body {
 }
 
 .btn-comprar:hover {
-    background: #3eb53e;
-    color: #fff;
-}
-
-.btn-comprar-home {
-    background: green;
-    color: #fff;
-    height: 48px;
-    font-size: 20px;
-    font-weight: 700;
-    position:absolute;
-    z-index:1;
-    top:48%;
-    margin:0px 0 0 22px;
-}
-
-.btn-comprar-home:hover {
     background: #3eb53e;
     color: #fff;
 }

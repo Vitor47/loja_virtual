@@ -327,6 +327,14 @@ p {
   color: var(--dark-color);
 }
 
+p:hover {
+  text-decoration: none;
+}
+
+a:hover  {
+  text-decoration: none;
+}
+
 
 .card-dashboard {
 

@@ -1,0 +1,29 @@
+{% load static %}
+{% load bootstrap_icons %}
+
+<div class="margin-navbar-footer"></div>
+<!--Footer Mobile-->
+<footer class="mobile nav-footer">
+    <div class="display-item">
+        <a href="{% url 'site_loja:home' %}">
+            <div class="box-selected">
+                {% bs_icon 'house-door-fill' size='2em' %}
+                <p class="p-footer">Inicio</p>
+            </div>
+        </a>
+        <div class="box-footer">
+            {% bs_icon 'heart' size='2em' %}
+            <p class="p-footer">Favoritos</p>
+        </div>
+        <div class="box-footer">
+            {% bs_icon 'cart' size='2em' %}
+            <p class="p-footer">Carrinho</p>
+        </div>
+        <a href="{% url 'site_loja:login' %}">
+            <div class="box-footer">
+                {% bs_icon 'person' size='2em' %}
+                <p class="p-footer">Conta</p>
+            </div>
+        </a>
+    </div>
+</footer>

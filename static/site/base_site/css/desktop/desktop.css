@@ -22,6 +22,18 @@
     }
 }
 
+@media screen and (min-width:650px) { 
+    .filter-products{
+        display:none;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .filter-products{
+        display:grid;
+    }
+}
+
 .desktop-header-container{
     display: grid;
     grid-template-columns: 380px 480px auto;
@@ -82,23 +94,46 @@ ul li {
 }
 
 .logo-desktop{
-    margin-bottom: auto;
-    margin-top: 27px;
-    margin-left: 30px;
+    margin-top: 18px;
 }
 
 .logo-cremonese-desktop{
     color: #fff;
     font-size: 30px;
-    pointer-events: none;
 }
 
-.btn-minha-conta{
+.logo-cremonese-desktop:hover {
+    color: #fff;
+}
+
+.btn-minha-conta {
     color: #fff;
     margin-top: 7px;
     font-size: 16px;
 }
 
-.btn-minha-conta:hover{
+.btn-minha-conta:hover {
+    color: #fff;
+}
+
+#btn-comprar-home {
+    display: none;
+}
+
+#passar_mouse:hover #btn-comprar-home {
+    display: block;
+}
+
+.btn-comprar-home {
+    background: green;
+    color: #fff;
+    height: 48px;
+    font-size: 20px;
+    font-weight: 700;
+    z-index:1;
+}
+
+.btn-comprar-home:hover {
+    background: #3eb53e;
     color: #fff;
 }

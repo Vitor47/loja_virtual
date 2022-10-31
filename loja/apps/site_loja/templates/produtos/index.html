@@ -12,8 +12,9 @@
 <section class="margin-top">
     <div class="container">
         <div class="display-top-page-products">
-            <h2 class="title-page-product">Bicos de luz</h2>
-            <div id="filter" class="display-filter">
+            <h2 class="title-page-product">Produtos</h2>
+            
+            <div id="filter" class="display-filter filter-products">
                 <div class="box-filter-1">
                     <button class="btn" onclick="expandFilterCategory()">
                         {% bs_icon 'funnel' size='1em' extra_classes="icon-filter" %}
@@ -47,56 +48,40 @@
             </div>
         </div>
 
-        <div class="display-item-products margin-top">
-            <div class="item-products"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-                <p class="p-card">Lampada 12w 6500k Blumenau</p>
-                <p class="p-value">R$ <span class="value">12,00</span></p>
+        <div class="row">
+            <div class="col-md-4">
+
             </div>
-            <div class="item-products"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-                <p class="p-card">Lampada 12w 6500k Blumenau</p>
-                <p class="p-value">R$ <span class="value">12,00</span></p>
-            </div>
-            <div class="item-products"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-                <p class="p-card">Lampada 12w 6500k Blumenau</p>
-                <p class="p-value">R$ <span class="value">12,00</span></p>
-            </div>
-            <div class="item-products"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-                <p class="p-card">Lampada 12w 6500k Blumenau</p>
-                <p class="p-value">R$ <span class="value">12,00</span></p>
+        
+            <div class="col-md-8">
+                <div class="display-item-products margin-top">
+                    <div class="item-products"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                        <p class="p-card">Lampada 12w 6500k Blumenau</p>
+                        <p class="p-value">R$ <span class="value">12,00</span></p>
+                    </div>
+                    <div class="item-products"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                        <p class="p-card">Lampada 12w 6500k Blumenau</p>
+                        <p class="p-value">R$ <span class="value">12,00</span></p>
+                    </div>
+                    <div class="item-products"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                        <p class="p-card">Lampada 12w 6500k Blumenau</p>
+                        <p class="p-value">R$ <span class="value">12,00</span></p>
+                    </div>
+                    <div class="item-products"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                        <p class="p-card">Lampada 12w 6500k Blumenau</p>
+                        <p class="p-value">R$ <span class="value">12,00</span></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<div class="margin-navbar-footer"></div>
-<footer class="nav-footer">
-    <div class="display-item">
-        <a href="{% url 'site_loja:home' %}">
-            <div class="box-selected">
-                {% bs_icon 'house-door-fill' size='2em' %}
-                <p class="p-footer">Inicio</p>
-            </div>
-        </a>
-        <div class="box-footer">
-            {% bs_icon 'star' size='2em' %}
-            <p class="p-footer">Favoritos</p>
-        </div>
-        <div class="box-footer">
-            {% bs_icon 'cart' size='2em' %}
-            <p class="p-footer">Carrinho</p>
-        </div>
-        <a href="{% url 'site_loja:login' %}">
-            <div class="box-footer">
-                {% bs_icon 'person' size='2em' %}
-                <p class="p-footer">Conta</p>
-            </div>
-        </a>
-    </div>
-</footer>
+{% include 'site\footer_mobile\footer_home.html' %}
 {% endblock %}
 
 {% block 'body' %}
