@@ -12,14 +12,6 @@ $(document).ready(function () {
   }, 30000);
 });
 
-$('#passar_mouse').mouseover(function () {
-  $('#mostrar').css('display', 'block');
-});
-
-$('#passar_mouse').mouseout(function () {
-  $('#mostrar').css('display', 'none');
-});
-
 $('#carousel1').owlCarousel({
   loop: true,
   margin: 10,
