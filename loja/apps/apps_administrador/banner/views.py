@@ -59,7 +59,7 @@ def edit_banner(request, id):
         return render(request, "banner/edit.html", {'banner': item})
     elif request.method == "POST":
         try:
-            image = request.FILES.get('image_stand')
+            image = request.FILES.get('image_banner')
             status = request.POST.get('status')
 
             if image == None:
@@ -74,7 +74,7 @@ def edit_banner(request, id):
 
             item.data_cad = item.data_cad
             item.dat_edit = Date.today()
-            item.user_cad = item.user_cad,
+            item.user_cad = item.user_cad
             item.save()
 
             LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Banner).id,
@@ -84,6 +84,7 @@ def edit_banner(request, id):
             messages.success(request, "Banner editado com sucesso!")
             return redirect('/admin/banner/')
         except Exception as e:
+            print(e)
             messages.error(request, "Banner não editado algum erro inesperado!")
             return redirect(f'/admin/edit_banner/{id}')
 

@@ -11,10 +11,10 @@
 
 <section class="margin-top">
     <div class="container">
-        <div class="display-top-page-products">
+        <div class="display-top-page-products mobile">
             <h2 class="title-page-product">Produtos</h2>
-            
-            <div id="filter" class="display-filter filter-products">
+
+            <div id="filter" class="display-filter">
                 <div class="box-filter-1">
                     <button class="btn" onclick="expandFilterCategory()">
                         {% bs_icon 'funnel' size='1em' extra_classes="icon-filter" %}
@@ -48,34 +48,128 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-4">
+        <div class="row margin-top-desktop">
+            <div class="col-md-4 desktop" style="margin-top: 20px;">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                    <h2 class="title-page-product">Buscar</h2>
+                    <hr>
+                    <form method="GET" action=" {% url 'site_loja:produtos' %} ">
+                        <div id="divBusca">
+                            <input type="text" id="txtBusca" name="produtos_name" placeholder="Buscar..." />
+                            <button type="submit" id="btnBusca">{% bs_icon 'search' %}</button>
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                    <h2 class="title-page-product">Categorias</h2>
+                    <hr>
+                    <form method="GET" action=" {% url 'site_loja:produtos' %} ">
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            {% for categoria in categorias %}
+                            <li class="nav-item">
+                                <a class="nav-link link-dark">
+                                    <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug[]" id="categoria_slug" multiple> {{categoria.nome}}
+                                </a>
+                            </li>
+                            {% endfor %}
+                            <li class="nav-item">
+                                <div class="nav-link link-dark">
+                                    <button class="btn btn-filtrar" type="submit">Filtrar</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                    <h2 class="title-page-product">Preço</h2>
+                    <hr>
+                    <form method="GET" action=" {% url 'site_loja:produtos' %} ">
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            <li class="nav-item">
+                                <a class="nav-link link-dark">
+                                    <input type="radio" value="maior_100" name="valor" id="valor"> Maior que R$: 100 reais
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link link-dark">
+                                    <input type="radio" value="menor_100" name="valor" id="valor"> Menor que R$: 100 reais
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link link-dark">
+                                    <button class="btn btn-filtrar" type="submit">Filtrar</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
 
             </div>
-        
+
             <div class="col-md-8">
-                <div class="display-item-products margin-top">
-                    <div class="item-products"><img class="img-fluid"
-                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-                        <p class="p-card">Lampada 12w 6500k Blumenau</p>
-                        <p class="p-value">R$ <span class="value">12,00</span></p>
-                    </div>
-                    <div class="item-products"><img class="img-fluid"
-                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-                        <p class="p-card">Lampada 12w 6500k Blumenau</p>
-                        <p class="p-value">R$ <span class="value">12,00</span></p>
-                    </div>
-                    <div class="item-products"><img class="img-fluid"
-                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-                        <p class="p-card">Lampada 12w 6500k Blumenau</p>
-                        <p class="p-value">R$ <span class="value">12,00</span></p>
-                    </div>
-                    <div class="item-products"><img class="img-fluid"
-                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-                        <p class="p-card">Lampada 12w 6500k Blumenau</p>
-                        <p class="p-value">R$ <span class="value">12,00</span></p>
-                    </div>
+                <div class="row margin-top">
+                    {% if produtos.object_list.count > 0 %}
+                        {% for produto in produtos.object_list %}
+                        <div class="col-md-4">
+                            <a href="{% url 'site_loja:detalhes_produto' %}">
+                                <div id="passar_mouse" class="item-products"><img class="img-fluid"
+                                        src="/media/{{produto.imagem_principal}}">
+                                    <button class="btn btn-comprar-home ml-auto mr-auto" type="button" id="btn-comprar-home" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', '1', '{{produto.valor}}', '{{ forloop.counter }}')"> Comprar </button>
+                                    <p class="p-card">{{produto.nome}}</p>
+                                    <p class="p-value">R$ <span class="value">{{produto.valor}}</span></p>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    {% elif produtos %}
+                        {% for produto in produtos %}
+                            <div class="col-md-4">
+                                <a href="{% url 'site_loja:detalhes_produto' %}">
+                                    <div id="passar_mouse" class="item-products"><img class="img-fluid"
+                                            src="/media/{{produto.imagem_principal}}">
+                                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" id="btn-comprar-home" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', '1', '{{produto.valor}}', '{{ forloop.counter }}')"> Comprar </button>
+                                        <p class="p-card">{{produto.nome}}</p>
+                                        <p class="p-value">R$ <span class="value">{{produto.valor}}</span></p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                    <p class="p-card">Nenhum produto encontrado!</p>
+                    {% endif %}
                 </div>
+
+                {% if produtos %}
+                    <div class="row" style="margin-top: 46px;">
+                        {% if produtos.has_other_pages %}
+                        <div class="btn-group" role="group" aria-label="Item pagination">
+                            {% if produtos.has_previous %}
+                                <a href="?page={{ produtos.previous_page_number }}" class="btn btn-outline-primary">&laquo;</a>
+                            {% endif %}
+
+                            {% for page_number in produtos.paginator.page_range %}
+                                {% if produtos.number == page_number %}
+                                    <button class="btn btn-outline-primary active">
+                                        <span>{{ page_number }} <span class="sr-only">(current)</span></span>
+                                    </button>
+                                {% else %}
+                                    <a href="?page={{ page_number }}" class="btn btn-outline-primary">
+                                        {{ page_number }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if produtos.has_next %}
+                                <a href="?page={{ produtos.next_page_number }}" class="btn btn-outline-primary">&raquo;</a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -85,20 +179,5 @@
 {% endblock %}
 
 {% block 'body' %}
-<script>
-    $(document).ready(function () {
-        document.getElementById("select-filter").style.display = 'none';
-        document.getElementById("select-order").style.display = 'none';
-    });
-
-    function expandFilterCategory() {
-        document.getElementById("select-filter").style.display = 'block';
-        document.getElementById("select-order").style.display = 'none';
-    }
-
-    function expandFilterOrder() {
-        document.getElementById("select-filter").style.display = 'none';
-        document.getElementById("select-order").style.display = 'block';
-    }
-</script>
+<script src="{% static 'site/base_site/js/produtos.js' %}"></script>
 {% endblock %}

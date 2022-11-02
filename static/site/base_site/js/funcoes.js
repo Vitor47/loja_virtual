@@ -25,13 +25,13 @@ $('#carousel1').owlCarousel({
   responsiveClass: true,
   responsive: {
     0: {
-      items: 4
+      items: 2
     },
     600: {
-      items: 4
+      items: 3
     },
     1000: {
-      items: 5
+      items: 4
     }
   }
 })

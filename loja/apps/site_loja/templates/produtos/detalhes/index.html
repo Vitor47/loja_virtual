@@ -9,7 +9,7 @@
 
 {% block 'main' %}
 
-<section class="margin-top">
+<section class="margin-top mobile">
     <div class="container">
         <div class="display-header-detail">
             <div class="block-back-home">
@@ -17,7 +17,7 @@
             </div>
 
             <select class="form-control" aria-label="Default select example">
-                <option selected>Selecione a categoria</option>
+                <option selected>Filtrar novamente categoria</option>
                 <option value="1">Bicos de luz</option>
                 <option value="2">Geral</option>
                 <option value="3">Fios de luz</option>
@@ -26,91 +26,87 @@
     </div>
 </section>
 
-<section class="margin-top">
+<section class="margin-top-desktop">
     <div class="container">
-        <div id="carousel_detalhes" class="owl-carousel owl-theme">
-            <div class="item"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-            </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="carousel_detalhes" class="owl-carousel owl-theme">
+                    <div class="item"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                    </div>
 
-            <div class="item"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-            </div>
+                    <div class="item"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                    </div>
 
-            <div class="item"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-            </div>
+                    <div class="item"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                    </div>
 
-            <div class="item"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-            </div>
+                    <div class="item"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                    </div>
 
-            <div class="item"><img class="img-fluid"
-                    src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
-            </div>
-        </div>
-
-        <h2 class="title-detail">Lampada 12w 6500k Blumenau</h2>
-    </div>
-</section>
-
-<section class="margin-top">
-    <div class="container">
-        <div class="card-detail">
-            <div class="display-avaliation">
-                <div class="display-star">
-                    {% bs_icon 'star-fill' size='1.5em' extra_classes="icon-star" %}
-                    {% bs_icon 'star-fill' size='1.5em' extra_classes="icon-star" %}
-                    {% bs_icon 'star-fill' size='1.5em' extra_classes="icon-star" %}
-                    {% bs_icon 'star-fill' size='1.5em' extra_classes="icon-star" %}
-                    {% bs_icon 'star-half' size='1.5em' extra_classes="icon-star" %}
+                    <div class="item"><img class="img-fluid"
+                            src="https://http2.mlstatic.com/D_NQ_NP_710858-MLB49003513867_022022-W.jpg">
+                    </div>
                 </div>
-
-                <p>3 avaliações, <b>Participe!</b></p>
             </div>
+            <div class="col-md-6">
+                <h2 class="title-detail">Lampada 12w 6500k Blumenau</h2>
 
-            <p class="p-value-detail"><span class="value-detail">R$ 12,00</span> já com 10% de desconto</p>
+                <div class="card-detail margin-top">
+                    <div class="display-avaliation">
+                        <div class="display-star">
+                            {% bs_icon 'star-fill' size='1.5em' extra_classes="icon-star" %}
+                            {% bs_icon 'star-fill' size='1.5em' extra_classes="icon-star" %}
+                            {% bs_icon 'star-fill' size='1.5em' extra_classes="icon-star" %}
+                            {% bs_icon 'star-fill' size='1.5em' extra_classes="icon-star" %}
+                            {% bs_icon 'star-half' size='1.5em' extra_classes="icon-star" %}
+                        </div>
+                        <p>3 avaliações, <a><b>Participe!</b></a></p>
+                    </div>
 
-            <div class="display-comprar">
-                <div class="display-count">
-                    <input type="text" class="form-count" name="campo1" id="campo1" onchange="Calcular(this.value)"
-                        value="0">
 
-                    <div class="display-count-button" role="group" aria-label="plus-minus">
-                        <button type="button" class="btn-count" data-dir="up" id="up">
-                            +
-                        </button>
-                        <button type="button" class="btn-count" data-dir="dwn" id="dwn">
-                            -
-                        </button>
+                    <p class="p-value-detail"><span class="value-detail">R$ 12,00</span> já com 10% de desconto</p>
+
+                    <div class="display-comprar">
+                        <div class="display-count">
+                            <input type="text" class="form-count" name="campo1" id="campo1"
+                                onchange="Calcular(this.value)" value="0">
+
+                            <div class="display-count-button" role="group" aria-label="plus-minus">
+                                <button type="button" class="btn-count" data-dir="up" id="up">
+                                    +
+                                </button>
+                                <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                    -
+                                </button>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-comprar">{% bs_icon 'cart' size='1.5em' %} Comprar</button>
+                    </div>
+
+                    <div class="icons-detail">
+                        {% bs_icon 'suit-heart' size='1.5em' %}
+                        {% bs_icon 'share' size='1.5em' %}
                     </div>
                 </div>
 
-                <button class="btn btn-comprar">{% bs_icon 'cart' size='1.5em' %} Comprar</button>
-            </div>
+                <h2 class="sub-title-detail margin-top">Descrição do produto </h2>
 
-            <div class="icons-detail">
-                {% bs_icon 'suit-heart' size='1.5em' %}
-                {% bs_icon 'share' size='1.5em' %}
+                <div class="margin-top">
+                    is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
+                    dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+                    type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
+                    containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
+                </div>
+
             </div>
         </div>
-    </div>
 </section>
-
-<section class="margin-top">
-    <div class="container">
-        <h2 class="sub-title-detail">Descrição do produto <span></span></h2>
-
-        <div class="margin-top">
-            is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-            dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-            type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets
-            containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker
-        </div>
-    </div>
-</section>
-
 
 <section class="margin-top">
     <div class="container">
@@ -163,31 +159,7 @@
     </div>
 </section>
 
-<div class="margin-navbar-footer"></div>
-<footer class="nav-footer">
-    <div class="display-item">
-        <a href="{% url 'site_loja:home' %}">
-            <div class="box-selected">
-                {% bs_icon 'house-door-fill' size='2em' %}
-                <p class="p-footer">Inicio</p>
-            </div>
-        </a>
-        <div class="box-footer">
-            {% bs_icon 'star' size='2em' %}
-            <p class="p-footer">Favoritos</p>
-        </div>
-        <div class="box-footer">
-            {% bs_icon 'cart' size='2em' %}
-            <p class="p-footer">Carrinho</p>
-        </div>
-        <a href="{% url 'site_loja:login' %}">
-            <div class="box-footer">
-                {% bs_icon 'person' size='2em' %}
-                <p class="p-footer">Conta</p>
-            </div>
-        </a>
-    </div>
-</footer>
+{% include 'site\footer_mobile\footer_home.html' %}
 {% endblock %}
 {% block 'body' %}
 
