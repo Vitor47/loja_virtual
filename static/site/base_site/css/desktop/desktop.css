@@ -68,12 +68,11 @@ ul li {
     line-height: 3.0rem;
     text-align: center;
     pointer-events: none;
-    color: #fff;
+    color: var(--letter-color-light);
 }
 
 .icon-header{
-
-    color: #fff;
+    color: var(--letter-color-light);
 }
 
 .icon-container-desktop{
@@ -88,17 +87,47 @@ ul li {
 }
 
 .logo-cremonese-desktop{
-    color: #fff;
+    color: var(--letter-color-light);
     font-size: 30px;
     pointer-events: none;
 }
 
 .btn-minha-conta{
-    color: #fff;
+    color: var(--letter-color-light);
     margin-top: 7px;
     font-size: 16px;
 }
 
 .btn-minha-conta:hover{
     color: #fff;
+}
+
+.desktop-footer{
+    background-color: var(--main-color);
+    width: 100%;
+    height: 252px;
+    color: var(--letter-color-light);
+}
+
+.copy-footer{
+    background-color: var(--main-color);
+    color: var(--letter-color-light);
+}
+
+.colunas-footer{
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+
+.letter-footer{
+    color: var(--letter-color-light);
+}
+
+.letter-colunas{
+    margin-bottom: 1.5rem !important;
+    margin-top: 1rem !important;
+}
+
+.categorias-footer{
+    text-decoration: none;
 }
