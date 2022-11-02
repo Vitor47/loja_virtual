@@ -15,55 +15,66 @@
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.min.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.min.css' %}">
+  <link rel="shortcut icon" type="image/x-icon" href="/media/logo/icone.jpg"/>
   {% block 'head' %}{% endblock %}
   <title>{% block 'title' %}{% endblock %}</title>
 </head>
 
 <body>
-  <div>
     <!--Header Desktop-->
-    <header class="desktop-header">
-
-      <div class="desktop-header-container">
-
-        <div class="logo-desktop">
-          <a class="logo-cremonese-desktop" href="#">Cremonese LTDA</a>
-        </div>
-
-        <div class="main-search-desktop">
-          <div class="form-group has-search">
-            <span class="icon-search-desktop">{% bs_icon 'search' %}</span>
-            <input type="text" class="input-search-desktop search-background-color" placeholder="O que você procura...">
+    <header class="desktop-header desktop-header-container desktop">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="logo-desktop">
+            <a class="btn logo-cremonese-desktop" href="{% url 'site_loja:home' %}">
+              <img class="img-fluid" src="/media/logo/logo_sem_fundo_bold.png" alt="Cremonese LTDA">
+            </a>
           </div>
         </div>
-
+        <div class="col-md-4">
+          <div class="main-search-desktop">
+            <div class="form-group has-search">
+              <span class="icon-search-desktop">{% bs_icon 'search' %}</span>
+              <input type="text" class="input-search-desktop search-background-color" placeholder="O que você procura...">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
           <ul class="nav nav-pills icon-container-desktop">
-
             <li class="nav-item">
               <a href="#" class="nav-link" aria-current="page">
-                {% bs_icon 'star' extra_classes='icon-header' size='2em' %}
+                {% bs_icon 'heart' extra_classes='icon-header' size='2em' %}
               </a>
             </li>
-
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                {% bs_icon 'cart' extra_classes='icon-header' size='2em' %}
-              </a>
+              <div id="dropdown-carrinho">
+                <a href="#" class="nav-link">
+                  {% bs_icon 'cart' extra_classes='icon-header' size='2em' %}
+                  <span id="total-carrinho" class="contador-carrinho">0</span>
+                </a>
+                <div class="card-carrinho">
+                  <div class="container-carrinho">
+                    <p>Meu carrinho </p>
+                    <div id="itens-carrinho"></div>
+                    <button class="btn btn-clear" type="button" onclick="localStorage.clear(); location.reload();"> Limpar carrinho </button>
+                  </div>
+                </div>
+              </div>
             </li>
 
             <div class="dropdown">
-              <span class="btn dropdown-toggle btn-minha-conta" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="btn dropdown-toggle btn-minha-conta" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Entre | Cadastre
               </span>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Entrar</a>
-                <a class="dropdown-item" href="#">Cadastrar</a>
+                <a class="dropdown-item" href="{% url 'site_loja:login' %}">Entrar</a>
+                <a class="dropdown-item" href="{% url 'site_loja:login' %}">Cadastrar</a>
               </div>
             </div>
-
           </ul>
         </div>
-
+      </div>
     </header>
 
     <!--Header Mobile-->
@@ -78,9 +89,7 @@
         </div>
       </div>
     </header>
-
     <div class="margin-navbar"></div>
-
 
     {% block 'main' %}
     {% endblock %}
@@ -164,6 +173,7 @@
     <script src="{% static 'vendor/OwlCarousel/dist/owl.carousel.js' %}"></script>
     <script src="{% static 'vendor/OwlCarousel/dist/owl.carousel.min.js' %}"></script>
     <script src="{% static 'site/base_site/js/funcoes.js' %}"></script>
+    <script src="{% static 'site/base_site/js/carrinho.js' %}"></script>
     {% block 'body' %}
     {% endblock %}
 

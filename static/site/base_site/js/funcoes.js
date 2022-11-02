@@ -12,14 +12,6 @@ $(document).ready(function () {
   }, 30000);
 });
 
-$('#passar_mouse').mouseover(function () {
-  $('#mostrar').css('display', 'block');
-});
-
-$('#passar_mouse').mouseout(function () {
-  $('#mostrar').css('display', 'none');
-});
-
 $('#carousel1').owlCarousel({
   loop: true,
   margin: 10,
@@ -33,13 +25,13 @@ $('#carousel1').owlCarousel({
   responsiveClass: true,
   responsive: {
     0: {
-      items: 4
+      items: 2
     },
     600: {
-      items: 4
+      items: 3
     },
     1000: {
-      items: 5
+      items: 4
     }
   }
 })

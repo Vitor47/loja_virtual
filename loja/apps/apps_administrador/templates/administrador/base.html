@@ -2,7 +2,6 @@
 {% load bootstrap_icons %}
 <!doctype html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,46 +15,67 @@
 <body>
   <div class="sidebar">
     <div class="logo-details">
-      <div class="logo_name">Cremogel LTDA</div>
+      <div class="logo_name">Cremonesse LTDA</div>
       <i id="btn">{% bs_icon 'list' size='1.5em' %}</i>
     </div>
     <ul class="nav-list">
       <li>
-        <a href="{% url 'administrador:dashboard' %}">
+        <a href="{% url 'apps_administrador.dashboard:dashboard' %}">
           <i>{% bs_icon 'house' %}</i>
           <span class="links_name">Dashboard</span>
         </a>
         <span class="tooltip">Dashboard</span>
       </li>
+      {% if perms.banner.view_banner %}
       <li>
-        <a href="{% url 'administrador:banner' %}">
+        <a href="{% url 'apps_administrador.banner:banner' %}">
           <i>{% bs_icon 'card-image' %}</i>
           <span class="links_name">Banner</span>
         </a>
         <span class="tooltip">Banner</span>
       </li>
+      {% endif %}
+      {% if perms.produto.view_produto %}
       <li>
-        <a href="{% url 'administrador:produto' %}">
-          <i>{% bs_icon 'basket' %}</i>
-          <span class="links_name">Produtos</span>
-        </a>
-        <span class="tooltip">Produtos</span>
+        <div class="dropdown">
+          <a class="dropbtn">
+            <i>{% bs_icon 'basket' %}</i>
+            <span class="links_name">Produto</span>
+          </a>
+          <div class="dropdown-content">
+            {% if perms.produto.view_produto %}
+            <a class="btn-submenu" href="{% url 'apps_administrador.produto:produto' %}"><span class="margin-icon">{% bs_icon 'basket' %}</span> Gerenciar Produto</a>
+            {% endif %}
+            {% if perms.produto.view_produtocategoria %}
+            <a class="btn-submenu" href="{% url 'apps_administrador.produto:categoria_produto' %}"><span class="margin-icon">{% bs_icon 'bookmarks' %}</span> Categorias Produto</a>
+            {% endif %}
+            {% if perms.produto.view_produtoatributo %}
+            <a class="btn-submenu" href="{% url 'apps_administrador.produto:atributo_produto' %}"><span class="margin-icon">{% bs_icon 'bookmark-star' %}</span> Atributo de Produto</a>
+            {% endif %}
+          </div>
+        </div>
+        <span class="tooltip">Produto</span>
       </li>
+      {% endif %}
+      {% if perms.configuracao.view_configuracao %}
       <li>
-        <a href="{% url 'administrador:configuracao' %}">
+        <a href="{% url 'apps_administrador.configuracao:configuracao' %}">
           <i>{% bs_icon 'gear' %}</i>
           <span class="links_name">Configurações</span>
         </a>
         <span class="tooltip">Configurações</span>
       </li>
-
+      {% endif %}
+      {% if perms.cliente.view_cliente %}
       <li>
-        <a href="{% url 'administrador:cliente' %}">
+        <a href="{% url 'apps_administrador.cliente:cliente' %}">
           <i>{% bs_icon 'people' %}</i>
           <span class="links_name">Clientes</span>
         </a>
         <span class="tooltip">Clientes</span>
       </li>
+      {% endif %}
+
       <!--<li>
         <a href="#">
           <i class='bx bx-cog'></i>
@@ -71,8 +91,12 @@
             <span class="links_name">Sistema</span>
           </a>
           <div class="dropdown-content">
-            <a class="btn-submenu" href="{% url 'administrador:list_user' %}"><span class="margin-icon">{% bs_icon 'person' %}</span> Usuários</a>
-            <a class="btn-submenu" href="{% url 'administrador:grupo_acesso' %}"><span class="margin-icon">{% bs_icon 'person-plus' %}</span> Grupo de Acesso</a>
+            {% if perms.user.view_user %}
+            <a class="btn-submenu" href="{% url 'apps_administrador.sistema:list_user' %}"><span class="margin-icon">{% bs_icon 'person' %}</span> Usuários</a>
+            {% endif %}
+            {% if perms.group.view_group %}
+            <a class="btn-submenu" href="{% url 'apps_administrador.sistema:grupo_acesso' %}"><span class="margin-icon">{% bs_icon 'person-plus' %}</span> Grupo de Acesso</a>
+            {% endif %}
             <a class="btn-submenu" href="#"><span class="margin-icon">{% bs_icon 'box2' %}</span> Estoque</a>
           </div>
         </div>
@@ -93,9 +117,9 @@
               Usuário
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="{% url 'administrador:perfil' %}">Perfil</a>
-              <a class="dropdown-item" href="{% url 'administrador:senha' %}">Senha</a>
-              <a class="dropdown-item" href="{% url 'administrador:sair' %}">Sair</a>
+              <a class="dropdown-item" href="{% url 'apps_administrador.sistema:perfil' %}">Perfil</a>
+              <a class="dropdown-item" href="{% url 'apps_administrador.sistema:senha' %}">Senha</a>
+              <a class="dropdown-item" href="{% url 'apps_administrador.sistema:sair' %}">Sair</a>
             </div>
           </li>
         </ul>

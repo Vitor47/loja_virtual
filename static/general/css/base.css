@@ -7,6 +7,18 @@
   font-family: "Poppins", sans-serif;
 }
 
+body::-webkit-scrollbar {
+  width: 16px;
+}
+
+body::-webkit-scrollbar-track {
+  background: lightgrey;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(140, 140, 152);
+}
+
 .sidebar {
   position: fixed;
   left: 0;
@@ -327,6 +339,14 @@ p {
   color: var(--dark-color);
 }
 
+p:hover {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
 
 .card-dashboard {
 
@@ -426,6 +446,7 @@ p {
   padding: 8px;
   margin: 6px;
 }
+
 .btn-right {
   border-radius: 8px;
   color: #fff;
@@ -522,43 +543,43 @@ table th {
 
 @media screen and (max-width: 600px) {
   table {
-      border: 0;
+    border: 0;
   }
 
   table caption {
-      font-size: 1.3em;
+    font-size: 1.3em;
   }
 
   table thead {
-      border: none;
-      clip: rect(0 0 0 0);
-      height: 1px;
-      margin: -1px;
-      overflow: hidden;
-      padding: 0;
-      position: absolute;
-      width: 1px;
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
   }
 
   table tr {
-      display: block;
-      margin-bottom: .625em;
+    display: block;
+    margin-bottom: .625em;
   }
 
   table td {
-      display: block;
-      font-size: .8em;
-      text-align: right;
+    display: block;
+    font-size: .8em;
+    text-align: right;
   }
 
   table td::before {
-      content: attr(data-label);
-      float: left;
-      font-weight: bold;
-      text-transform: uppercase;
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
   }
 
   table td:last-child {
-      border-bottom: 0;
+    border-bottom: 0;
   }
 }

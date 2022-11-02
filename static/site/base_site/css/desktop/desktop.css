@@ -1,30 +1,40 @@
-@media screen and (min-width:650px) { 
+@media screen and (min-width:860px) { 
     .mobile{
         display:none;
     }
 }
 
-@media screen and (max-width:650px) {
+@media screen and (max-width:860px) {
     .mobile{
         display:block;
     }
 }
 
-@media screen and (min-width:650px) { 
+@media screen and (min-width:860px) { 
     .desktop{
         display:block;
     }
 }
 
-@media screen and (max-width:650px) {
+@media screen and (max-width:860px) {
     .desktop{
         display:none;
+    }
+}
+
+@media screen and (min-width:650px) { 
+    .filter-products{
+        display:none;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .filter-products{
+        display:grid;
     }
 }
 
 .desktop-header-container{
-    display: grid;
-    grid-template-columns: 380px 480px auto;
     z-index: 999;
     position: fixed;
     width: 100%;
@@ -43,7 +53,6 @@ ul li {
 }
 
 .main-search-desktop{
-    width: 90%;
     margin-top: 25px;
 }
 .input-search-desktop{
@@ -64,8 +73,8 @@ ul li {
     position: absolute;
     z-index: 2;
     display: block;
-    width: 50rem;
-    line-height: 3.0rem;
+    width: 176%;
+    line-height: 2.8rem;
     text-align: center;
     pointer-events: none;
     color: var(--letter-color-light);
@@ -81,15 +90,16 @@ ul li {
 }
 
 .logo-desktop{
-    margin-bottom: auto;
-    margin-top: 27px;
-    margin-left: 30px;
+    margin-top: 12px;
 }
 
 .logo-cremonese-desktop{
     color: var(--letter-color-light);
     font-size: 30px;
-    pointer-events: none;
+}
+
+.logo-cremonese-desktop:hover {
+    color: #fff;
 }
 
 .btn-minha-conta{
@@ -98,7 +108,29 @@ ul li {
     font-size: 16px;
 }
 
-.btn-minha-conta:hover{
+.btn-minha-conta:hover {
+    color: #fff;
+}
+
+#btn-comprar-home {
+    display: none;
+}
+
+#passar_mouse:hover #btn-comprar-home {
+    display: block;
+}
+
+.btn-comprar-home {
+    background: green;
+    color: #fff;
+    height: 48px;
+    font-size: 20px;
+    font-weight: 700;
+    z-index:1;
+}
+
+.btn-comprar-home:hover {
+    background: #3eb53e;
     color: #fff;
 }
 
