@@ -38,11 +38,6 @@ body {
     grid-template-columns: auto auto auto auto;
 }
 
-.display-item-products {
-    display: grid;
-    grid-template-columns: auto auto auto;
-}
-
 .display-filter {
     display: grid;
     grid-template-columns: auto auto;
@@ -80,7 +75,7 @@ body {
 
 .display-comprar {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 86px auto;
 }
 
 .display-btn-create-count {
@@ -91,6 +86,11 @@ body {
 .display-top-page-products {
     display: grid;
     grid-template-columns: 75% auto auto;
+}
+
+.display-category {
+    display: grid;
+    grid-template-columns: auto auto;
 }
 
 .item-products {
@@ -248,6 +248,7 @@ body {
     font-style: normal;
     font-size: 20px;
     margin-top: 8px;
+    position: relative;
 }
 
 .title-detail {
@@ -264,15 +265,18 @@ body {
     font-weight: 400;
     font-size: 20px;
     line-height: 100%;
+    position: relative;
+
 }
 
-.sub-title-detail::after {
+.sub-title-detail::before{
     content: "";
     position: absolute;
-    width: 100px;
-    left: 16px;
-    margin-top: 26px;
-    border-bottom: 3px solid var(--dark-color);
+    left: 0;
+    bottom: -1px;
+    width: 60px;
+    height: 2px;
+    background: var(--dark-color);
 }
 
 .item {
@@ -426,6 +430,7 @@ body {
     font-size: 20px;
     font-weight: 700;
     border-radius: 3px;
+    width: 232px;
 }
 
 .btn-comprar:hover {

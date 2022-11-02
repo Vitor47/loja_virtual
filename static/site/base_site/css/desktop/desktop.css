@@ -1,22 +1,22 @@
-@media screen and (min-width:650px) { 
+@media screen and (min-width:860px) { 
     .mobile{
         display:none;
     }
 }
 
-@media screen and (max-width:650px) {
+@media screen and (max-width:860px) {
     .mobile{
         display:block;
     }
 }
 
-@media screen and (min-width:650px) { 
+@media screen and (min-width:860px) { 
     .desktop{
         display:block;
     }
 }
 
-@media screen and (max-width:650px) {
+@media screen and (max-width:860px) {
     .desktop{
         display:none;
     }
@@ -35,8 +35,6 @@
 }
 
 .desktop-header-container{
-    display: grid;
-    grid-template-columns: 380px 480px auto;
     z-index: 999;
     position: fixed;
     width: 100%;
@@ -55,7 +53,6 @@ ul li {
 }
 
 .main-search-desktop{
-    width: 90%;
     margin-top: 25px;
 }
 .input-search-desktop{
@@ -76,8 +73,8 @@ ul li {
     position: absolute;
     z-index: 2;
     display: block;
-    width: 50rem;
-    line-height: 3.0rem;
+    width: 176%;
+    line-height: 2.8rem;
     text-align: center;
     pointer-events: none;
     color: #fff;
@@ -94,7 +91,7 @@ ul li {
 }
 
 .logo-desktop{
-    margin-top: 18px;
+    margin-top: 12px;
 }
 
 .logo-cremonese-desktop{
@@ -137,3 +134,104 @@ ul li {
     background: #3eb53e;
     color: #fff;
 }
+
+#divBusca{
+    border: solid #ced4da 1px;
+    border-radius: 8px;
+  }
+  
+  #txtBusca{
+    padding-left: 10px;
+    border: none;
+    height: 43px;
+    width: 198px;
+  }
+
+  #btnBusca{
+    background-color: var(--main-color);
+    border: none;
+    color: #fff;
+    float: right;
+    height: 44px;
+    border-radius: 0 7px 7px 0;
+    width: 48px;
+    font-weight: bold;
+  }
+
+  .margin-top-desktop {
+    margin-top: 46px;
+  }
+
+  .card-carrinho {
+    position: absolute;
+    min-width: 220px;
+    background-color: #fff !important;
+    box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+    z-index: 1;
+  }
+
+  .card-carrinho {
+    display: none;
+  }
+
+  #dropdown-carrinho:hover .card-carrinho {
+    display: block;
+  }
+
+  .container-carrinho {
+    margin: 8px;
+  }
+
+  #image-carrinho {
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .quantidade-item-carrinho {
+    background-color: var(--main-color);
+    color: #fff;
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 2px;
+  }
+
+  .contador-carrinho {
+    background-color: #fff;
+    color: var(--main-color);
+    font-size: 12px;
+    position: fixed;
+    margin-top: -5px;
+    border-radius: 50%;
+    text-align: center;
+    width: 20px;
+    padding: 2px;
+  }
+
+  .btn-clear {
+    margin-top: 12px;
+    font-size: 10px;
+    background-color: #6c757d;
+    color: #fff;
+    border-radius: 12px;
+  }
+
+  .btn-clear:hover {
+    background-color: #6c757d;
+    color: #fff;
+  }
+
+  .btn-filtrar {
+    padding: 4px;
+    font-size: 12px;
+    background-color: #6c757d;
+    color: #fff;
+    border-radius: 8px;
+  }
+
+  .btn-filtrar:hover {
+    background-color: #6c757d;
+    color: #fff;
+  } 
