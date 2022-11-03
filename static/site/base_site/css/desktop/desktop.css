@@ -77,12 +77,12 @@ ul li {
     line-height: 2.8rem;
     text-align: center;
     pointer-events: none;
-    color: #fff;
+    color: var(--letter-color-light);
 }
 
 .icon-header{
 
-    color: #fff;
+    color: var(--letter-color-light);
 }
 
 .icon-container-desktop{
@@ -95,22 +95,22 @@ ul li {
 }
 
 .logo-cremonese-desktop{
-    color: #fff;
+    color: var(--letter-color-light);
     font-size: 30px;
 }
 
 .logo-cremonese-desktop:hover {
-    color: #fff;
+    color: var(--letter-color-light);
 }
 
 .btn-minha-conta {
-    color: #fff;
+    color: var(--letter-color-light);
     margin-top: 7px;
     font-size: 16px;
 }
 
 .btn-minha-conta:hover {
-    color: #fff;
+    color: var(--letter-color-light);
 }
 
 #btn-comprar-home {
@@ -123,7 +123,7 @@ ul li {
 
 .btn-comprar-home {
     background: green;
-    color: #fff;
+    color: var(--letter-color-light);
     height: 48px;
     font-size: 20px;
     font-weight: 700;
@@ -132,7 +132,7 @@ ul li {
 
 .btn-comprar-home:hover {
     background: #3eb53e;
-    color: #fff;
+    color: var(--letter-color-light);
 }
 
 #divBusca{
@@ -150,7 +150,7 @@ ul li {
   #btnBusca{
     background-color: var(--main-color);
     border: none;
-    color: #fff;
+    color: var(--letter-color-light);
     float: right;
     height: 44px;
     border-radius: 0 7px 7px 0;
@@ -165,7 +165,7 @@ ul li {
   .card-carrinho {
     position: absolute;
     min-width: 220px;
-    background-color: #fff !important;
+    background-color: var(--letter-color-light) !important;
     box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
     z-index: 1;
   }
@@ -192,14 +192,14 @@ ul li {
 
   .quantidade-item-carrinho {
     background-color: var(--main-color);
-    color: #fff;
+    color: var(--letter-color-light);
     font-size: 12px;
     border-radius: 50%;
     padding: 2px;
   }
 
   .contador-carrinho {
-    background-color: #fff;
+    background-color: var(--letter-color-light);
     color: var(--main-color);
     font-size: 12px;
     position: fixed;
@@ -214,26 +214,26 @@ ul li {
     margin-top: 12px;
     font-size: 10px;
     background-color: #6c757d;
-    color: #fff;
+    color: var(--letter-color-light);
     border-radius: 12px;
   }
 
   .btn-clear:hover {
     background-color: #6c757d;
-    color: #fff;
+    color: var(--letter-color-light);
   }
 
   .btn-filtrar {
     padding: 4px;
     font-size: 12px;
     background-color: #6c757d;
-    color: #fff;
+    color: var(--letter-color-light);
     border-radius: 8px;
   }
 
   .btn-filtrar:hover {
     background-color: #6c757d;
-    color: #fff;
+    color: var(--letter-color-light);
   } 
 
   .desktop-footer{
