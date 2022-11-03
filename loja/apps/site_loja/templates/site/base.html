@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.min.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.min.css' %}">
-  <link rel="shortcut icon" type="image/x-icon" href="/media/logo/icone.jpg"/>
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/icone.jpg' %}"/>
   {% block 'head' %}{% endblock %}
   <title>{% block 'title' %}{% endblock %}</title>
 </head>
@@ -27,7 +27,7 @@
         <div class="col-md-4">
           <div class="logo-desktop">
             <a class="btn logo-cremonese-desktop" href="{% url 'site_loja:home' %}">
-              <img class="img-fluid" src="/media/logo/logo_sem_fundo_bold.png" alt="Cremonese LTDA">
+              <img class="img-fluid" src="{% static 'images/logo/logo_sem_fundo_bold.png' %}" alt="Cremonese LTDA">
             </a>
           </div>
         </div>
