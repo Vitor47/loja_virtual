@@ -27,17 +27,19 @@
         <div class="col-md-4">
           <div class="logo-desktop">
             <a class="btn logo-cremonese-desktop" href="{% url 'site_loja:home' %}">
-              <img class="img-fluid" src="{% static 'images/logo/logo_sem_fundo_bold.png' %}" alt="Cremonese LTDA">
+              <img class="img-fluid" src="{% static 'images/logo/logo_sem_fundo_bold-header.png' %}" alt="Cremonese LTDA">
             </a>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="main-search-desktop">
-            <div class="form-group has-search">
-              <span class="icon-search-desktop">{% bs_icon 'search' %}</span>
-              <input type="text" class="input-search-desktop search-background-color" placeholder="O que você procura...">
+          <form action="{% url 'site_loja:produtos' %}" method="GET">
+            <div class="main-search-desktop">
+              <div class="form-group has-search">
+                <span class="icon-search-desktop">{% bs_icon 'search' %}</span>
+                <input type="text" class="input-search-desktop search-background-color" name="produtos_name" id="produtos_name" placeholder="O que você procura...">
+              </div>
             </div>
-          </div>
+          </form>
         </div>
         <div class="col-md-4">
           <ul class="nav nav-pills icon-container-desktop">
@@ -56,12 +58,24 @@
                   <div class="container-carrinho">
                     <p>Meu carrinho </p>
                     <div id="itens-carrinho"></div>
-                    <button class="btn btn-clear" type="button" onclick="localStorage.clear(); location.reload();"> Limpar carrinho </button>
+                    <button class="btn btn-clear" type="button" onclick="clearCarrinho()"> Limpar carrinho </button>
                   </div>
                 </div>
               </div>
             </li>
 
+            {% if user.is_authenticated %}
+            <div class="dropdown">
+              <span class="btn dropdown-toggle btn-minha-conta" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ user.first_name }}
+              </span>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{% url 'site_loja:login' %}?next={{ request.path }}">Meu Perfil</a>
+                <a class="dropdown-item" href="{% url 'site_loja:sair' %}">Sair</a>
+              </div>
+            </div>
+            {% else %}
             <div class="dropdown">
               <span class="btn dropdown-toggle btn-minha-conta" type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -69,9 +83,10 @@
               </span>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{% url 'site_loja:login' %}">Entrar</a>
-                <a class="dropdown-item" href="{% url 'site_loja:login' %}">Cadastrar</a>
+                <a class="dropdown-item" href="{% url 'site_loja:create_count' %}">Cadastrar</a>
               </div>
             </div>
+            {% endif %}
           </ul>
         </div>
       </div>
@@ -101,70 +116,110 @@
       {% bs_icon 'whatsapp' size='1.5em' %}
     </a>
 
-    <!--Footer Desktop-->
-    <footer class="text-center text-lg-start desktop-footer">
+
+  <!-- Footer -->
+  <footer class="desktop-footer text-lg-start bg-white text-muted">
+    <!-- Section: Social media -->
+    <div class="container">
+      <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+        <!-- Left -->
+        <div class="me-5 d-none d-lg-block">
+          <span>Link das Redes Sociais:</span>
+        </div>
+        <!-- Left -->
+
+        <!-- Right -->
+        <div>
+          <a href="" class="me-4 text-reset letter-footer">
+            {% bs_icon 'facebook' extra_classes='icon-header' size='1.5em' %}
+          </a>
+          <a href="" class="me-4 text-reset letter-footer">
+            {% bs_icon 'twitter' extra_classes='icon-header' size='1.5em' %}
+          </a>
+          <a href="" class="me-4 text-reset letter-footer">
+            {% bs_icon 'whatsapp' extra_classes='icon-header' size='1.5em' %}
+          </a>
+          <a href="" class="me-4 text-reset letter-footer">
+            {% bs_icon 'instagram' extra_classes='icon-header' size='1.5em' %}
+          </a>
+          <a href="" class="me-4 text-reset letter-footer">
+            {% bs_icon 'linkedin' extra_classes='icon-header' size='1.5em' %}
+          </a>
+          <a href="" class="me-4 text-reset letter-footer">
+            {% bs_icon 'github' extra_classes='icon-header' size='1.5em' %}
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      <!-- Section: Social media -->
 
       <!-- Section: Links  -->
-      <div class="desktop-footer">
-        <div class="container text-center text-md-start mt-5">
+      <section class="">
+        <div class="container text-md-start mt-5">
           <!-- Grid row -->
-          <div class="row">
+          <div class="row mt-3">
             <!-- Grid column -->
-            <div class="col-md-3 col-lg-4 col-xl-3 colunas-footer letter-colunas">
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
               <!-- Content -->
-              <h6 class="fw-bold mb-4">
-                <i class="fas fa-gem me-3 text-secondary"></i>Company name
+              <h6 class="text-uppercase fw-bold mb-4">
+                <i class="fas fa-gem me-3 letter-footer"></i>Cremonese LTDA
               </h6>
+              <p class="letter-footer">{% bs_icon 'house-fill' extra_classes='me-3' %} New York, NY 10012, US</p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4 letter-footer">
+                Produtos
+              </h6>
+              <p>
+                <a href="#!" class="letter-footer">Novidades</a>
+              </p>
+              <p>
+                <a href="#!" class="letter-footer">Ofertas</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4 letter-footer">
+                Links 
+              </h6>
+              <p>
+                <a href="#!" class="letter-footer">Todos Produtos</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold mb-4 letter-footer">Contato</h6>
               <p class="letter-footer">
-                Here you can use rows and columns to organize your footer content. Lorem ipsum
-                dolor sit amet, consectetur adipisicing elit.
+                {% bs_icon 'envelope-fill' extra_classes='me-3 text-secondary letter-footer' %}
+                info@example.com
               </p>
-            </div>
-            <!-- Grid column -->
-
-            <!-- Grid column -->
-            <div class="col-md-2 col-lg-2 col-xl-2 colunas-footer letter-colunas">
-              <!-- Links -->
-              <h6 class="fw-bold mb-4">
-                Categorias
-              </h6>
-              <p>
-                <a href="#!" class="letter-footer">Teste 1</a>
-              </p>
-              <p>
-                <a href="#!" class="letter-footer">Teste 2</a>
-              </p>
-              <p>
-                <a href="#!" class="letter-footer">Teste 3</a>
-              </p>
-              <p>
-                <a href="#!" class="letter-footer">Teste 4</a>
-              </p>
-            </div>
-
-            <!-- Grid column -->
-            <div class="col-md-4 col-lg-3 col-xl-3 mb-md-0 colunas-footer letter-colunas">
-              <!-- Links -->
-              <h6 class="fw-bold mb-4">Redes Sociais</h6>
-              <a href="#" class="nav-link-footer">
-                {% bs_icon 'facebook' extra_classes='icon-header' %}
-              </a>
-              <a href="#" class="nav-link-footer"> {% bs_icon 'instagram' extra_classes='icon-header' %} </a>
+              <p class="letter-footer">{% bs_icon 'phone-fill' extra_classes='me-3 text-secondary letter-footer' %} + 01 234 567 88</p>
             </div>
             <!-- Grid column -->
           </div>
           <!-- Grid row -->
         </div>
-          <!-- Copyright -->
-          <div class="copy-footer">
-            © 2022 Copyright:
-            <h8 class="text-reset fw-bold">HDV</h8>
-          </div>
-        <!-- Copyright -->
-      </div>
+      </section>
       <!-- Section: Links  -->
-    </footer>
-<!-- Footer -->
+
+      <!-- Copyright -->
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
+        © 2021 Copyright: Cremonese LTDA | Desenvolvido com {% bs_icon 'heart-fill' extra_classes='icon-color-heart' %} por HDV
+      </div>
+      <!-- Copyright -->
+      </div>
+  </footer>
+  <!-- Footer -->
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

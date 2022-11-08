@@ -45,7 +45,7 @@ $('#carousel2').owlCarousel({
   autoplayTimeout: 6000,
   autoplayHoverPause: false,
   stagePadding: 0,
-  smartSpeed: 2000,
+  smartSpeed: 4000,
   responsiveClass: true,
   responsive: {
     0: {
@@ -69,7 +69,7 @@ $('#carousel3').owlCarousel({
   autoplayTimeout: 6000,
   autoplayHoverPause: false,
   stagePadding: 0,
-  smartSpeed: 2000,
+  smartSpeed: 4000,
   responsiveClass: true,
   responsive: {
     0: {
@@ -132,3 +132,20 @@ $('#carousel_detalhes').owlCarousel({
     }
   }
 })
+
+$(document).on('click', '.display-count button', function () {
+  var btn = $(this),
+      oldValue = btn.closest('.display-count').find('input').val().trim(),
+      newVal = 0;
+  if (btn.attr('data-dir') == 'up') {
+      newVal = parseInt(oldValue) + 1;
+  } else {
+      if (oldValue > 1) {
+          newVal = parseInt(oldValue) - 1;
+      } else {
+          newVal = 0;
+      }
+  }
+  btn.closest('.display-count').find('input').val(newVal);
+  Calculator();
+});

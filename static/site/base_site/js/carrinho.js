@@ -1,4 +1,5 @@
 function AddCarrinho(id, produto, imagem, qtd, valor, posicao) {
+    console.log(qtd);
     event.preventDefault();
     localStorage.setItem("id" + posicao, id);
     localStorage.setItem("produto" + posicao, produto);
@@ -20,13 +21,55 @@ function AddCarrinho(id, produto, imagem, qtd, valor, posicao) {
         });
 }
 
+function deleteItemCarrinho(i){
+    swal({
+        title: "OPS!",
+        text: "Você realmente deseja remover este item do carrinho?",
+        icon: "warning",
+        button: "OK",
+    })
+
+    .then((willSucess) => {
+        if (willSucess) {
+            localStorage.removeItem("id" + i);
+            localStorage.removeItem("imagem" + i)
+            localStorage.removeItem("qtd" + i) + " x ";
+            localStorage.removeItem("produto" + i);
+            localStorage.removeItem("valor" + i);
+            location.reload();
+        }
+    });
+}
+
+function clearCarrinho() {
+    swal({
+        title: "OPS!",
+        text: "Você realmente deseja apagar todo o carrinho?",
+        icon: "warning",
+        button: "OK",
+    })
+
+    .then((willSucess) => {
+        if (willSucess) {
+            for (i = 1; i <= 4; i++) // verifica até 3 produtos registrados na localStorage
+            {
+                var prod = localStorage.getItem("produto" + i + ""); // verifica se há produto nesta posição. 
+                if (prod != null) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            }
+        }
+    });
+}
+
 var count = 0; // variável que retorna o total dos produtos que estão na LocalStorage.
 var i = 0;     // variável que irá percorrer as posições
 var valor = 0; // variável que irá receber o preço do produto convertido em Float.
 
 for (i = 1; i <= 4; i++) // verifica até 3 produtos registrados na localStorage
 {
-    var prod = localStorage.getItem("produto" + i + ""); // verifica se há recheio nesta posição. 
+    var prod = localStorage.getItem("produto" + i + ""); // verifica se há produto nesta posição. 
     if (prod != null) {
         // exibe os dados da lista dentro da div itens
         id = localStorage.getItem("id" + i);
@@ -44,6 +87,7 @@ for (i = 1; i <= 4; i++) // verifica até 3 produtos registrados na localStorage
             + '<div class="col-md-8">'
             + '<div style="margin-top: 12px;"><span style="font-size: 12px; color: green; margin-right: 12px;" id="valor-carrinho">' + valor + '</span> <span style="font-size: 12px; color: darkgrey;" id="nome-carrinho">' + produto + '</span></div>'
             + '</div>'
+            + '<button class="remove-item-carrinho" type="button" onclick="deleteItemCarrinho('+ i +')">X</button>'
             + '</div>';
         count++;
     }

@@ -72,7 +72,10 @@ def create_produto(request):
             categoria = request.POST.get('categoria_produto')
 
             valor_formatado = valor.replace("R$:","").replace(".", "").replace(",", ".")
-            valor_formatado_desconto = desconto.replace("R$:","").replace(".", "").replace(",", ".")
+            if desconto is not None and desconto != "":
+                valor_formatado_desconto = desconto.replace("R$:","").replace(".", "").replace(",", ".")
+            else:
+                valor_formatado_desconto = None
 
             produto = Produto (
                 nome = nome,
@@ -109,11 +112,10 @@ def create_produto(request):
             )
 
             messages.success(request, "Produto cadastrado com sucesso!")
-            return redirect(f'/admin/produto/')
+            return redirect('/admin/produto/')
         except Exception as e:
-            print(e)
             messages.error(request, "Produto não cadastrado algum erro inesperado!")
-            return redirect(f'/admin/create_produto/')
+            return redirect('/admin/create_produto/')
 
 @login_required(login_url="/admin")
 @permission_required('produto.change_produto')
@@ -138,7 +140,10 @@ def edit_produto(request, id):
             categoria = request.POST.get('categoria_produto')
 
             valor_formatado = valor.replace("R$:","").replace(".", "").replace(",", ".")
-            valor_formatado_desconto = desconto.replace("R$:","").replace(".", "").replace(",", ".")
+            if desconto is not None and desconto != "":
+                valor_formatado_desconto = desconto.replace("R$:","").replace(".", "").replace(",", ".")
+            else:
+                valor_formatado_desconto = None
 
             if image == None:
                 item.imagem_principal = item.imagem_principal
@@ -179,7 +184,7 @@ def edit_produto(request, id):
             )
 
             messages.success(request, "Produto editado com sucesso!")
-            return redirect(f'/admin/produto/')
+            return redirect('/admin/produto/')
         except Exception as e:
             messages.error(request, "Produto não editado algum erro inesperado!")
             return redirect(f'/admin/edit_produto/{id}')
@@ -195,7 +200,7 @@ def delete_produto(request, id):
 
         item.delete()     
         messages.success(request, "Produto deletado com sucesso!")
-        return redirect(f'/admin/produto/')
+        return redirect('/admin/produto/')
 
 @login_required(login_url="/admin")
 @permission_required('produto.delete_produto')

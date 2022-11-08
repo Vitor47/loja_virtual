@@ -54,6 +54,7 @@
       </div>
 </section>
 
+{% if categorias_produtos.count > 0 %}
 <section style="margin-top: 42px;">
     <div class="container">
         <h2 class="title-page">Categorias</h2>
@@ -62,7 +63,7 @@
             <div id="carousel1" class="owl-carousel owl-theme">
                 {% for categoria_produto in categorias_produtos %}
                 <div class="item">
-                    <a href="{% url 'site_loja:produtos' %}">
+                    <a href="{% url 'site_loja:categoria_produto' categoria_produto.slug %}">
                         <div class="box-category">
                             <span class="icon-category"><i style="font-size: 2em;" class="{{categoria_produto.icone}}"></i></span>
                             <p>{{categoria_produto.nome}}</p>
@@ -75,7 +76,7 @@
             <div class="display-category">
             {% for categoria_produto in categorias_produtos %}
                 <div class="item" style="margin-right: 12px;">
-                    <a href="{% url 'site_loja:produtos' %}">
+                    <a href="{% url 'site_loja:categoria_produto' categoria_produto.slug %}">
                         <div class="box-category">
                             <span class="icon-category"><i style="font-size: 2em;" class="{{categoria_produto.icone}}"></i></span>
                             <p>{{categoria_produto.nome}}</p>
@@ -87,32 +88,109 @@
             {% endif %}
         </div>
 </section>
+{% endif %}
 
-{% if ofertas.count > 0 %}
+{% if tamanho_array_oferta > 0 %}
 <section class="margin-top">
     <div class="main-oferta">
         <h2 class="title-page-oferta">Ofertas {% bs_icon 'tag' %}</h2>
-        {% if ofertas.count > 4 %}
+        {% if tamanho_array_oferta > 4 %}
         <div id="carousel2" class="owl-carousel owl-theme">
             {% for oferta in ofertas %}
-            <div id="passar_mouse" class="item"><img class="img-fluid"src="/media/{{oferta.imagem_principal}}">
-                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" id="btn-comprar-home" onclick="AddCarrinho('{{oferta.id}}' ,'{{oferta.nome}}', '{{oferta.imagem_principal}}', '1', '{{oferta.valor}}', '{{ forloop.counter }}')"> Comprar </button>
-                <p class="p-card">{{oferta.nome}}</p>
-                <p class="p-value">R$ <span class="value">{{oferta.valor}}</span></p>
-            </div>
+                <div id="passar_mouse" class="item">
+                    <a href="{% url 'site_loja:detalhes_produto' %}">
+                        <img class="img-fluid" src="/media/{{oferta.imagem_principal}}">
+                        <p class="p-card">{{oferta.nome}}</p>
+                        {% if oferta.valor_com_desconto == None %}
+                        <p class="p-value">R$ <span class="value">{{oferta.valor_inicial}}</span></p>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price-old">R$ {{oferta.valor_inicial}}</span>
+                                <p class="p-value-descont">R$ <span class="value">{{oferta.valor_com_desconto}}</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="percent-discount">{{oferta.percent_desconto|floatformat:2}}% desconto</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </a>
+
+                    <div class="row" id="comprar-home">
+                        <div class="col-md-4">
+                            <div class="display-count">
+                                <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{oferta.id}}" id="calculator_{{oferta.id}}" value="1">
+            
+                                <div class="display-count-button" role="group" aria-label="plus-minus">
+                                    <button type="button" class="btn-count" data-dir="up" id="up">
+                                        +
+                                    </button>
+                                    <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                        -
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            {% if oferta.valor_com_desconto == None %}
+                            <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{oferta.id}}' ,'{{oferta.nome}}', '{{oferta.imagem_principal}}', document.querySelector('#calculator_{{oferta.id}}').value, '{{oferta.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                            {% else %}
+                            <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{oferta.id}}' ,'{{oferta.nome}}', '{{oferta.imagem_principal}}', document.querySelector('#calculator_{{oferta.id}}').value, '{{oferta.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         </div>
         {% else %}
         <div class="row">
             {% for oferta in ofertas %}
             <div class="col-md-3 col-xs-12 margin-bottom margin-item-mobile">
-                <a href="{% url 'site_loja:detalhes_produto' %}">
-                    <div id="passar_mouse" class="item"><img class="img-fluid" src="/media/{{oferta.imagem_principal}}">
-                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" id="btn-comprar-home" onclick="AddCarrinho('{{oferta.id}}' ,'{{oferta.nome}}', '{{oferta.imagem_principal}}', '1', '{{oferta.valor}}', '{{ forloop.counter }}')"> Comprar </button>
+                <div id="passar_mouse" class="item">
+                    <a href="{% url 'site_loja:detalhes_produto' %}">
+                        <img class="img-fluid" src="/media/{{oferta.imagem_principal}}">
                         <p class="p-card">{{oferta.nome}}</p>
-                        <p class="p-value">R$ <span class="value">{{oferta.valor}}</span></p>
+                        {% if oferta.valor_com_desconto == None %}
+                        <p class="p-value">R$ <span class="value">{{oferta.valor_inicial}}</span></p>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price-old">R$ {{oferta.valor_inicial}}</span>
+                                <p class="p-value-descont">R$ <span class="value">{{oferta.valor_com_desconto}}</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="percent-discount">{{oferta.percent_desconto|floatformat:2}}% desconto</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </a>
+
+                    <div class="row" id="comprar-home">
+                        <div class="col-md-4">
+                            <div class="display-count">
+                                <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{oferta.id}}" id="calculator_{{oferta.id}}" value="1">
+            
+                                <div class="display-count-button" role="group" aria-label="plus-minus">
+                                    <button type="button" class="btn-count" data-dir="up" id="up">
+                                        +
+                                    </button>
+                                    <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                        -
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            {% if oferta.valor_com_desconto == None %}
+                            <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{oferta.id}}' ,'{{oferta.nome}}', '{{oferta.imagem_principal}}', document.querySelector('#calculator_{{oferta.id}}').value, '{{oferta.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                            {% else %}
+                            <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{oferta.id}}' ,'{{oferta.nome}}', '{{oferta.imagem_principal}}', document.querySelector('#calculator_{{oferta.id}}').value, '{{oferta.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                            {% endif %}
+                        </div>
                     </div>
-                </a>
+                </div>
             </div>
             {% endfor %}
         </div>
@@ -121,34 +199,107 @@
 </section>
 {% endif %}
 
-{% if novidades.count > 0 %}
+{% if tamanho_array_novidade > 0 %}
 <section class="margin-top-novidades">
     <div class="container">
         <h2 class="title-page">Novidades</h2>
-        {% if novidades.count > 4 %}
-        <div id="carousel3" class="owl-carousel owl-theme">
+        {% if tamanho_array_novidade > 4 %}
+        <div id="carousel2" class="owl-carousel owl-theme">
             {% for novidade in novidades %}
-            <a href="{% url 'site_loja:detalhes_produto' %}">
-                <div id="passar_mouse" class="item"><img class="img-fluid" src="/media/{{produto.imagem_principal}}">
-                    <button class="btn btn-comprar-home ml-auto mr-auto" type="button" id="btn-comprar-home" onclick="AddCarrinho('{{oferta.id}}' ,'{{oferta.nome}}', '{{oferta.imagem_principal}}', '1', '{{oferta.valor}}', '{{ forloop.counter }}')"> Comprar </button>
-                    <p class="p-card">{{novidade.nome}}</p>
-                    <p class="p-value">R$ <span class="value">{{novidade.valor}}</span></p>
+                <div id="passar_mouse" class="item">
+                    <a href="{% url 'site_loja:detalhes_produto' %}">
+                        <img class="img-fluid" src="/media/{{novidade.imagem_principal}}">
+                        <p class="p-card">{{novidade.nome}}</p>
+                        {% if novidade.valor_com_desconto == None %}
+                        <p class="p-value">R$ <span class="value">{{novidade.valor_inicial}}</span></p>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price-old">R$ {{novidade.valor_inicial}}</span>
+                                <p class="p-value-descont">R$ <span class="value">{{novidade.valor_com_desconto}}</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="percent-discount">{{novidade.percent_desconto|floatformat:2}}% desconto</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </a>
+
+                    <div class="row" id="comprar-home">
+                        <div class="col-md-4">
+                            <div class="display-count">
+                                <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{novidade.id}}" id="calculator_{{novidade.id}}" value="1">
+            
+                                <div class="display-count-button" role="group" aria-label="plus-minus">
+                                    <button type="button" class="btn-count" data-dir="up" id="up">
+                                        +
+                                    </button>
+                                    <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                        -
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            {% if novidade.valor_com_desconto == None %}
+                            <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{novidade.id}}' ,'{{novidade.nome}}', '{{novidade.imagem_principal}}', document.querySelector('#calculator_{{novidade.id}}').value, '{{novidade.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                            {% else %}
+                            <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{novidade.id}}' ,'{{novidade.nome}}', '{{novidade.imagem_principal}}', document.querySelector('#calculator_{{novidade.id}}').value, '{{novidade.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-            </a>
             {% endfor %}
         </div>
         {% else %}
         <div class="row">
             {% for novidade in novidades %}
-            <div class="col-md-3 margin-bottom margin-item-mobile">
-                <a href="{% url 'site_loja:detalhes_produto' %}">
-                    <div id="passar_mouse" class="item"><img height="280" class="img-fluid"
-                            src="/media/{{novidade.imagem_principal}}">
-                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" id="btn-comprar-home" onclick="AddCarrinho('{{oferta.id}}' ,'{{oferta.nome}}', '{{oferta.imagem_principal}}', '1', '{{oferta.valor}}', '{{ forloop.counter }}')"> Comprar </button>
+            <div class="col-md-3 col-xs-12 margin-bottom margin-item-mobile">
+                <div id="passar_mouse" class="item">
+                    <a href="{% url 'site_loja:detalhes_produto' %}">
+                        <img class="img-fluid" src="/media/{{novidade.imagem_principal}}">
                         <p class="p-card">{{novidade.nome}}</p>
-                        <p class="p-value">R$ <span class="value">{{novidade.valor}}</span></p>
+                        {% if novidade.valor_com_desconto == None %}
+                        <p class="p-value">R$ <span class="value">{{novidade.valor_inicial}}</span></p>
+                        {% else %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <span class="price-old">R$ {{novidade.valor_inicial}}</span>
+                                <p class="p-value-descont">R$ <span class="value">{{novidade.valor_com_desconto}}</span></p>
+                            </div>
+                            <div class="col-md-6">
+                                <span class="percent-discount">{{novidade.percent_desconto|floatformat:2}}% desconto</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </a>
+
+                    <div class="row" id="comprar-home">
+                        <div class="col-md-4">
+                            <div class="display-count">
+                                <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{novidade.id}}" id="calculator_{{novidade.id}}" value="1">
+            
+                                <div class="display-count-button" role="group" aria-label="plus-minus">
+                                    <button type="button" class="btn-count" data-dir="up" id="up">
+                                        +
+                                    </button>
+                                    <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                        -
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-8">
+                            {% if novidade.valor_com_desconto == None %}
+                            <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{novidade.id}}' ,'{{novidade.nome}}', '{{novidade.imagem_principal}}', document.querySelector('#calculator_{{novidade.id}}').value, '{{novidade.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                            {% else %}
+                            <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{novidade.id}}' ,'{{novidade.nome}}', '{{novidade.imagem_principal}}', document.querySelector('#calculator_{{novidade.id}}').value, '{{novidade.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                            {% endif %}
+                        </div>
                     </div>
-                </a>
+                </div>
             </div>
             {% endfor %}
         </div>

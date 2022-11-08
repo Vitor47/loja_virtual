@@ -1,0 +1,98 @@
+{% extends 'site\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+{% load widget_tweaks %}
+
+{% block 'title' %}Criar Conta{% endblock %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
+{% endblock %}
+
+{% block 'main' %}
+
+<section class="margin-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mr-auto ml-auto box-conta">
+                <h2 class="title-login">Criar Conta</h2>
+                <div class="display-item-login">
+                    <form action="{% url 'site_loja:create_count' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Nome" name="nome-create-conta" id="nome-create-conta" required />
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Telefone" name="telefone-create-conta" id="telefone-create-conta" required />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" placeholder="Endereço de e-mail" name="email-create-conta" id="email-create-conta" required />
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Cpf/Cnpj" name="cpfcnpj-create-conta" id="cpfcnpj-create-conta" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Data de nascimento" name="data-create-conta" id="data-create-conta" required />
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="cep" id="cep" value="" size="10" maxlength="8"
+                                placeholder="Cep" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="estado" id="uf" size="2" placeholder="Estado"
+                                    required />
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="cidade" id="cidade" size="40"
+                                placeholder="Cidade" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="bairro" id="bairro" size="40"
+                                    placeholder="Bairro" />
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="logradouro" id="rua" size="60"
+                                placeholder="Logradouro" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" name="nr-casa" id="nr-casa-create-conta" placeholder="Nº Casa">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="password" class="form-control" placeholder="Senha" name="senha-create-conta" id="senha-create-conta" minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();" required />
+                                <span id="password-status"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <button class="btn mr-auto ml-auto btn-create-count" type="submit">Criar Conta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'site\footer_mobile\footer_home.html' %}
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.js' %}"></script>
+<script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.min.js' %}"></script>
+<script src="{% static 'site/base_site/js/create_conta.js' %}"></script>
+{% endblock %}
