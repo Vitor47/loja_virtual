@@ -53,7 +53,7 @@
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
                     <h2 class="title-page-product">Buscar</h2>
                     <hr>
-                    <form method="GET" action=" {% url 'site_loja:produtos' %} ">
+                    <form method="GET" action="{% url 'site_loja:produtos' %}">
                         <div id="divBusca">
                             <input type="text" id="txtBusca" name="produtos_name" placeholder="Buscar..." />
                             <button type="submit" id="btnBusca">{% bs_icon 'search' %}</button>
@@ -70,7 +70,11 @@
                             {% for categoria in categorias %}
                             <li class="nav-item">
                                 <a class="nav-link link-dark">
+                                    {% if categoria.marcado == True %}
+                                    <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug[]" id="categoria_slug" multiple checked> {{categoria.nome}}
+                                    {% else %}
                                     <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug[]" id="categoria_slug" multiple> {{categoria.nome}}
+                                    {% endif %}
                                 </a>
                             </li>
                             {% endfor %}
@@ -90,13 +94,21 @@
                         <ul class="nav nav-pills flex-column mb-auto">
                             <li class="nav-item">
                                 <a class="nav-link link-dark">
+                                    {% if valor == "maior_100" %}
+                                    <input type="radio" value="maior_100" name="valor" id="valor" checked> Maior que R$: 100 reais
+                                    {% else %}
                                     <input type="radio" value="maior_100" name="valor" id="valor"> Maior que R$: 100 reais
+                                    {% endif %}
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a class="nav-link link-dark">
+                                    {% if valor == "menor_100" %}
+                                    <input type="radio" value="menor_100" name="valor" id="valor" checked> Menor que R$: 100 reais
+                                    {% else %}
                                     <input type="radio" value="menor_100" name="valor" id="valor"> Menor que R$: 100 reais
+                                    {% endif %}
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -112,31 +124,54 @@
 
             <div class="col-md-8">
                 <div class="row margin-top">
-                    {% if produtos.object_list.count > 0 %}
-                        {% for produto in produtos.object_list %}
-                        <div class="col-md-4">
-                            <a href="{% url 'site_loja:detalhes_produto' %}">
-                                <div id="passar_mouse" class="item-products"><img class="img-fluid"
-                                        src="/media/{{produto.imagem_principal}}">
-                                    <button class="btn btn-comprar-home ml-auto mr-auto" type="button" id="btn-comprar-home" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', '1', '{{produto.valor}}', '{{ forloop.counter }}')"> Comprar </button>
-                                    <p class="p-card">{{produto.nome}}</p>
-                                    <p class="p-value">R$ <span class="value">{{produto.valor}}</span></p>
-                                </div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                    {% elif produtos %}
+                    {% if tamanho_array_products > 0 %}
                         {% for produto in produtos %}
-                            <div class="col-md-4">
+                        <div class="col-md-4 margin-bottom">
+                            <div id="passar_mouse" class="item">
                                 <a href="{% url 'site_loja:detalhes_produto' %}">
-                                    <div id="passar_mouse" class="item-products"><img class="img-fluid"
-                                            src="/media/{{produto.imagem_principal}}">
-                                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" id="btn-comprar-home" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', '1', '{{produto.valor}}', '{{ forloop.counter }}')"> Comprar </button>
-                                        <p class="p-card">{{produto.nome}}</p>
-                                        <p class="p-value">R$ <span class="value">{{produto.valor}}</span></p>
+                                    <img class="img-fluid" src="/media/{{produto.imagem_principal}}">
+                                    <p class="p-card">{{produto.nome}}</p>
+                                    {% if produto.valor_com_desconto == None %}
+                                    <p class="p-value">R$ <span class="value">{{produto.valor_inicial}}</span></p>
+                                    {% else %}
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <span class="price-old">R$ {{produto.valor_inicial}}</span>
+                                            <p class="p-value-descont">R$ <span class="value">{{produto.valor_com_desconto}}</span></p>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <span class="percent-discount">{{produto.percent_desconto|floatformat:2}}% desconto</span>
+                                        </div>
                                     </div>
+                                    {% endif %}
                                 </a>
+            
+                                <div class="row" id="comprar-home">
+                                    <div class="col-md-4">
+                                        <div class="display-count">
+                                            <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{produto.id}}" id="calculator_{{produto.id}}" value="1">
+                        
+                                            <div class="display-count-button" role="group" aria-label="plus-minus">
+                                                <button type="button" class="btn-count" data-dir="up" id="up">
+                                                    +
+                                                </button>
+                                                <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                                    -
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-8">
+                                        {% if produto.valor_com_desconto == None %}
+                                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                                        {% else %}
+                                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
+                        </div>
                         {% endfor %}
                     {% else %}
                     <p class="p-card">Nenhum produto encontrado!</p>

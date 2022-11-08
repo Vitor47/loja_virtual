@@ -174,6 +174,11 @@ body {
     animation-iteration-count: infinite;
 }
 
+.wa__btn_popup:hover {
+    background-color: #1da750;
+    color: #fff !important;
+}
+
 @keyframes pulse {
     0% {
         box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
@@ -291,6 +296,10 @@ body {
 
 .p-card {
     text-align: center;
+}
+
+.p-value-descont {
+    color: #1e7e34;
 }
 
 .p-value {
@@ -455,18 +464,36 @@ body {
 
 .btn-login {
     color: white;
-    width: 100%;
+    display: block;
+    width: 50%;
     border: none;
     background-color: var(--dark-color);
     border-radius: 4px;
 }
 
+.btn-login:hover {
+    color: white;
+    background-color: var(--main-color);
+}
+
 .btn-create-count {
     color: white;
-    width: 98%;
+    display: block;
+    width: 50%;
     border: none;
     background-color: var(--dark-color);
     border-radius: 4px;
+}
+
+.btn-create-count:hover {
+    color: white;
+    background-color: var(--main-color);
+}
+
+.box-conta {
+    padding: 20px;
+    box-shadow: 0px 0px 20px 20px rgb(167 167 167 / 50%);
+    background: #fff;
 }
 
 @media screen and (max-width: 640px) {

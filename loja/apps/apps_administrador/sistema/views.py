@@ -147,7 +147,7 @@ def sair(request):
 @permission_required('user.view_user')
 def list_user(request):
     if request.method == "GET":
-        list_users = User.objects.all().order_by('-id')
+        list_users = User.objects.all().order_by('-id').exclude(is_superuser__gte=False, is_staff__gte=False)
         return render(request, "usuarios/index.html", {'users': list_users})
 
 @login_required(login_url="/admin")
@@ -384,7 +384,7 @@ def delete_grupo_acesso(request, id):
 @login_required(login_url="/admin")
 @permission_required('group.add_group')
 def add_users_group(request, id_group):
-    users = User.objects.exclude(is_superuser__gte=True).all().order_by('-id')
+    users = User.objects.exclude(is_superuser__gte=True, is_staff__gte=False).all().order_by('-id')
     grupo = Group.objects.get(id=id_group).order_by('-id')
     users_in_group = grupo.user_set.all().order_by('-id')
     marcado = False

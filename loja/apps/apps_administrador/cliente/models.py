@@ -1,15 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Cliente(models.Model):
     id = models.IntegerField(null=False, primary_key=True, auto_created=True),
-    nome = models.CharField(max_length=200, null=False, blank=False)
-    user = models.CharField(max_length=200, null=False, blank=False)
-    email = models.EmailField(max_length=200, null=False, blank=False)
     telefone = models.CharField(max_length=200, null=False, blank=False)
     cpf_cnpj = models.CharField(max_length=200, null=False, blank=False)
     data_nascimento = models.DateField(null=False)
-    senha = models.CharField(max_length=200, null=False, blank=False)
-
+    user_cliente = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     class Meta:
         db_table = "loja_cliente"
 
@@ -24,7 +21,7 @@ class Endereco(models.Model):
     bairro = models.CharField(max_length=200, null=True, blank=False)
     logradouro = models.CharField(max_length=200, null=True, blank=False)
     nr_casa = models.IntegerField(null=True, blank=False)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, null=False)
+    user_cliente = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     class Meta:
         db_table = "loja_cliente_endereco"
     

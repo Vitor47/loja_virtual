@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'loja.apps.apps_administrador.estoque',
     'loja.apps.site_loja',
     'django_bootstrap_icons',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -120,8 +121,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 
-DECIMAL_SEPARATOR = ','
-USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR='.',
+USE_THOUSAND_SEPARATOR=True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
