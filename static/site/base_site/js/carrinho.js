@@ -1,6 +1,8 @@
 function AddCarrinho(id, produto, imagem, qtd, valor, posicao) {
-    console.log(qtd);
     event.preventDefault();
+    valor = valor.toString().replace(",", ".");
+    valor = Number(valor * qtd).toFixed(2)
+    valor = valor.toString().replace(".", ",");
     localStorage.setItem("id" + posicao, id);
     localStorage.setItem("produto" + posicao, produto);
     localStorage.setItem("imagem" + posicao, imagem);
@@ -13,12 +15,12 @@ function AddCarrinho(id, produto, imagem, qtd, valor, posicao) {
         icon: "success",
         button: "OK",
     })
-
-        .then((willSucess) => {
-            if (willSucess) {
-                location.reload();
-            }
-        });
+    
+    .then((willSucess) => {
+        if (willSucess) {
+            location.reload();
+        }
+    });
 }
 
 function deleteItemCarrinho(i){
@@ -26,7 +28,7 @@ function deleteItemCarrinho(i){
         title: "OPS!",
         text: "Você realmente deseja remover este item do carrinho?",
         icon: "warning",
-        button: "OK",
+        buttons: true,
     })
 
     .then((willSucess) => {
@@ -46,7 +48,7 @@ function clearCarrinho() {
         title: "OPS!",
         text: "Você realmente deseja apagar todo o carrinho?",
         icon: "warning",
-        button: "OK",
+        buttons: true,
     })
 
     .then((willSucess) => {

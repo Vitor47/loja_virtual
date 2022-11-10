@@ -93,6 +93,23 @@ body {
     grid-template-columns: auto auto;
 }
 
+.display-item-rede-social-detail {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.display-calculator-frete {
+    margin-top: 12px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.col-input-frete {
+    max-width: 28%;
+    margin-right: 8px;
+}
+
 .item-products {
     border-radius: 12px;
     padding: 12px;
@@ -224,8 +241,8 @@ body {
     width: 158px;
     height: 50px;
     font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
+    font-weight: 600;
+    font-size: 24px;
     color: #fff;
     line-height: 2.2;
 }
@@ -234,8 +251,8 @@ body {
     width: 158px;
     height: 35px;
     font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
+    font-weight: 600;
+    font-size: 24px;
     line-height: 100%;
 }
 
@@ -251,7 +268,8 @@ body {
 
 .title-page-product {
     font-style: normal;
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: 600;
     margin-top: 8px;
     position: relative;
 }
@@ -259,9 +277,12 @@ body {
 .title-detail {
     height: 35px;
     font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
     line-height: 100%;
+    font-weight: 600;
+    display: inline-block;
+    position: relative;
+    padding-bottom: 20px;
+    font-size: 24px;
 }
 
 .sub-title-detail {

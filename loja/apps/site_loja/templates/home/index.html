@@ -98,8 +98,8 @@
         <div id="carousel2" class="owl-carousel owl-theme">
             {% for oferta in ofertas %}
                 <div id="passar_mouse" class="item">
-                    <a href="{% url 'site_loja:detalhes_produto' %}">
-                        <img class="img-fluid" src="/media/{{oferta.imagem_principal}}">
+                    <a href="{% url 'site_loja:detalhes_produto' oferta.slug %}">
+                        <img class="img-fluid" src="/media/{{oferta.imagem_principal}}" alt="{{oferta.nome}}">
                         <p class="p-card">{{oferta.nome}}</p>
                         {% if oferta.valor_com_desconto == None %}
                         <p class="p-value">R$ <span class="value">{{oferta.valor_inicial}}</span></p>
@@ -148,8 +148,8 @@
             {% for oferta in ofertas %}
             <div class="col-md-3 col-xs-12 margin-bottom margin-item-mobile">
                 <div id="passar_mouse" class="item">
-                    <a href="{% url 'site_loja:detalhes_produto' %}">
-                        <img class="img-fluid" src="/media/{{oferta.imagem_principal}}">
+                    <a href="{% url 'site_loja:detalhes_produto' oferta.slug %}">
+                        <img class="img-fluid" src="/media/{{oferta.imagem_principal}}" alt="{{oferta.nome}}">
                         <p class="p-card">{{oferta.nome}}</p>
                         {% if oferta.valor_com_desconto == None %}
                         <p class="p-value">R$ <span class="value">{{oferta.valor_inicial}}</span></p>
@@ -207,8 +207,8 @@
         <div id="carousel2" class="owl-carousel owl-theme">
             {% for novidade in novidades %}
                 <div id="passar_mouse" class="item">
-                    <a href="{% url 'site_loja:detalhes_produto' %}">
-                        <img class="img-fluid" src="/media/{{novidade.imagem_principal}}">
+                    <a href="{% url 'site_loja:detalhes_produto' novidade.slug %}">
+                        <img class="img-fluid" src="/media/{{novidade.imagem_principal}}" alt="{{novidade.nome}}">
                         <p class="p-card">{{novidade.nome}}</p>
                         {% if novidade.valor_com_desconto == None %}
                         <p class="p-value">R$ <span class="value">{{novidade.valor_inicial}}</span></p>
@@ -257,8 +257,8 @@
             {% for novidade in novidades %}
             <div class="col-md-3 col-xs-12 margin-bottom margin-item-mobile">
                 <div id="passar_mouse" class="item">
-                    <a href="{% url 'site_loja:detalhes_produto' %}">
-                        <img class="img-fluid" src="/media/{{novidade.imagem_principal}}">
+                    <a href="{% url 'site_loja:detalhes_produto' novidade.slug %}">
+                        <img class="img-fluid" src="/media/{{novidade.imagem_principal}}" alt="{{novidade.nome}}">
                         <p class="p-card">{{novidade.nome}}</p>
                         {% if novidade.valor_com_desconto == None %}
                         <p class="p-value">R$ <span class="value">{{novidade.valor_inicial}}</span></p>

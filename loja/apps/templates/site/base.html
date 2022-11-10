@@ -23,20 +23,21 @@
 <body>
     <!--Header Desktop-->
     <header class="desktop-header desktop-header-container desktop">
+      <div class="container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="logo-desktop">
             <a class="btn logo-cremonese-desktop" href="{% url 'site_loja:home' %}">
-              <img class="img-fluid" src="{% static 'images/logo/logo_sem_fundo_bold-header.png' %}" alt="Cremonese LTDA">
+              <img class="img-fluid" src="{% static 'images/logo/logo_sem_fundo_bold.png' %}" alt="Cremonese LTDA">
             </a>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
           <form action="{% url 'site_loja:produtos' %}" method="GET">
             <div class="main-search-desktop">
               <div class="form-group has-search">
                 <span class="icon-search-desktop">{% bs_icon 'search' %}</span>
-                <input type="text" class="input-search-desktop search-background-color" name="produtos_name" id="produtos_name" placeholder="O que você procura...">
+                <input style="background-color: black;" type="text" class="input-search-desktop" name="produtos_name" id="produtos_name" placeholder="O que você procura...">
               </div>
             </div>
           </form>
@@ -45,13 +46,13 @@
           <ul class="nav nav-pills icon-container-desktop">
             <li class="nav-item">
               <a href="#" class="nav-link" aria-current="page">
-                {% bs_icon 'heart' extra_classes='icon-header' size='2em' %}
+                {% bs_icon 'heart' extra_classes='icon-header' size='1.5em' %}
               </a>
             </li>
             <li class="nav-item">
               <div id="dropdown-carrinho">
                 <a href="#" class="nav-link">
-                  {% bs_icon 'cart' extra_classes='icon-header' size='2em' %}
+                  {% bs_icon 'cart' extra_classes='icon-header' size='1.5em' %}
                   <span id="total-carrinho" class="contador-carrinho">0</span>
                 </a>
                 <div class="card-carrinho">
@@ -90,6 +91,7 @@
           </ul>
         </div>
       </div>
+      <div>
     </header>
 
     <!--Header Mobile-->
@@ -211,24 +213,24 @@
         </div>
       </section>
       <!-- Section: Links  -->
-
+      </div>
       <!-- Copyright -->
-      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
+      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 20%);">
         © 2021 Copyright: Cremonese LTDA | Desenvolvido com {% bs_icon 'heart-fill' extra_classes='icon-color-heart' %} por HDV
       </div>
       <!-- Copyright -->
-      </div>
+
   </footer>
   <!-- Footer -->
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
-    <script src="{% static 'vendor/OwlCarousel/dist/owl.carousel.js' %}"></script>
-    <script src="{% static 'vendor/OwlCarousel/dist/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'site/base_site/js/funcoes.js' %}"></script>
-    <script src="{% static 'site/base_site/js/carrinho.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'vendor/OwlCarousel/dist/owl.carousel.js' %}" type="text/javascript"></script>
+    <script src="{% static 'vendor/OwlCarousel/dist/owl.carousel.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'site/base_site/js/funcoes.js' %}" type="text/javascript"></script>
+    <script src="{% static 'site/base_site/js/carrinho.js' %}" type="text/javascript"></script>
     {% block 'body' %}
     {% endblock %}
 

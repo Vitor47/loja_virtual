@@ -58,15 +58,20 @@ ul li {
 .input-search-desktop{
     display: block;
     width: 100%;
-    height: calc(2.0em + 0.75rem + 2px);
+    height: calc(2em + 0.75rem + 2px);
     padding: 0.375rem 0.75rem;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    color: var(--letter-color-light);
+    background: rgba(205, 205, 205, 0.7) !important;
+}
+
+.input-search-desktop::placeholder {
+    color: var(--letter-color-light);
 }
 
 .icon-search-desktop{
@@ -86,7 +91,7 @@ ul li {
 }
 
 .icon-container-desktop{
-    margin-top: 25px;
+    margin-top: 28px;
     margin-right: 30px;
 }
 
@@ -105,8 +110,10 @@ ul li {
 
 .btn-minha-conta {
     color: var(--letter-color-light);
-    margin-top: 7px;
+    margin-top: 4px;
     font-size: 16px;
+    position: fixed;
+    margin-left: 12px;
 }
 
 .btn-minha-conta:hover {
@@ -114,11 +121,13 @@ ul li {
 }
 
 #comprar-home {
-    display: none;
+    transition: opacity 1s ease-out;
+    opacity: 0;
+    overflow: hidden;
 }
 
 #passar_mouse:hover #comprar-home {
-    display: flex;
+    opacity: 1;
 }
 
 .btn-comprar-home {
@@ -148,6 +157,8 @@ ul li {
     border-radius: 20px;
     padding: 3px 8px;
     font-weight: 600;
+    display: block;
+    text-align: center;
 }
 
 #divBusca{
@@ -195,10 +206,6 @@ ul li {
 
   .container-carrinho {
     margin: 8px;
-  }
-
-  #itens-carrinho {
-    overflow: auto;
   }
 
   #image-carrinho {
