@@ -128,18 +128,18 @@
                         {% for produto in produtos %}
                         <div class="col-md-4 margin-bottom">
                             <div id="passar_mouse" class="item">
-                                <a href="{% url 'site_loja:detalhes_produto' %}">
-                                    <img class="img-fluid" src="/media/{{produto.imagem_principal}}">
+                                <a href="{% url 'site_loja:detalhes_produto' produto.slug %}">
+                                    <img class="img-fluid" src="/media/{{produto.imagem_principal}}" alt="{{produto.nome}}">
                                     <p class="p-card">{{produto.nome}}</p>
                                     {% if produto.valor_com_desconto == None %}
                                     <p class="p-value">R$ <span class="value">{{produto.valor_inicial}}</span></p>
                                     {% else %}
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <span class="price-old">R$ {{produto.valor_inicial}}</span>
                                             <p class="p-value-descont">R$ <span class="value">{{produto.valor_com_desconto}}</span></p>
                                         </div>
-                                        <div class="col-md-8">
+                                        <div class="col-md-6">
                                             <span class="percent-discount">{{produto.percent_desconto|floatformat:2}}% desconto</span>
                                         </div>
                                     </div>

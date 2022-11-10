@@ -147,5 +147,4 @@ $(document).on('click', '.display-count button', function () {
       }
   }
   btn.closest('.display-count').find('input').val(newVal);
-  Calculator();
 });

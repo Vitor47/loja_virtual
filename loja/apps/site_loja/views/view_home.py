@@ -16,8 +16,7 @@ def home(request):
         for oferta in ofertas:
             if oferta.desconto is not None and oferta.desconto != "":
                 valor_com_desconto = oferta.valor - oferta.desconto
-                desconto = oferta.desconto / 100
-                percent_descont = oferta.valor * desconto
+                percent_descont = 100 - ((float(valor_com_desconto) * 100) // float(oferta.valor))
             else:
                 valor_com_desconto = None
                 percent_descont = None
@@ -28,7 +27,8 @@ def home(request):
                 'imagem_principal': oferta.imagem_principal,
                 'valor_inicial': oferta.valor,
                 'valor_com_desconto': valor_com_desconto,
-                'percent_desconto': percent_descont
+                'percent_desconto': percent_descont,
+                'slug': oferta.slug
             }
             offers.append(oferta)
 
@@ -36,8 +36,7 @@ def home(request):
         for novidade in novidades:
             if novidade.desconto is not None and novidade.desconto != "":
                 valor_com_desconto = novidade.valor - novidade.desconto
-                desconto = novidade.desconto / 100
-                percent_descont = novidade.valor * desconto
+                percent_descont = 100 - ((float(valor_com_desconto) * 100) // float(novidade.valor))
             else:
                 valor_com_desconto = None
                 percent_descont = None
@@ -48,7 +47,8 @@ def home(request):
                 'imagem_principal': novidade.imagem_principal,
                 'valor_inicial': novidade.valor,
                 'valor_com_desconto': valor_com_desconto,
-                'percent_desconto': percent_descont
+                'percent_desconto': percent_descont,
+                'slug': novidade.slug
             }
             news.append(novidade)
 
