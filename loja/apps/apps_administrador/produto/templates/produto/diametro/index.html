@@ -2,44 +2,34 @@
 {% load static %}
 {% load bootstrap_icons %}
 
-{% block 'title' %}Produtos{% endblock %}
+{% block 'title' %}Produtos Diametros{% endblock %}
 
 {% block 'head' %}
 {% endblock %}
 
 {% block 'title-page' %}
-Lista de Produtos Cadastrados
+Produtos Diametros Cadastrados
 {% endblock %}
 
 {% block 'dashboard' %}
 <div class="container">
-    <div class="mt-4 mb-4">
-        <h2>Lista de Produtos Cadastrados </h2>
+    <div class="margin-top margin-bottom">
+        <h2>Produtos Diametros Cadastrados </h2>
     </div>
 
-    <div class="margin mb-4">
+    <div class="margin margin-top margin-bottom">
         <div class="row">
             {% if perms.produto.add_produto %}
-            <div class="col-md-8 mb-2">
+            <div class="col-md-8 margin-bottom">
                 <a href="{% url 'apps_administrador.produto:create_produto' %}" class="btn btn-success">{% bs_icon 'basket' %}
                     Cadastrar Produto</a>
             </div>
             {% endif %}
-            <div class="col-md-4">
-                <form method="GET" action=" {% url 'apps_administrador.produto:search_produto' %} ">
-                    <div class="form-group input-group">
-                        <input name="pesquisar_por_nome" id="pesquisar_por_nome" placeholder="Consultar por Nome"
-                            type="text" class="form-control">
-                        <button type="submit" class="btn-search">
-                            <span>{% bs_icon 'search' size='1.5em' %}</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
+            <div class="col-md-4"></div>
         </div>
     </div>
 
-    <table class="table table-hover container-box-admin mb-4">
+    <table class="table table-hover">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
@@ -59,12 +49,6 @@ Lista de Produtos Cadastrados
                 <td data-label="Nome" >{{ item.nome }}</td>
                 <td data-label="Valor">{{ item.valor }}</td>
                 <td data-label="Quantidade">{{ item.quantidade }}</td>
-                <td data-label="Imagem Principal"><img src="/media/{{ item.imagem_principal }}" style="width: 80px"></td>
-                {% if item.status == True %}
-                <td data-label="Status"><span style="cursor: context-menu;" class="btn btn-success">Ativo</span></td>
-                {% else %}
-                <td data-label="Status"><span style="cursor: context-menu;" class="btn btn-danger">Inativo</span></td>
-                {% endif %}
                 <td data-label="Ações">
                     <form method="GET" action=" {% url 'apps_administrador.produto:delete_produto' item.id %} ">
                         {% if perms.produto.change_produto %}
@@ -84,7 +68,7 @@ Lista de Produtos Cadastrados
         </tbody>
     </table>
 
-    <div class="pagination mb-4">
+    <div class="pagination">
         <span class="step-links">
             {% if produtos.has_previous %}
             <a class="btn-left" href="?page={{ produtos.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>

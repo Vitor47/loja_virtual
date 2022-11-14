@@ -3,14 +3,7 @@ import re
 from xml.dom import minidom
 import time
 
-'''try:
-    from bs4 import BeautifulSoup
-except ImportError:
-    raise Exception('Você não tem o modulo BeautifulSoup', ImportError)'''
-
-
 class Correios(object):
-
     PAC = 41106
     SEDEX = 40010
     SEDEX_10 = 40215

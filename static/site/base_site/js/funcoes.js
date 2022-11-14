@@ -18,10 +18,10 @@ $('#carousel1').owlCarousel({
   nav: false,
   dots: false,
   autoplay: true,
-  autoplayTimeout: 6000,
+  autoplayTimeout: 9000,
   autoplayHoverPause: false,
   stagePadding: 0,
-  smartSpeed: 2000,
+  smartSpeed: 4000,
   responsiveClass: true,
   responsive: {
     0: {
@@ -42,17 +42,20 @@ $('#carousel2').owlCarousel({
   nav: false,
   dots: true,
   autoplay: true,
-  autoplayTimeout: 6000,
+  autoplayTimeout: 9000,
   autoplayHoverPause: false,
   stagePadding: 0,
-  smartSpeed: 4000,
+  smartSpeed: 6000,
   responsiveClass: true,
   responsive: {
     0: {
-      items: 2
+      items: 1.3
     },
     600: {
-      items: 3
+      items: 2
+    },
+    800: {
+      items: 2.5
     },
     1000: {
       items: 4
@@ -66,10 +69,10 @@ $('#carousel3').owlCarousel({
   nav: false,
   dots: true,
   autoplay: true,
-  autoplayTimeout: 6000,
+  autoplayTimeout: 9000,
   autoplayHoverPause: false,
   stagePadding: 0,
-  smartSpeed: 4000,
+  smartSpeed: 6000,
   responsiveClass: true,
   responsive: {
     0: {

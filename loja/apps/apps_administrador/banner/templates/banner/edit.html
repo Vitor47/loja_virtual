@@ -6,14 +6,11 @@
 {% block 'head' %}
 {% endblock %}
 
-{% block 'title-page' %}
-Editar Banner
-{% endblock %}
-
 {% block 'dashboard' %}
 <div class="container">
-    <div class="adicionar-cliente">
-        <form class="margin-top" action="{% url 'apps_administrador.banner:edit_banner' banner.id %}" method="POST"
+    <div class="container-box-admin">
+        <h2>Editar Banner</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.banner:edit_banner' banner.id %}" method="POST"
             enctype="multipart/form-data">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
@@ -45,7 +42,7 @@ Editar Banner
                 </div>
             </div>
 
-            <div class="margin margin-top margin-bottom">
+            <div class="margin mt-4 mb-4">
                 <button type="submit" class="btn-principal">Editar</button>
                 <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
             </div>

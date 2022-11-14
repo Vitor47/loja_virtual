@@ -53,25 +53,18 @@ function clearCarrinho() {
 
     .then((willSucess) => {
         if (willSucess) {
-            for (i = 1; i <= 4; i++) // verifica até 3 produtos registrados na localStorage
-            {
-                var prod = localStorage.getItem("produto" + i + ""); // verifica se há produto nesta posição. 
-                if (prod != null) {
-                    localStorage.clear();
-                    location.reload();
-                }
-            }
+            localStorage.clear();
+            location.reload();
         }
     });
 }
 
-var count = 0; // variável que retorna o total dos produtos que estão na LocalStorage.
-var i = 0;     // variável que irá percorrer as posições
-var valor = 0; // variável que irá receber o preço do produto convertido em Float.
-
-for (i = 1; i <= 4; i++) // verifica até 3 produtos registrados na localStorage
+var count = 0; 
+var i = 0;
+var valor = 0;
+for (i = 1; i <= 4; i++)
 {
-    var prod = localStorage.getItem("produto" + i + ""); // verifica se há produto nesta posição. 
+    var prod = localStorage.getItem("produto" + i + "");
     if (prod != null) {
         // exibe os dados da lista dentro da div itens
         id = localStorage.getItem("id" + i);

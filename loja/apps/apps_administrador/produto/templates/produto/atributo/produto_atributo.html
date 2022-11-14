@@ -9,14 +9,11 @@
 <link rel="stylesheet" href="{% static 'administrador/produtos/css/produtos.css' %}" />
 {% endblock %}
 
-{% block 'title-page' %}
-Cadastrar Produtos no Atributo {{atributo.nome}} com valor {{atributo.valor}}
-{% endblock %}
-
 {% block 'dashboard' %}
 <div class="container">
-    <div class="adicionar-cliente">
-        <form class="margin-top" action="{% url 'apps_administrador.produto:produto_atributo_produto' atributo.id %}"
+    <div class="container-box-admin">
+        <h2>Cadastrar Produtos no Atributo {{atributo.nome}} com valor {{atributo.valor}}</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.produto:produto_atributo_produto' atributo.id %}"
             method="POST">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
@@ -57,6 +54,11 @@ Cadastrar Produtos no Atributo {{atributo.nome}} com valor {{atributo.valor}}
                                 {% endfor %}
                             </tbody>
                         </table>
+
+                        <div class="margin mt-4 mb-4">
+                            <button type="submit" class="btn-principal">Cadastrar</button>
+                            <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -71,11 +73,6 @@ Cadastrar Produtos no Atributo {{atributo.nome}} com valor {{atributo.valor}}
                         {% endfor %}
                     </div>
                 </div>
-            </div>
-
-            <div class="margin margin-top margin-bottom">
-                <button type="submit" class="btn-principal">Cadastrar</button>
-                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
             </div>
         </form>
     </div>

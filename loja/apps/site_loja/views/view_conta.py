@@ -123,7 +123,7 @@ def create_count(request):
                 bairro = bairro,
                 logradouro = rua,
                 nr_casa = nr_casa,
-                user_cliente = user_cliente
+                user_cliente = user_cliente.id
             )
             cliente_endereco.save()
 
