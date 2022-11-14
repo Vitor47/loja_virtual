@@ -6,14 +6,11 @@
 {% block 'head' %}
 {% endblock %}
 
-{% block 'title-page' %}
-Editar Atributo {{ atributo.nome }}
-{% endblock %}
-
 {% block 'dashboard' %}
 <div class="container">
-    <div class="adicionar-cliente">
-        <form class="margin-top" action="{% url 'apps_administrador.produto:edit_atributo_produto' atributo.id %}" method="POST" >
+    <div class="container-box-admin">
+        <h2>Editar Atributo {{ atributo.nome }}</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.produto:edit_atributo_produto' atributo.id %}" method="POST" >
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
             <div class="form-group row">
@@ -28,7 +25,7 @@ Editar Atributo {{ atributo.nome }}
                     <input type="text" class="form-control" name="valor_atributo" id="valor_atributo" value="{{ atributo.valor }}" required>
                 </div>
             </div>
-            <div class="margin margin-top margin-bottom">
+            <div class="mt-4 mb-4">
                 <button type="submit" class="btn-principal">Editar</button>
                 <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
             </div>

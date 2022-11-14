@@ -6,14 +6,11 @@
 {% block 'head' %}
 {% endblock %}
 
-{% block 'title-page' %}
-Editar Produto {{ produto.nome }}
-{% endblock %}
-
 {% block 'dashboard' %}
 <div class="container">
-    <div class="adicionar-cliente">
-        <form class="margin-top" action="{% url 'apps_administrador.produto:edit_produto' produto.id %}" method="POST"
+    <div class="container-box-admin">
+        <h2>Editar Produto {{ produto.nome }}</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.produto:edit_produto' produto.id %}" method="POST"
             enctype="multipart/form-data">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
@@ -34,7 +31,11 @@ Editar Produto {{ produto.nome }}
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Desconto :</label>
+                    {% if produto.desconto == None %}
+                    <input type="text" class="form-control" name="desconto_produto" id="desconto_produto" value="">
+                    {% else %}
                     <input type="text" class="form-control" name="desconto_produto" id="desconto_produto" value="{{ produto.desconto }}">
+                    {% endif %}
                 </div>
             </div>
             <div class="form-group row">

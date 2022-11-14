@@ -10,17 +10,13 @@ Lista de Banners Cadastrados
 
 {% block 'dashboard' %}
 <div class="container">
-    <div class="margin-top margin-bottom">
-        <h2>Lista de Banners Cadastrados</h2>
-    </div>
-
     {% if perms.banner.add_banner %}
-    <div class="margin margin-top margin-bottom">
+    <div class="margin mt-4 mb-2">
         <a href="{% url 'apps_administrador.banner:create_banner' %}" class="btn btn-success">{% bs_icon 'card-image' %} Cadastrar Banner</a>
     </div>
     {% endif %}
 
-    <table class="table table-hover">
+    <table class="table table-hover container-box-admin">
         <thead class="thead-dark ">
             <tr>
                 <th scope="col">#</th>

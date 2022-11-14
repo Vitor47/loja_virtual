@@ -6,14 +6,11 @@
 {% block 'head' %}
 {% endblock %}
 
-{% block 'title-page' %}
-Cadastrar Novo Produto
-{% endblock %}
-
 {% block 'dashboard' %}
 <div class="container">
-    <div class="adicionar-cliente">
-        <form class="margin-top" action="{% url 'apps_administrador.produto:create_produto' %}" method="POST"
+    <div class="container-box-admin">
+        <h2>Cadastrar Novo Produto</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.produto:create_produto' %}" method="POST"
             enctype="multipart/form-data">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
@@ -64,6 +61,7 @@ Cadastrar Novo Produto
                             name="image_produto" accept="image/*" onchange="readUrl(this)" data-title="Adicionar imagem"
                             required>
                     </div>
+                    <p>Dimensões ideais	1024x 1024 px</p>
                 </div>
             </div>
 
@@ -72,6 +70,7 @@ Cadastrar Novo Produto
                     <label class="form-label" for="image_stand">Imagens Secundárias: </label>
                     <input type="file" class="form-control" id="imagens_produto[]"
                         name="imagens_produto[]" accept="image/*" multiple>
+                    <p>Dimensões ideais	1024x 1024 px</p>
                 </div>
             </div>
 

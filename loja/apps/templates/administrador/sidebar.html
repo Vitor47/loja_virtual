@@ -1,0 +1,90 @@
+{% load static %}
+{% load bootstrap_icons %}
+<div class="sidebar close">
+    <div class="logo-details">
+        <i class='bx bx-store'></i>
+        <span class="logo_name">Cremonesse</span>
+    </div>
+    <ul class="nav-links">
+        <li>
+            <a href="{% url 'apps_administrador.dashboard:dashboard' %}">
+                <i class='bx bx-grid-alt'></i>
+                <span class="link_name">Dashboard</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="{% url 'apps_administrador.dashboard:dashboard' %}">Dashboard</a></li>
+            </ul>
+        </li>
+        {% if perms.banner.view_banner %}
+        <li>
+            <a href="{% url 'apps_administrador.banner:banner' %}">
+                <i class='bx bx-image-alt'></i>
+                <span class="link_name">Banner</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="{% url 'apps_administrador.banner:banner' %}">Banner</a></li>
+            </ul>
+        </li>
+        {% endif %}
+        {% if perms.produto.view_produto %}
+        <li>
+            <div class="iocn-link">
+                <a href="{% url 'apps_administrador.produto:produto' %}">
+                    <i class='bx bx-shopping-bag'></i>
+                    <span class="link_name">Produto</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="{% url 'apps_administrador.produto:produto' %}">Gerenciar Produto</a></li>
+                {% if perms.produto.view_produtocategoria %}
+                <li><a href="{% url 'apps_administrador.produto:categoria_produto' %}">Categorias Produto</a></li>
+                {% endif %}
+                {% if perms.produto.view_produtoatributo %}
+                <li><a href="{% url 'apps_administrador.produto:atributo_produto' %}">Atributos do Produto</a></li>
+                {% endif %}
+            </ul>
+        </li>
+        {% endif %}
+        <li>
+            <a href="#">
+                <i>{% bs_icon 'people' %}</i>
+                <span class="link_name">Clientes</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Clientes</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-history'></i>
+                <span class="link_name">Histórico</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="#">Histórico</a></li>
+            </ul>
+        </li>
+        {% if perms.configuracao.view_configuracao %}
+        <li>
+            <a href="{% url 'apps_administrador.configuracao:configuracao' %}">
+                <i class='bx bx-cog'></i>
+                <span class="link_name">Configurações</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="{% url 'apps_administrador.configuracao:configuracao' %}">Configurações</a></li>
+            </ul>
+        </li>
+        {% endif %}
+        <li>
+            <div class="profile-details">
+                <div class="profile-content">
+                    <!--<img src="image/profile.jpg" alt="profileImg">-->
+                </div>
+                <div class="name-job">
+                    <div class="profile_name">{{request.user.first_name}}</div>
+                </div>
+                <a href="{% url 'apps_administrador.sistema:sair' %}"><i class='bx bx-log-out'></i></a>
+            </div>
+        </li>
+    </ul>
+</div>

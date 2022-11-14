@@ -299,13 +299,12 @@ def detalhes_produto(request, slug):
         correio = Correios()
         dados_encomenda = DadosEncomenda()
 
-        tags_name, retorno_envio = correio.frete(dados_encomenda.cod, dados_encomenda.cep_envia, dados_encomenda.cep_recebe, dados_encomenda.peso, dados_encomenda.formato,
+        tags_name, retorno_envio = correio.frete(
+            dados_encomenda.cod, dados_encomenda.cep_envia, dados_encomenda.cep_recebe, dados_encomenda.peso, dados_encomenda.formato,
             dados_encomenda.comprimento, dados_encomenda.altura, dados_encomenda.largura, dados_encomenda.diametro, mao_propria='N',
             valor_declarado='0', aviso_recebimento='N',
             empresa='', senha='', toback='xml'
         )
 
         calculo_frete = correio._getDados(tags_name, retorno_envio)
-        print(calculo_frete)
-
         return JsonResponse({'context': calculo_frete}, status=200)

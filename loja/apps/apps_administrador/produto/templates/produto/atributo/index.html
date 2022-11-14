@@ -7,20 +7,16 @@
 {% block 'head' %}
 {% endblock %}
 
-{% block 'title-page' %}
-Lista de Atributos Cadastrados
-{% endblock %}
-
 {% block 'dashboard' %}
 <div class="container">
-    <div class="margin-top margin-bottom">
+    <div class="mt-4 mb-4">
         <h2>Lista de Atributos Cadastrados</h2>
     </div>
 
-    <div class="margin margin-top margin-bottom">
+    <div class="margin mt-4 mb-4">
         <div class="row">
             {% if perms.produto.add_produtoatributo %}
-            <div class="col-md-8 margin-bottom">
+            <div class="col-md-8">
                 <a href="{% url 'apps_administrador.produto:create_atributo_produto' %}" class="btn btn-success">{% bs_icon 'bookmark-star' %}
                     Cadastrar Atributo</a>
             </div>
@@ -28,7 +24,7 @@ Lista de Atributos Cadastrados
         </div>
     </div>
 
-    <table class="table table-hover">
+    <table class="table table-hover container-box-admin">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>

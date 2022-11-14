@@ -2,6 +2,12 @@
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 #Cria Data Automático
 from sqlite3 import Date
+#Imagens
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
+import uuid
 #Mensagens Template
 from django.contrib import messages
 from django.contrib.auth import login as login_django
@@ -17,7 +23,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 #Permissões
 
-from .models import Produto, ProdutoAtributo, ProdutoCategoria, ProdutoImagens, ProdutoTipo, ProdutoAtributoProduto
+from .models import Produto, ProdutoAtributo, ProdutoCategoria, ProdutoImagens, ProdutoTipo, ProdutoAtributoProduto, ProdutoDiamentro
 
 @login_required(login_url="/admin")
 @permission_required('produto.view_produto')
@@ -77,12 +83,31 @@ def create_produto(request):
             else:
                 valor_formatado_desconto = None
 
+            if image.size < 500000:
+                name = f'{uuid.uuid4()}.jpg'
+                img = Image.open(image)
+                img = img.convert('RGB')
+                img = img.resize((1024, 1024))
+                output = BytesIO()
+                img.save(output, format="JPEG", quality=100)
+                output.seek(0)
+                img_final = InMemoryUploadedFile(output,
+                                                    'ImageField',
+                                                    name,
+                                                    'image/jpeg',
+                                                    sys.getsizeof(output),
+                                                    None
+                )
+            else:
+                messages.error(request, "Imagem com tamanho não permitido o limite é 500kb!")
+                return redirect('/admin/create_produto/')
+
             produto = Produto (
                 nome = nome,
                 slug = slug(nome),             
                 valor = valor_formatado,
                 quantidade = int(quantidade),
-                imagem_principal = image,
+                imagem_principal = img_final,
                 desconto = valor_formatado_desconto,
                 status = True,
                 categoria_id = int(categoria),
@@ -97,15 +122,34 @@ def create_produto(request):
             produto.save()
 
             list_imagens = request.FILES.getlist('imagens_produto[]', None)
-            for i in range(len(list_imagens)):
-                if list_imagens[i] != None:
-                    produto_imagem = ProdutoImagens (
-                        imagem = list_imagens[i],
-                        produto_id = produto.id,
-                        user_cad = user,
-                        data_cad = Date.today(),
-                    )
-                    produto_imagem.save()
+            for image in list_imagens:
+                if image is not None:
+                    if image.size < 500000:
+                        name = f'{uuid.uuid4()}.jpg'
+                        img = Image.open(image)
+                        img = img.convert('RGB')
+                        img = img.resize((1024, 1024))
+                        output = BytesIO()
+                        img.save(output, format="JPEG", quality=100)
+                        output.seek(0)
+                        img_final = InMemoryUploadedFile(output,
+                                                            'ImageField',
+                                                            name,
+                                                            'image/jpeg',
+                                                            sys.getsizeof(output),
+                                                            None
+                        )
+
+                        produto_imagem = ProdutoImagens (
+                            imagem = img_final,
+                            produto_id = item.id,
+                            user_cad = user,
+                            data_cad = Date.today(),
+                        )
+                        produto_imagem.save()
+                    else:
+                        messages.error(request, "Imagem com tamanho não permitido o limite é 500kb!")
+                        return redirect('/admin/create_produto/')
 
             LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Produto).id,
                 produto.id, f"ADD -> {produto.id}", ADDITION, 'O produto %s foi adicionado' %produto.id
@@ -114,6 +158,7 @@ def create_produto(request):
             messages.success(request, "Produto cadastrado com sucesso!")
             return redirect('/admin/produto/')
         except Exception as e:
+            print(e)
             messages.error(request, "Produto não cadastrado algum erro inesperado!")
             return redirect('/admin/create_produto/')
 
@@ -140,6 +185,7 @@ def edit_produto(request, id):
             categoria = request.POST.get('categoria_produto')
 
             valor_formatado = valor.replace("R$:","").replace(".", "").replace(",", ".")
+            print(desconto)
             if desconto is not None and desconto != "":
                 valor_formatado_desconto = desconto.replace("R$:","").replace(".", "").replace(",", ".")
             else:
@@ -148,7 +194,26 @@ def edit_produto(request, id):
             if image == None:
                 item.imagem_principal = item.imagem_principal
             else:
-                item.imagem_principal = image
+                if image.size < 500000:
+                    name = f'{uuid.uuid4()}.jpg'
+                    img = Image.open(image)
+                    img = img.convert('RGB')
+                    img = img.resize((1024, 1024))
+                    output = BytesIO()
+                    img.save(output, format="JPEG", quality=100)
+                    output.seek(0)
+                    img_final = InMemoryUploadedFile(output,
+                                                        'ImageField',
+                                                        name,
+                                                        'image/jpeg',
+                                                        sys.getsizeof(output),
+                                                        None
+                    )
+                else:
+                    messages.error(request, "Imagem com tamanho não permitido o limite é 500kb!")
+                    return redirect('/admin/create_produto/')
+
+                item.imagem_principal = img_final
 
             if status == "1":
                 item.status = True
@@ -169,15 +234,34 @@ def edit_produto(request, id):
             item.save()
 
             list_imagens = request.FILES.getlist('imagens_produto[]', None)
-            for i in range(len(list_imagens)):
-                if list_imagens[i] != None:
-                    produto_imagem = ProdutoImagens (
-                        imagem = list_imagens[i],
-                        produto_id = item.id,
-                        user_cad = user,
-                        data_cad = Date.today(),
-                    )
-                    produto_imagem.save()
+            for image in list_imagens:
+                if image is not None:
+                    if image.size < 500000:
+                        name = f'{uuid.uuid4()}.jpg'
+                        img = Image.open(image)
+                        img = img.convert('RGB')
+                        img = img.resize((1024, 1024))
+                        output = BytesIO()
+                        img.save(output, format="JPEG", quality=100)
+                        output.seek(0)
+                        img_final = InMemoryUploadedFile(output,
+                                                            'ImageField',
+                                                            name,
+                                                            'image/jpeg',
+                                                            sys.getsizeof(output),
+                                                            None
+                        )
+
+                        produto_imagem = ProdutoImagens (
+                            imagem = img_final,
+                            produto_id = item.id,
+                            user_cad = user,
+                            data_cad = Date.today(),
+                        )
+                        produto_imagem.save()
+                    else:
+                        messages.error(request, "Imagem com tamanho não permitido o limite é 500kb!")
+                        return redirect('/admin/create_produto/')
 
             LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Produto).id,
                 item.id, f"EDIT -> {item.id}", CHANGE, 'O produto %s foi editado' %item.id
@@ -186,6 +270,7 @@ def edit_produto(request, id):
             messages.success(request, "Produto editado com sucesso!")
             return redirect('/admin/produto/')
         except Exception as e:
+            print(e)
             messages.error(request, "Produto não editado algum erro inesperado!")
             return redirect(f'/admin/edit_produto/{id}')
 
@@ -417,3 +502,19 @@ def produto_atributo_produto(request, id):
         except Exception as e:
             messages.error(request, "Os produtosnão foram adicionados ao atributo, algum erro inesperado!")
             return redirect('/admin/atributo_produto/')
+
+@login_required(login_url="/admin")
+@permission_required('produto.view_produtodiamentro')
+def produto_diametro(request):
+    if request.method == "GET":
+        list_produtos_diametro = ProdutoDiamentro.objects.all().order_by("-id")
+        paginator = Paginator(list_produtos_diametro, 10)
+        try:
+            page = int(request.GET.get('page', '1'))
+        except ValueError:
+            page = 1
+        try:
+            list_products = paginator.page(page)
+        except (EmptyPage, InvalidPage):
+            list_products = paginator.page(paginator.num_pages)
+        return render(request, "produto/diametro/index.html", {'list_products': list_products})

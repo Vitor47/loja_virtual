@@ -10,7 +10,7 @@
 {% block 'main' %}
 
 <section class="margin-top">
-    <div class="container">
+    <div class="main-products">
         <div class="display-top-page-products mobile">
             <h2 class="title-page-product">Produtos</h2>
 
@@ -49,7 +49,7 @@
         </div>
 
         <div class="row margin-top-desktop">
-            <div class="col-md-4 desktop" style="margin-top: 20px;">
+            <div class="col-md-3 desktop" style="margin-top: 20px;">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
                     <h2 class="title-page-product">Buscar</h2>
                     <hr>
@@ -122,53 +122,59 @@
 
             </div>
 
-            <div class="col-md-8">
-                <div class="row margin-top">
+            <div class="col-md-9">
+                <div class="display-card-shop margin-top">
                     {% if tamanho_array_products > 0 %}
                         {% for produto in produtos %}
-                        <div class="col-md-4 margin-bottom">
-                            <div id="passar_mouse" class="item">
-                                <a href="{% url 'site_loja:detalhes_produto' produto.slug %}">
-                                    <img class="img-fluid" src="/media/{{produto.imagem_principal}}" alt="{{produto.nome}}">
-                                    <p class="p-card">{{produto.nome}}</p>
-                                    {% if produto.valor_com_desconto == None %}
-                                    <p class="p-value">R$ <span class="value">{{produto.valor_inicial}}</span></p>
-                                    {% else %}
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <span class="price-old">R$ {{produto.valor_inicial}}</span>
-                                            <p class="p-value-descont">R$ <span class="value">{{produto.valor_com_desconto}}</span></p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <span class="percent-discount">{{produto.percent_desconto|floatformat:2}}% desconto</span>
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                </a>
+                        <div id="passar_mouse" class="product-card">
+                            <a href="{% url 'site_loja:detalhes_produto' produto.slug %}">
+                                <div class="img-product" style="background-image: url('/media/{{produto.imagem_principal}}');">
+                                    <span class="display-avaliation-card">
+                                        {% bs_icon 'star-fill' size='1em' extra_classes="icon-avaliation" %}
+                                        {% bs_icon 'star-fill' size='1em' extra_classes="icon-avaliation" %}
+                                        {% bs_icon 'star-fill' size='1em' extra_classes="icon-avaliation" %}
+                                        {% bs_icon 'star-fill' size='1em' extra_classes="icon-avaliation" %}
+                                        {% bs_icon 'star-half' size='1em' extra_classes="icon-avaliation" %}
+                                    </span>
+                                    <span id="favorite-mouse" class="favorite-mouse">
+                                        <button class="btn">
+                                            {% bs_icon 'heart-fill' extra_classes='icon-card-favorite' size='1.5em' %}
+                                        </button>
+                                    </span>
+                                </div>
+                                <p class="p-card">{{produto.nome}} </p>
+                                
+                                {% if produto.valor_com_desconto == None %}
+                                <p class="p-value">R$ {{produto.valor_inicial}}</p>
+                                {% else %}
+                                <span class="price-old">R$ {{produto.valor_inicial}}</span>
+                                <div class="display-discount">
+                                    <p class="p-value">R$ {{produto.valor_com_desconto}}</p>
+                                    <p class="percent-discount">{{produto.percent_desconto|floatformat:2}}% desconto</p>
+                                </div>
+                                {% endif %}
+                            </a>
             
-                                <div class="row" id="comprar-home">
-                                    <div class="col-md-4">
-                                        <div class="display-count">
-                                            <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{produto.id}}" id="calculator_{{produto.id}}" value="1">
-                        
-                                            <div class="display-count-button" role="group" aria-label="plus-minus">
-                                                <button type="button" class="btn-count" data-dir="up" id="up">
-                                                    +
-                                                </button>
-                                                <button type="button" class="btn-count" data-dir="dwn" id="dwn">
-                                                    -
-                                                </button>
-                                            </div>
-                                        </div>
+                            <div id="comprar-home" class="calculator-qtd">
+                                <div class="display-count">
+                                    <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{produto.id}}" id="calculator_{{produto.id}}" value="1">
+                
+                                    <div class="display-count-button" role="group" aria-label="plus-minus">
+                                        <button type="button" class="btn-count" data-dir="up" id="up">
+                                            +
+                                        </button>
+                                        <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                            -
+                                        </button>
                                     </div>
-                                    
-                                    <div class="col-md-8">
-                                        {% if produto.valor_com_desconto == None %}
-                                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
-                                        {% else %}
-                                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
-                                        {% endif %}
-                                    </div>
+                                </div>
+            
+                                <div>
+                                    {% if novidade.valor_com_desconto == None %}
+                                    <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                                    {% else %}
+                                    <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

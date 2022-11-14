@@ -13,16 +13,18 @@ Dashboard
 
 {% block 'dashboard' %}
 <div class="container">
-    <div class="margin margin-top margin-bottom">
+    <div class="margin">
+        <div class="row mb-4">
+            <div class="col-md-8 mb-4">
+                <canvas class="container-box-admin" id="LineChart"></canvas>
+            </div>
+            <div class="col-md-4 mb-4">
+                <canvas class="container-box-admin" id="PieChart"></canvas>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-md-8">
-                <canvas id="LineChart"></canvas>
-            </div>
-            <div class="col-md-4">
-                <canvas id="PieChart"></canvas>
-            </div>
-            <div class="col-md-12">
-                <canvas id="BarChart"></canvas>
+            <div class="col-md-12 mb-4">
+                <canvas class="container-box-admin" id="BarChart"></canvas>
             </div>
         </div>
     </div>
