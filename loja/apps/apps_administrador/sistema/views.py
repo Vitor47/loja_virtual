@@ -11,6 +11,7 @@ from django.shortcuts import redirect, render
 from django.template.response import TemplateResponse
 #Importa demais coisas
 from django.contrib.auth.models import User, Permission, Group
+from django.db.models import Q
 from slug import slug
 #Cria LOG dos registros
 from django.contrib.contenttypes.models import ContentType
@@ -65,17 +66,15 @@ def perfil(request):
                     username = request.POST.get('usuario')
                     email = request.POST.get('email_usuario')
 
-                    user_verifica = User.objects.exclude(id__gte=user.id).filter(username__gte=username)
-                    for item in user_verifica:
-                        if item.username == username:
-                            messages.error(request, "Este usuário já existe por favor digite um usuário diferente!")
-                            return redirect('/admin/perfil/')
+                    user_name = User.objects.exclude(id__gte=user.id).filter(username__iexact=username).exists()
+                    if user_name:
+                        messages.error(request, "Este usuário já existe por favor digite um usuário diferente!")
+                        return redirect('/admin/perfil/')
 
-                    email_verifica = User.objects.exclude(id__gte=user.id).filter(email__gte=email)
-                    for item in email_verifica:
-                        if item.email == email:
-                            messages.error(request, "Este E-mail já existe por favor digite um e-mail diferente!")
-                            return redirect('/admin/perfil/')
+                    email_verifica = User.objects.exclude(id__gte=user.id).filter(email__iexact=email).exists()
+                    if email_verifica:
+                        messages.error(request, "Este E-mail já existe por favor digite um e-mail diferente!")
+                        return redirect('/admin/perfil/')
 
                     user.first_name = nome
                     user.username = username
@@ -147,7 +146,7 @@ def sair(request):
 @permission_required('user.view_user')
 def list_user(request):
     if request.method == "GET":
-        list_users = User.objects.all().order_by('-id').exclude(is_superuser__gte=False, is_staff__gte=False)
+        list_users = User.objects.filter(is_staff__gte=True).order_by('-id')
         return render(request, "usuarios/index.html", {'users': list_users})
 
 @login_required(login_url="/admin")
@@ -166,45 +165,44 @@ def create_user(request):
             super_admin = request.POST.get('super_admin')
             membro_equipe = request.POST.get('membro_equipe')
 
-            try:
-                usuario_username = User.objects.get(username=username)
-                usuario_email = User.objects.get(email=email)
+            usuario_username = User.objects.filter(username__iexact=username).exists()
+            if usuario_username:
+                messages.error(request, "Erro! Já existe um usuário com o mesmo username!")
+                return redirect('/admin/create_user/')
 
-                if usuario_email or usuario_username:
-                    messages.error(request, "Erro! Já existe um usuário com o mesmo e-mail ou mesmo username!")
-                    return redirect('/admin/create_user/')
+            usuario_email = User.objects.filter(email__iexact=email).exists()
+            if usuario_email:
+                messages.error(request, "Erro! Já existe um usuário com o mesmo email!")
+                return redirect('/admin/create_user/')
 
-            except User.DoesNotExist:
-                if senha != confirmar_senha_user:
-                    return redirect('/admin/create_user/')
+            if senha != confirmar_senha_user:
+                return redirect('/admin/create_user/')
+            else:
+                if super_admin != None:
+                    super_admin = True
+                    membro_equipe = True
                 else:
-                    if super_admin != None:
-                        super_admin = True
-                        membro_equipe = True
-                    else:
-                        super_admin = False
-                        membro_equipe = False
+                    super_admin = False
+                    membro_equipe = False
 
-                    if membro_equipe != None:
-                        membro_equipe = True
-                        super_admin = False
-                    else:
-                        membro_equipe = False
-                        super_admin = False
+                if membro_equipe != None:
+                    membro_equipe = True
+                    super_admin = False
+                else:
+                    membro_equipe = False
+                    super_admin = False
 
-                
-                user = User (
-                    first_name = nome, 
-                    last_name = sobrenome,
-                    username = username,
-                    email = email,
-                    password = make_password(senha),
-                    is_active = True,
-                    is_staff = membro_equipe,
-                    is_superuser = super_admin,
-                )
-
-                user.save()
+            user = User (
+                first_name = nome, 
+                last_name = sobrenome,
+                username = username,
+                email = email,
+                password = make_password(senha),
+                is_active = True,
+                is_staff = membro_equipe,
+                is_superuser = super_admin,
+            )
+            user.save()
 
             LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(User).id,
                 user.id, f"ADD -> {user.username + '-' + user.email}", ADDITION, 'O usuário %s foi adicionado' %user.id
@@ -214,7 +212,7 @@ def create_user(request):
             return redirect('/admin/usuario/')
         except Exception as e:
             messages.error(request, "Usuário não criado algum erro inesperado!")
-            return redirect(f'/admin/create_user/')
+            return redirect('/admin/create_user/')
 
 @login_required(login_url="/admin")
 @permission_required('user.change_user')
@@ -243,42 +241,42 @@ def edit_user(request, id):
             elif status == "2":
                 status = False
 
-            try:
-                usuario_username = User.objects.exclude(id__gte=user.id).get(username=username)
-                usuario_email = User.objects.exclude(id__gte=user.id).get(email=email)
+            usuario_username = User.objects.exclude(id__gte=user.id).filter(username__iexact=username).exists()
+            if usuario_username:
+                messages.error(request, "Erro! Já existe um usuário com o mesmo username!")
+                return redirect(f'/admin/edit_user/{id}')
 
-                if usuario_email or usuario_username:
-                    messages.error(request, "Erro! Já existe um usuário com o mesmo e-mail ou mesmo usuário!")
-                    return redirect('/admin/edit_user/{id}')
+            usuario_email = User.objects.exclude(id__gte=user.id).filter(email__iexact=email).exists()
+            if usuario_email:
+                messages.error(request, "Erro! Já existe um usuário com o mesmo email!")
+                return redirect(f'/admin/edit_user/{id}')
 
-            except User.DoesNotExist:
-                if senha != confirmar_senha_user:
-                    return redirect('/admin/edit_user/{id}')
+            if senha != confirmar_senha_user:
+                return redirect(f'/admin/edit_user/{id}')
+            else:
+                if super_admin != None:
+                    super_admin = True
+                    membro_equipe = True
                 else:
-                    if super_admin != None:
-                        super_admin = True
-                        membro_equipe = True
-                    else:
-                        super_admin = False
-                        membro_equipe = False
+                    super_admin = False
+                    membro_equipe = False
 
-                    if membro_equipe != None:
-                        membro_equipe = True
-                        super_admin = False
-                    else:
-                        membro_equipe = False
-                        super_admin = False
+                if membro_equipe != None:
+                    membro_equipe = True
+                    super_admin = False
+                else:
+                    membro_equipe = False
+                    super_admin = False
 
-                    user.first_name = nome
-                    user.last_name = sobrenome
-                    user.username = username
-                    user.email = email
-                    user.set_password(senha)
-                    user.is_active = status
-                    user.is_staff = membro_equipe
-                    user.is_superuser = super_admin
-
-                    user.save()
+                user.first_name = nome
+                user.last_name = sobrenome
+                user.username = username
+                user.email = email
+                user.set_password(senha)
+                user.is_active = status
+                user.is_staff = membro_equipe
+                user.is_superuser = super_admin
+                user.save()
 
             LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(User).id,
                 user.id, f"EDITOU -> {user.username + '-' + user.email}", CHANGE, 'O usuário %s foi editado' %user.id
@@ -323,17 +321,15 @@ def create_grupo_acesso(request):
     elif request.method == "POST":
         try:
             nome = request.POST.get('nome_group')
-            try:
-                name = Group.objects.get(name=nome)
-                if name:
-                    messages.error(request, "Erro! Já existe um grupo com o mesmo nome!")
-                    return redirect('/admin/create_grupo_acesso/')
+            name = Group.objects.filter(name__iexact=nome).exists()
+            if name:
+                messages.error(request, "Erro! Já existe um grupo com o mesmo nome!")
+                return redirect('/admin/create_grupo_acesso/')
 
-            except Group.DoesNotExist:
-                group = Group (
-                    name = nome, 
-                )
-                group.save()
+            group = Group (
+                name = nome, 
+            )
+            group.save()
 
             LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Group).id,
                 group.id, f"ADD -> {group.name}", ADDITION, 'O grupo %s foi adicionado' %group.id
@@ -354,6 +350,11 @@ def edit_grupo_acesso(request, id):
     elif request.method == "POST":
         try:
             nome = request.POST.get('nome_group')
+            name = Group.objects.exclude(name__gte=group.name).filter(name__iexact=nome).exists()
+            if name:
+                messages.error(request, "Erro! Já existe um grupo com o mesmo nome!")
+                return redirect(f'/admin/edit_grupo_acesso/{id}')
+
             group.name = nome
             group.save()
 
@@ -372,7 +373,6 @@ def edit_grupo_acesso(request, id):
 def delete_grupo_acesso(request, id):
     if request.method == "GET":
         group = Group.objects.get(id=id)
-        
         LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(Group).id,
             group.id, f"DELETE -> {group.name}", DELETION, 'O grupo %s foi deletado' %group.id
         )
@@ -384,9 +384,12 @@ def delete_grupo_acesso(request, id):
 @login_required(login_url="/admin")
 @permission_required('group.add_group')
 def add_users_group(request, id_group):
-    users = User.objects.exclude(is_superuser__gte=True, is_staff__gte=False).all().order_by('-id')
-    grupo = Group.objects.get(id=id_group).order_by('-id')
-    users_in_group = grupo.user_set.all().order_by('-id')
+    users = User.objects.exclude(Q(is_superuser__gte=True)).filter(
+        Q(is_staff__gte=True),
+        Q(is_active__gte=True)
+    ).order_by('-id')
+    grupo = Group.objects.get(id=id_group)
+    users_in_group = grupo.user_set.all()
     marcado = False
     if request.method == "GET":
         usuarios = []
@@ -414,7 +417,7 @@ def add_users_group(request, id_group):
         try:
 
             list_id_users = request.POST.getlist('user_id[]')
-            list_users = User.objects.all().exclude(is_superuser=True).values_list(flat=True).order_by('-id')
+            list_users = User.objects.all().exclude(is_superuser=True).filter(is_staff__gte=True).values_list(flat=True).order_by('-id')
             for i in list_users:
                 user = User.objects.get(id=i)
                 group = Group.objects.get(id=id_group)
@@ -449,6 +452,8 @@ def add_permission_group(request, id_group):
     content_type_ids.append(ContentType.objects.get(model='auditoria').id)
     content_type_ids.append(ContentType.objects.get(model='produtoimagens').id)
     content_type_ids.append(ContentType.objects.get(model='endereco').id)
+    content_type_ids.append(ContentType.objects.get(model='produtoatributoproduto').id)
+    content_type_ids.append(ContentType.objects.get(model='produtodiamentroproduto').id)
     permissoes = Permission.objects.exclude(content_type_id__in=content_type_ids)
     if request.method == "GET":
         table_relacionada = grupo.permissions.all().order_by('-id')

@@ -7,54 +7,54 @@
 {% block 'head' %}
 {% endblock %}
 
-{% block 'title-page' %}
-Produtos Diametros Cadastrados
-{% endblock %}
-
 {% block 'dashboard' %}
 <div class="container">
-    <div class="margin-top margin-bottom">
-        <h2>Produtos Diametros Cadastrados </h2>
+    <div class="mt-4 mb-4">
+        <h2>Diametros Cadastrados </h2>
     </div>
 
-    <div class="margin margin-top margin-bottom">
+    <div class="margin mt-4 mb-4">
         <div class="row">
-            {% if perms.produto.add_produto %}
-            <div class="col-md-8 margin-bottom">
-                <a href="{% url 'apps_administrador.produto:create_produto' %}" class="btn btn-success">{% bs_icon 'basket' %}
-                    Cadastrar Produto</a>
+            {% if perms.produto.add_produtodiamentro %}
+            <div class="col-md-8">
+                <a href="{% url 'apps_administrador.produto:create_diametro_produto' %}" class="btn btn-success">{% bs_icon 'box-seam' %}
+                    Cadastrar Diametro</a>
             </div>
             {% endif %}
-            <div class="col-md-4"></div>
         </div>
     </div>
 
-    <table class="table table-hover">
+    <table class="table table-hover container-box-admin mb-4">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Valor</th>
-                <th scope="col">Quantidade</th>
-                <th scope="col">Imagem Principal</th>
-                <th scope="col">Status</th>
+                <th scope="col">Código Serviço</th>
+                <th scope="col">Peso</th>
+                <th scope="col">Comprimento</th>
+                <th scope="col">Altura</th>
+                <th scope="col">Largura</th>
                 <th scope="col">Ações</th>
             </tr>
         </thead>
         <tbody>
-            {% if produtos.object_list.count > 0 %}
-            {% for item in produtos.object_list %}
+            {% if list_diameters.object_list.count > 0 %}
+            {% for item in list_diameters.object_list %}
             <tr>
                 <td data-label="#" scope="row"> {{ forloop.counter }}</td>
-                <td data-label="Nome" >{{ item.nome }}</td>
-                <td data-label="Valor">{{ item.valor }}</td>
-                <td data-label="Quantidade">{{ item.quantidade }}</td>
+                <td data-label="Código Serviço" >{{ item.nCdServico }}</td>
+                <td data-label="Peso">{{ item.nVlPeso }}</td>
+                <td data-label="Comprimento">{{ item.nVlComprimento }}</td>
+                <td data-label="Altura">{{ item.nVlAltura }}</td>
+                <td data-label="Largura">{{ item.nVlLargura }}</td>
                 <td data-label="Ações">
-                    <form method="GET" action=" {% url 'apps_administrador.produto:delete_produto' item.id %} ">
-                        {% if perms.produto.change_produto %}
-                        <a href="{% url 'apps_administrador.produto:edit_produto' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
+                    <form method="GET" action=" {% url 'apps_administrador.produto:delete_diametro_produto' item.id %} ">
+                        {% if perms.produto.add_produtodiametro %}
+                        <a href="{% url 'apps_administrador.produto:produto_diametro_produto' item.id %}" class="btn btn-primary margin-bottom">{% bs_icon 'basket' %} Produtos com diametro</a>
                         {% endif %}
-                        {% if perms.produto.delete_produto %}
+                        {% if perms.produto.change_produtodiamentro %}
+                        <a href="{% url 'apps_administrador.produto:edit_diametro_produto' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
+                        {% endif %}
+                        {% if perms.produto.delete_produtodiamentro %}
                         <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
                             <i>{% bs_icon 'trash' %}</i> Excluir</button>
                         {% endif %}
@@ -63,26 +63,28 @@ Produtos Diametros Cadastrados
             </tr>
             {% endfor %}
             {% else %}
-            <td>Nenhum Produto encontrado</td>
+            <td>Nenhum Diametro encontrado</td>
             {% endif %}
         </tbody>
     </table>
 
+    {% if list_diameters.object_list.count > 10 %}
     <div class="pagination">
         <span class="step-links">
-            {% if produtos.has_previous %}
-            <a class="btn-left" href="?page={{ produtos.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>
+            {% if list_diameters.has_previous %}
+            <a class="btn-left" href="?page={{ list_diameters.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>
             {% endif %}
 
             <span class="current">
-                {{ produtos.number }} de {{ produtos.paginator.num_pages }}
+                {{ list_diameters.number }} de {{ list_diameters.paginator.num_pages }}
             </span>
 
-            {% if produtos.has_next %}
-            <a class="btn-right" href="?page={{ produtos.next_page_number }}">{% bs_icon 'arrow-right-circle' size='1.5em' %}</a>
+            {% if list_diameters.has_next %}
+            <a class="btn-right" href="?page={{ list_diameters.next_page_number }}">{% bs_icon 'arrow-right-circle' size='1.5em' %}</a>
             {% endif %}
         </span>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 

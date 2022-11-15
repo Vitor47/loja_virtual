@@ -10,7 +10,6 @@ import sys
 import uuid
 #Mensagens Template
 from django.contrib import messages
-from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required, permission_required
 #Retornar templates
 from django.shortcuts import redirect, render
@@ -21,9 +20,12 @@ from slug import slug
 #Cria LOG dos registros
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
-#Permissões
+#Decimal
+from decimal import Decimal
+#Forms
+from .forms import FormCodigoServico, FormCodigoFormato
 
-from .models import Produto, ProdutoAtributo, ProdutoCategoria, ProdutoImagens, ProdutoTipo, ProdutoAtributoProduto, ProdutoDiamentro
+from .models import Produto, ProdutoAtributo, ProdutoCategoria, ProdutoImagens, ProdutoTipo, ProdutoAtributoProduto, ProdutoDiamentro, ProdutoDiamentroProduto
 
 @login_required(login_url="/admin")
 @permission_required('produto.view_produto')
@@ -382,7 +384,16 @@ def delete_categoria_produto(request, id):
 def atributo_produto(request):
     atributos = ProdutoAtributo.objects.all().order_by('-id')
     if request.method == "GET":
-        return render(request, "produto/atributo/index.html", {'atributos': atributos})
+        paginator = Paginator(atributos, 10)
+        try:
+            page = int(request.GET.get('page', '1'))
+        except ValueError:
+            page = 1
+        try:
+            list_atributos = paginator.page(page)
+        except (EmptyPage, InvalidPage):
+            list_atributos = paginator.page(paginator.num_pages)
+        return render(request, "produto/atributo/index.html", {'atributos': list_atributos})
 
 @login_required(login_url="/admin")
 @permission_required('produto.add_produtoatributo')
@@ -441,7 +452,7 @@ def delete_atributo_produto(request, id):
     if request.method == "GET":
 
         LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoAtributo).id,
-            atributo.id, f"EDIT -> {atributo.id}", DELETION, 'O atributo %s foi deletado' %atributo.id
+            atributo.id, f"DELETE -> {atributo.id}", DELETION, 'O atributo %s foi deletado' %atributo.id
         )
 
         atributo.delete()
@@ -505,7 +516,7 @@ def produto_atributo_produto(request, id):
 
 @login_required(login_url="/admin")
 @permission_required('produto.view_produtodiamentro')
-def produto_diametro(request):
+def diametro_produto(request):
     if request.method == "GET":
         list_produtos_diametro = ProdutoDiamentro.objects.all().order_by("-id")
         paginator = Paginator(list_produtos_diametro, 10)
@@ -514,7 +525,168 @@ def produto_diametro(request):
         except ValueError:
             page = 1
         try:
-            list_products = paginator.page(page)
+            list_diameters = paginator.page(page)
         except (EmptyPage, InvalidPage):
-            list_products = paginator.page(paginator.num_pages)
-        return render(request, "produto/diametro/index.html", {'list_products': list_products})
+            list_diameters = paginator.page(paginator.num_pages)
+        return render(request, "produto/diametro/index.html", {'list_diameters': list_diameters})
+
+@login_required(login_url="/admin")
+@permission_required('produto.add_produtodiamentro')
+def create_diametro_produto(request):
+    if request.method == "GET":
+        form_codigo_servico = FormCodigoServico()
+        form_codigo_formato = FormCodigoFormato()
+        context = {
+            'form_codigo_servico': form_codigo_servico,
+            'form_codigo_formato': form_codigo_formato
+        }
+        return render(request, "produto/diametro/create.html", context=context)
+    elif request.method == "POST":
+        nCdServico = request.POST.get('nCdServico')
+        sCepOrigem = request.POST.get('sCepOrigem')
+        nVlPeso = request.POST.get('nVlPeso')
+        nCdFormato = request.POST.get('nCdFormato')
+        nVlComprimento = request.POST.get('nVlComprimento')
+        nVlAltura = request.POST.get('nVlAltura')
+        nVlLargura = request.POST.get('nVlLargura')
+        nVlDiametro = request.POST.get('nVlDiametro')
+
+        try:
+            produto_diametro = ProdutoDiamentro(
+                nCdServico = nCdServico,
+                sCepOrigem = sCepOrigem,
+                nVlPeso = nVlPeso,
+                nCdFormato = nCdFormato,
+                nVlComprimento = Decimal(nVlComprimento),
+                nVlAltura = Decimal(nVlAltura),
+                nVlLargura = Decimal(nVlLargura),
+                nVlDiametro = Decimal(nVlDiametro)
+            )
+            produto_diametro.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoDiamentro).id,
+                produto_diametro.id, f"ADD -> {produto_diametro.id}", ADDITION, 'O diametro %s foi adicionado' %produto_diametro.id
+            )
+
+            messages.success(request, "Diametro adicionado com sucesso!")
+            return redirect('/admin/diametro_produto/')
+        except Exception as e:
+            messages.error(request, "Diametro não adicionado aconteceu algum erro inesperado!")
+            return redirect('/admin/create_diametro_produto/')
+
+@login_required(login_url="/admin")
+@permission_required('produto.change_produtodiamentro')
+def edit_diametro_produto(request, id):
+    diametro_produto = ProdutoDiamentro.objects.get(id=id)
+    if request.method == "GET":
+        form_codigo_servico = FormCodigoServico()
+        form_codigo_formato = FormCodigoFormato()
+
+        context = {
+            'diametro_produto': diametro_produto,
+            'form_codigo_servico': form_codigo_servico,
+            'form_codigo_formato': form_codigo_formato
+        }
+        return render(request, "produto/diametro/edit.html", context=context)
+    if request.method == "POST":
+        nCdServico = request.POST.get('nCdServico')
+        sCepOrigem = request.POST.get('sCepOrigem')
+        nVlPeso = request.POST.get('nVlPeso')
+        nCdFormato = request.POST.get('nCdFormato')
+        nVlComprimento = request.POST.get('nVlComprimento')
+        nVlAltura = request.POST.get('nVlAltura')
+        nVlLargura = request.POST.get('nVlLargura')
+        nVlDiametro = request.POST.get('nVlDiametro')
+
+        nVlComprimento = nVlComprimento.replace(",", ".")
+        nVlAltura = nVlAltura.replace(",", ".")
+        nVlLargura = nVlLargura.replace(",", ".")
+        nVlDiametro = nVlDiametro.replace(",", ".")
+
+        try:
+            diametro_produto.nCdServico = nCdServico
+            diametro_produto.sCepOrigem = sCepOrigem
+            diametro_produto.nVlPeso = nVlPeso
+            diametro_produto.nCdFormato = nCdFormato
+            diametro_produto.nVlComprimento = Decimal(nVlComprimento)
+            diametro_produto.nVlAltura = Decimal(nVlAltura)
+            diametro_produto.nVlLargura = Decimal(nVlLargura)
+            diametro_produto.nVlDiametro = Decimal(nVlDiametro)
+            diametro_produto.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoDiamentro).id,
+                diametro_produto.id, f"EDIT -> {diametro_produto.id}", CHANGE, 'O diametro %s foi editado' %diametro_produto.id
+            )
+
+            messages.success(request, "Diametro editado com sucesso!")
+            return redirect('/admin/diametro_produto/')
+        except Exception as e:
+            messages.error(request, "Diametro não editado aconteceu algum erro inesperado!")
+            return redirect(f'/admin/edit_diametro_produto/{id}')
+
+@login_required(login_url="/admin")
+@permission_required('produto.delete_produtodiamentro')
+def delete_diametro_produto(request, id):
+    diametro = ProdutoDiamentro.objects.get(id=id)
+    if request.method == "GET":
+        LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoDiamentro).id,
+            diametro.id, f"DELETE -> {diametro.id}", DELETION, 'O diametro %s foi deletado' %diametro.id
+        )
+        diametro.delete()
+
+        messages.success(request, "Diametro deletado com sucesso!")
+        return redirect('/admin/diametro_produto/')
+
+@login_required(login_url="/admin")
+@permission_required('produto.add_produtodiamentro')
+def produto_diametro_produto(request, id):
+    diametro = ProdutoDiamentro.objects.get(id=id)
+    produtos = Produto.objects.all().order_by('-id')
+    table_relacionada = ProdutoDiamentroProduto.objects.filter(diametro_id=id)
+    if request.method == "GET":
+        products = []
+        marcado = False
+        for produto in produtos:
+            for item in table_relacionada:
+                if item.produto_id == produto.id:
+                    marcado = True
+                    break
+                else:
+                    marcado = False
+
+            produto = {
+                'id': produto.id,
+                'nome': produto.nome,
+                'categoria': produto.categoria.nome,
+                'tipo': produto.tipo.get_tipo_id_display,
+                'data_cad': produto.data_cad,
+                'marcado': marcado,
+            }
+            products.append(produto)
+
+        context = {}
+        context['produtos'] = products
+        context['table_relacionada'] = table_relacionada
+        context['diametro'] = diametro
+        return TemplateResponse(request, "produto/diametro/produto_diametro.html", context)
+    elif request.method == "POST":
+        try:
+            list_id_products = request.POST.getlist('produto_id[]')
+            for i in table_relacionada:
+                i.delete()
+            for i in list_id_products:
+                diametro_produto = ProdutoDiamentroProduto (
+                    diametro_id = diametro.id,
+                    produto_id = i,
+                )
+                diametro_produto.save()
+
+            LogEntry.objects.log_action(request.user.id, ContentType.objects.get_for_model(ProdutoDiamentroProduto).id,
+                diametro.id, f"ADD -> {diametro.id}", ADDITION, 'Os produtos foram adicionados ao diametro'
+            )
+
+            messages.success(request, "Os produtos foram adicionados ao diametro!")
+            return redirect('/admin/diametro_produto/')
+        except Exception as e:
+            messages.error(request, "Os produtos não foram adicionados ao diametro, algum erro inesperado!")
+            return redirect(f'/admin/produto_diametro_produto/{id}')

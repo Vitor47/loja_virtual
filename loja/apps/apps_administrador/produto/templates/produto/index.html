@@ -84,6 +84,7 @@ Lista de Produtos Cadastrados
         </tbody>
     </table>
 
+    {% if produtos.object_list.count > 10 %}
     <div class="pagination mb-4">
         <span class="step-links">
             {% if produtos.has_previous %}
@@ -99,6 +100,7 @@ Lista de Produtos Cadastrados
             {% endif %}
         </span>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 
