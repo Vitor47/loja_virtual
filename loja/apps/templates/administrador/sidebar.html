@@ -29,30 +29,34 @@
         {% if perms.produto.view_produto %}
         <li>
             <div class="iocn-link">
-                <a href="{% url 'apps_administrador.produto:produto' %}">
+                <a href="#">
                     <i class='bx bx-shopping-bag'></i>
                     <span class="link_name">Produto</span>
                 </a>
                 <i class='bx bxs-chevron-down arrow'></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="{% url 'apps_administrador.produto:produto' %}">Gerenciar Produto</a></li>
+                <li><a class="link_name" href="#">Produto</a></li>
+                <li><a href="{% url 'apps_administrador.produto:categoria_produto' %}">Gerenciar Produto</a></li>
                 {% if perms.produto.view_produtocategoria %}
                 <li><a href="{% url 'apps_administrador.produto:categoria_produto' %}">Categorias Produto</a></li>
                 {% endif %}
                 {% if perms.produto.view_produtoatributo %}
                 <li><a href="{% url 'apps_administrador.produto:atributo_produto' %}">Atributos do Produto</a></li>
                 {% endif %}
+                {% if perms.produto.view_produtodiamentro %}
+                <li><a href="{% url 'apps_administrador.produto:diametro_produto' %}">Diametros do Produto</a></li>
+                {% endif %}
             </ul>
         </li>
         {% endif %}
         <li>
-            <a href="#">
+            <a href="{% url 'apps_administrador.cliente:cliente' %}">
                 <i>{% bs_icon 'people' %}</i>
                 <span class="link_name">Clientes</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Clientes</a></li>
+                <li><a class="link_name" href="{% url 'apps_administrador.cliente:cliente' %}">Clientes</a></li>
             </ul>
         </li>
         <li>
@@ -72,6 +76,26 @@
             </a>
             <ul class="sub-menu blank">
                 <li><a class="link_name" href="{% url 'apps_administrador.configuracao:configuracao' %}">Configurações</a></li>
+            </ul>
+        </li>
+        {% endif %}
+        {% if perms.user.view_user %}
+        <li>
+            <div class="iocn-link">
+                <a href="#">
+                    <i class='bx bx-laptop'></i>
+                    <span class="link_name">Sistema</span>
+                </a>
+                <i class='bx bxs-chevron-down arrow'></i>
+            </div>
+            <ul class="sub-menu">
+                <li><a class="link_name" href="#">Sistema</a></li>
+                {% if perms.user.view_user %}
+                <li><a href="{% url 'apps_administrador.sistema:list_user' %}">Usuários</a></li>
+                {% endif %}
+                {% if perms.group.view_group %}
+                <li><a href="{% url 'apps_administrador.sistema:grupo_acesso' %}">Grupo de Acesso</a></li>
+                {% endif %}
             </ul>
         </li>
         {% endif %}

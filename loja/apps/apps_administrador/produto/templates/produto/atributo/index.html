@@ -34,8 +34,8 @@
             </tr>
         </thead>
         <tbody>
-            {% if atributos.count > 0 %}
-            {% for item in atributos %}
+            {% if atributos.object_list.count > 0 %}
+            {% for item in atributos.object_list %}
             <tr>
                 <td data-label="#" scope="row"> {{ forloop.counter }}</td>
                 <td data-label="Nome" >{{ item.nome }}</td>
@@ -61,6 +61,25 @@
             {% endif %}
         </tbody>
     </table>
+
+    {% if list_diameters.object_list.count > 10 %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if list_diameters.has_previous %}
+            <a class="btn-left" href="?page={{ list_diameters.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>
+            {% endif %}
+
+            <span class="current">
+                {{ list_diameters.number }} de {{ list_diameters.paginator.num_pages }}
+            </span>
+
+            {% if list_diameters.has_next %}
+            <a class="btn-right" href="?page={{ list_diameters.next_page_number }}">{% bs_icon 'arrow-right-circle' size='1.5em' %}</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endif %}
+
 </div>
 {% endblock %}
 

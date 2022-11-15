@@ -1,5 +1,6 @@
 {% extends 'administrador\base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block 'title' %}Cadastrar Novo Produto{% endblock %}
 
@@ -7,7 +8,7 @@
 {% endblock %}
 
 {% block 'dashboard' %}
-<div class="container">
+<div class="container mb-4">
     <div class="container-box-admin">
         <h2>Cadastrar Novo Produto</h2>
         <form class="mt-4" action="{% url 'apps_administrador.produto:create_produto' %}" method="POST"

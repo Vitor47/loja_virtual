@@ -19,4 +19,9 @@ urlpatterns = [
     path('edit_atributo_produto/<int:id>', views.edit_atributo_produto, name='edit_atributo_produto'),
     path('delete_atributo_produto/<int:id>', views.delete_atributo_produto, name='delete_atributo_produto'),
     path('produto_atributo_produto/<int:id>', views.produto_atributo_produto, name='produto_atributo_produto'),
+    path('diametro_produto/', views.diametro_produto, name='diametro_produto'),
+    path('create_diametro_produto/', views.create_diametro_produto, name='create_diametro_produto'),
+    path('edit_diametro_produto/<int:id>', views.edit_diametro_produto, name='edit_diametro_produto'),
+    path('delete_diametro_produto/<int:id>', views.delete_diametro_produto, name='delete_diametro_produto'),
+    path('produto_diametro_produto/<int:id>', views.produto_diametro_produto, name='produto_diametro_produto'),
     ]

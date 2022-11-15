@@ -27,7 +27,8 @@ def login(request):
 
                 user_cliente = authenticate(username=email, password=senha)
                 if user_cliente:
-                    if user_cliente.is_active:
+                    cliente = Cliente.objects.get(user_cliente_id=user_cliente.id)
+                    if cliente.is_active:
                         login_django(request, user_cliente)
                         return redirect('/')
                     else:
@@ -81,7 +82,7 @@ def create_count(request):
                 username = email,
                 email = email,
                 password = make_password(senha),
-                is_active = True,
+                is_active = False,
                 is_staff = False,
                 is_superuser = False,
             )
@@ -93,20 +94,22 @@ def create_count(request):
                 messages.error(request, "Este CPF ou CNPJ não é valido!")
                 return redirect('/criar-conta/')
                 
+            r = re.compile(r'[^0-9]')
+            cpf_cnpj = r.sub('', cpf_cnpj)
+            telefone = r.sub('', telefone)
+
             cpf_verifica = Cliente.objects.filter(cpf_cnpj__iexact=cpf_cnpj).exists()
             if cpf_verifica:
                 messages.error(request, "Este CPF ou CNPJ já existe por favor digite um CPF ou CNPJ diferente!")
                 return redirect('/criar-conta/')
 
-            r = re.compile(r'[^0-9]')
-            telefone = r.sub('', telefone)
-            cpf_cnpj = r.sub('', cpf_cnpj)
             data_nascimento = datetime.strptime(data_nascimento, '%d/%m/%Y').date()
 
             cliente = Cliente (
                 telefone = telefone,
                 cpf_cnpj = cpf_cnpj,
                 data_nascimento = data_nascimento,
+                is_active = True,
                 user_cliente = user_cliente
             )
             cliente.save()
@@ -123,14 +126,16 @@ def create_count(request):
                 bairro = bairro,
                 logradouro = rua,
                 nr_casa = nr_casa,
-                user_cliente = user_cliente.id
+                user_cliente = user_cliente
             )
+            
             cliente_endereco.save()
 
             messages.success(request, "Conta criada com sucesso por favor faça login agora!")
             return render(request, "conta/login.html", context=context)
 
         except Exception as e:
+            print(e)
             messages.error(request, "Conta não criada algum erro inesperado. Tente novamente!")
             return redirect('/criar-conta/')
         
