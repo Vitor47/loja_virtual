@@ -24,51 +24,51 @@
                 {% csrf_token %}
                 <div class="display-forms">
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn second" placeholder="Nome" name="nome-create-conta" id="nome-create-conta" required />
+                        {% render_field form_user.first_name type="text" class="form-create-conta fadeIn second" placeholder="Nome" id="nome-create-conta" %}
                     </div>
                     
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn third" placeholder="Telefone" name="telefone-create-conta" id="telefone-create-conta" required />
+                        {% render_field form_cliente.telefone type="text" class="form-create-conta fadeIn third" placeholder="Telefone" id="telefone-create-conta" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="email" class="form-create-conta fadeIn third" placeholder="Endereço de e-mail" name="email-create-conta" id="email-create-conta" required />
+                        {% render_field form_user.email type="email" class="form-create-conta fadeIn third" placeholder="Endereço de e-mail" id="email-create-conta" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn third" placeholder="Cpf/Cnpj" name="cpfcnpj-create-conta" id="cpfcnpj-create-conta" required />
+                        {% render_field form_cliente.cpf_cnpj type="text" class="form-create-conta fadeIn third" placeholder="Cpf/Cnpj" id="cpfcnpj-create-conta" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn third" placeholder="Data de nascimento" name="data-create-conta" id="data-create-conta" required />
+                        {% render_field form_cliente.data_nascimento type="text" class="form-create-conta fadeIn third" placeholder="Data de nascimento" id="data-create-conta" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn third" name="cep" id="cep" value="" size="10" maxlength="8"placeholder="Cep" required />
+                        {% render_field form_cliente_endereco.cep type="text" class="form-create-conta fadeIn third" placeholder="Cep" id="cep" value="" size="10" maxlength="8" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn third" name="estado" id="uf" size="2" placeholder="Estado" required />
+                        {% render_field form_cliente_endereco.estado type="text" class="form-create-conta fadeIn third" id="uf" size="2" placeholder="Estado" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn third" name="cidade" id="cidade" size="40" placeholder="Cidade" required />
+                        {% render_field form_cliente_endereco.cidade type="text" class="form-create-conta fadeIn third" id="cidade" size="40" placeholder="Cidade" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn third" name="bairro" id="bairro" size="40" placeholder="Bairro" />
+                        {% render_field form_cliente_endereco.bairro type="text" class="form-create-conta fadeIn third" id="bairro" size="40" placeholder="Bairro" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="text" class="form-create-conta fadeIn third" name="logradouro" id="rua" size="60" placeholder="Logradouro" required />
+                        {% render_field form_cliente_endereco.logradouro type="text" class="form-create-conta fadeIn third" id="rua" size="60" placeholder="Logradouro" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="number" class="form-create-conta fadeIn third" name="nr-casa" id="nr-casa-create-conta" placeholder="Nº Casa">
+                        {% render_field form_cliente_endereco.nr_casa type="number" class="form-create-conta fadeIn third" id="nr-casa-create-conta" size="3" placeholder="Nº Casa" %}
                     </div>
 
                     <div class="display-form-conta">
-                        <input type="password" class="form-create-conta fadeIn third" placeholder="Senha" name="senha-create-conta" id="senha-create-conta" minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();" required />
+                        {% render_field form_user.password type="password" class="form-create-conta fadeIn third" placeholder="Senha" id="senha-create-conta" minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();" %}
                         <span id="password-status"></span>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
     </div>
 </section>
 
-{% include 'site\footer_mobile\footer_home.html' %}
+{% include 'site\footer_mobile\footer_conta.html' %}
 {% endblock %}
 
 {% block 'body' %}

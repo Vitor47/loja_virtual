@@ -1,0 +1,78 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+
+{% block 'title' %}Detalhes do cliente {{cliente.nome}}{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="container-box-admin">
+        <h2>Cliente {{cliente.nome}}</h2>
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <span>Nome: {{cliente.nome}}</span>
+                </div>
+                <div class="col-md-6">
+                    <span>Telefone: {{cliente.telefone}}</span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <span>E-mail: {{cliente.email}}</span>
+                </div>
+
+                <div class="col-md-6">
+                    <span>Cpf/Cnpj: {{cliente.cpf_cnpj}}</span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <span>Data Nascimento: {{cliente.data_nascimento}}</span>
+                </div>
+
+                <div class="col-md-6">
+                    <span>Cep: {{cliente.cep}}</span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <span>Estado: {{cliente.estado}}</span>
+                </div>
+
+                <div class="col-md-6">
+                    <span>Cidade: {{cliente.cidade}}</span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                {% if bairro is not None %}
+                <div class="col-md-6">
+                    <span>Bairro: {{cliente.bairro}}</span>
+                </div>
+                {% endif %}
+
+                <div class="col-md-6">
+                    <span>Logradouro: {{cliente.logradouro}}</span>
+                </div>
+            </div>
+
+            {% if nr_casa is not None %}
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <span>Nr casa: {{cliente.nr_casa}}</span>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="margin mt-4 mb-4">
+                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+            </div>
+    </div>
+</div>
+
+{% endblock %}

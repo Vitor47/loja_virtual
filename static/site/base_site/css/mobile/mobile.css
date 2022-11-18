@@ -7,10 +7,6 @@
     z-index: 99999;
 }
 
-body {
-    background-color: #eeeeee;
-}
-
 .logo {
     margin-top: 10px;
     color: #fff;
@@ -24,7 +20,7 @@ body {
     position: fixed;
     bottom: -24px;
     overflow: hidden;
-    min-width: 320px;
+    min-width: 296px;
     min-height: 76px;
     margin: 0 -8px 8px -16px;
     border-top: 1px solid #6c757d;

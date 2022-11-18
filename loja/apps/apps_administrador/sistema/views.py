@@ -17,6 +17,7 @@ from slug import slug
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 #Permissões
+from ..decorators import manager_required
 from .models import Auditoria
 
 def login(request):
@@ -54,6 +55,7 @@ def login(request):
             return redirect('/admin')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 def perfil(request):
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
@@ -98,6 +100,7 @@ def perfil(request):
         return redirect('/admin')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 def senha(request):
     if request.user.is_authenticated:
         user = User.objects.get(id=request.user.id)
@@ -138,11 +141,13 @@ def senha(request):
         return redirect('/admin')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 def sair(request):
     logout(request)
     return redirect('/admin')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('user.view_user')
 def list_user(request):
     if request.method == "GET":
@@ -150,6 +155,7 @@ def list_user(request):
         return render(request, "usuarios/index.html", {'users': list_users})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('user.add_user')
 def create_user(request):
     if request.method == "GET":
@@ -215,6 +221,7 @@ def create_user(request):
             return redirect('/admin/create_user/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('user.change_user')
 def edit_user(request, id):
     user = User.objects.get(id=id)
@@ -289,6 +296,7 @@ def edit_user(request, id):
             return redirect(f'/admin/edit_user/{id}')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('user.delete_user')
 def delete_user(request, id):
     item = User.objects.get(id=id)
@@ -307,6 +315,7 @@ def delete_user(request, id):
         return redirect('/admin/usuario/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('group.view_group')
 def grupo_acesso(request):
     if request.method == "GET":
@@ -314,6 +323,7 @@ def grupo_acesso(request):
         return render(request, "grupo_acesso/index.html", {'groups': groups})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('group.add_group')
 def create_grupo_acesso(request):
     if request.method == "GET":
@@ -342,6 +352,7 @@ def create_grupo_acesso(request):
             return redirect(f'/admin/grupo_acesso/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('group.change_group')
 def edit_grupo_acesso(request, id):
     group = Group.objects.get(id=id)
@@ -369,6 +380,7 @@ def edit_grupo_acesso(request, id):
             return redirect(f'/admin/edit_grupo_acesso/{id}')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('group.change_group')
 def delete_grupo_acesso(request, id):
     if request.method == "GET":
@@ -382,6 +394,7 @@ def delete_grupo_acesso(request, id):
         return redirect('/admin/grupo_acesso/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('group.add_group')
 def add_users_group(request, id_group):
     users = User.objects.exclude(Q(is_superuser__gte=True)).filter(
@@ -439,6 +452,7 @@ def add_users_group(request, id_group):
             return redirect('/admin/grupo_acesso/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('group.add_group')
 def add_permission_group(request, id_group):
     grupo = Group.objects.get(id=id_group)

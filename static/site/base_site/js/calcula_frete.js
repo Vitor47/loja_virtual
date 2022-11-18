@@ -1,9 +1,13 @@
-$(document).ready(function(){
+function SelectCategoria() {
+    var slugCategoria = $("#categoria_slug").val();
+    window.location.href = "/produtos?categoria_slug=" + slugCategoria;
+}
+
+$(document).ready(function () {
     $('#calcula-frete').mask('00000-000');
 });
 
-function CalcularFrete() {
-    var serializedData = $(this).serialize();
+function CalcularFrete(id, slug, csrf_token) {
     var html = '';
     var _cep = $("#calcula-frete").val();
     if (_cep != "") {
@@ -12,26 +16,29 @@ function CalcularFrete() {
             $("#img-reload").html('<img style="max-width: 24%;" src="/static/images/reload-gif.gif" alt="gif">');
 
             $.ajax({
-                url: "{% url 'site_loja:detalhes_produto' produto.slug %}",
+                url: "/detalhes-produto/" + slug,
                 type: "POST",
                 dataType: "json",
-                data: JSON.stringify({
-                    id_produto: '{{produto.id}}',
+                data: {
+                    id_produto: id,
                     cep: _cep,
-                }),
+                },
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRFToken": '{{csrf_token}}',
+                    "X-CSRFToken": csrf_token,
                 },
                 success: (data) => {
                     if (data) {
-                        console.log(data);
-                        $.each(data, function(index, data) {
-                            html += '<p style="margin-top: 12px;"> Valor do frete: R$ ' + data['Valor'] + ', prazo de entrega: ' + data['PrazoEntrega'] +' dias, entrega domiciliar: ' + data['EntregaDomiciliar'] + ' </p>';
+                        $.each(data, function (index, data) {
+                            if(data['MsgErro'].length > 0){
+                                html += '<p style="margin-top: 12px;"> '+ data['MsgErro'] +' </p>';
+                            }else{
+                                html += '<p style="margin-top: 12px;"> Valor do frete: R$ ' + data['Valor'] + ', prazo de entrega: ' + data['PrazoEntrega'] + ' dias, entrega domiciliar: ' + data['EntregaDomiciliar'] + ' </p>';
+                            }
                         });
 
                         $("#result-fret").html(html);
-                    }else {
+                    } else {
                         html += '<p style="margin-top: 12px;">Não possuei cobrança de frete para este cep.</p>';
                         $("#result-fret").html(html);
                     }

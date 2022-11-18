@@ -7,22 +7,23 @@
 
 {% block 'head' %}
 <link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
+<link rel="stylesheet" href="{% static 'site/base_site/css/conta.css' %}">
 {% endblock %}
 
 {% block 'main' %}
 
 <section class="margin-top">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 mr-auto ml-auto box-conta">
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
                 <h2 class="title-login">Você Saiu</h2>
-                <p style="text-align: center;"><a href="{% url 'site_loja:home' %}" class="btn btn-primary">Home</a><p>
+                <a href="{% url 'site_loja:home' %}"  class="btn btn-login fadeIn fourth">Home</a>
             </div>
         </div>
     </div>
 </section>
 
-{% include 'site\footer_mobile\footer_home.html' %}
+{% include 'site\footer_mobile\footer_conta.html' %}
 {% endblock %}
 
 {% block 'body' %}

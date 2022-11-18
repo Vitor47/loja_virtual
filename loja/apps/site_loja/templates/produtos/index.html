@@ -1,6 +1,5 @@
 {% extends 'site\base.html' %}
 {% load static %}
-{% load bootstrap_icons %}
 
 {% block 'title' %}Produtos{% endblock %}
 
@@ -17,13 +16,13 @@
             <div id="filter" class="display-filter">
                 <div class="box-filter-1">
                     <button class="btn" onclick="expandFilterCategory()">
-                        {% bs_icon 'funnel' size='1em' extra_classes="icon-filter" %}
+                        <i class="fa-solid fa-filter icon-filter" style="font-size: 1em;"></i>
                     </button>
                 </div>
 
                 <div class="box-filter-2">
                     <button class="btn" onclick="expandFilterOrder()">
-                        {% bs_icon 'arrow-down-up' size='1em' extra_classes="icon-filter" %}
+                        <i class="fa-solid fa-arrow-down-short-wide icon-filter" style="font-size: 1em;"></i>
                     </button>
                 </div>
             </div>
@@ -31,19 +30,19 @@
 
         <div class="col-md-12">
             <div class="margin-top" id="select-filter">
-                <select class="form-control" aria-label="Default select example">
+                <select class="form-control" name='categoria_slug' id='categoria_slug' onchange="SelectCategoria()" aria-label="Default select example">
                     <option selected>Selecione a categoria desejada</option>
-                    <option value="1">Bicos de luz</option>
-                    <option value="2">Geral</option>
-                    <option value="3">Fios de luz</option>
+                    {% for categoria in categorias %}
+                        <option value="{{categoria.slug}}"> {{categoria.nome}} </option>
+                    {% endfor %}
                 </select>
             </div>
 
             <div class="margin-top" id="select-order">
-                <select class="form-control" aria-label="Default select example">
+                <select class="form-control" name='valor' id='valor' onchange="SelectPreco()" aria-label="Default select example">
                     <option selected>Selecione a ordem desejada</option>
-                    <option value="1">Maior valor</option>
-                    <option value="2">Menor valor</option>
+                    <option value="maior_100" name="valor" id="valor"> Maior que R$: 100 reais </option>
+                    <option value="menor_100" name="valor" id="valor"> Menor que R$: 100 reais </option>
                 </select>
             </div>
         </div>
@@ -56,7 +55,7 @@
                     <form method="GET" action="{% url 'site_loja:produtos' %}">
                         <div id="divBusca">
                             <input type="text" id="txtBusca" name="produtos_name" placeholder="Buscar..." />
-                            <button type="submit" id="btnBusca">{% bs_icon 'search' %}</button>
+                            <button type="submit" id="btnBusca"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </form>
                 </div>
@@ -71,9 +70,9 @@
                             <li class="nav-item">
                                 <a class="nav-link link-dark">
                                     {% if categoria.marcado == True %}
-                                    <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug[]" id="categoria_slug" multiple checked> {{categoria.nome}}
+                                    <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug" id="categoria_slug" multiple checked> {{categoria.nome}}
                                     {% else %}
-                                    <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug[]" id="categoria_slug" multiple> {{categoria.nome}}
+                                    <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug" id="categoria_slug" multiple> {{categoria.nome}}
                                     {% endif %}
                                 </a>
                             </li>
@@ -123,66 +122,66 @@
             </div>
 
             <div class="col-md-9">
+                {% if tamanho_array_products > 0 %}
                 <div class="display-card-shop margin-top">
-                    {% if tamanho_array_products > 0 %}
-                        {% for produto in produtos %}
-                        <div id="passar_mouse" class="product-card">
-                            <a href="{% url 'site_loja:detalhes_produto' produto.slug %}">
-                                <div class="img-product" style="background-image: url('/media/{{produto.imagem_principal}}');">
-                                    <span class="display-avaliation-card">
-                                        {% bs_icon 'star-fill' size='1em' extra_classes="icon-avaliation" %}
-                                        {% bs_icon 'star-fill' size='1em' extra_classes="icon-avaliation" %}
-                                        {% bs_icon 'star-fill' size='1em' extra_classes="icon-avaliation" %}
-                                        {% bs_icon 'star-fill' size='1em' extra_classes="icon-avaliation" %}
-                                        {% bs_icon 'star-half' size='1em' extra_classes="icon-avaliation" %}
-                                    </span>
-                                    <span id="favorite-mouse" class="favorite-mouse">
-                                        <button class="btn">
-                                            {% bs_icon 'heart-fill' extra_classes='icon-card-favorite' size='1.5em' %}
-                                        </button>
-                                    </span>
-                                </div>
-                                <p class="p-card">{{produto.nome}} </p>
-                                
-                                {% if produto.valor_com_desconto == None %}
-                                <p class="p-value">R$ {{produto.valor_inicial}}</p>
-                                {% else %}
-                                <span class="price-old">R$ {{produto.valor_inicial}}</span>
-                                <div class="display-discount">
-                                    <p class="p-value">R$ {{produto.valor_com_desconto}}</p>
-                                    <p class="percent-discount">{{produto.percent_desconto|floatformat:2}}% desconto</p>
-                                </div>
-                                {% endif %}
-                            </a>
+                    {% for produto in produtos %}
+                    <div id="passar_mouse" class="product-card">
+                        <a href="{% url 'site_loja:detalhes_produto' produto.slug %}">
+                            <div class="img-product" style="background-image: url('/media/{{produto.imagem_principal}}');">
+                                <span class="display-avaliation-card">
+                                    <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
+                                    <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
+                                    <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
+                                    <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
+                                    <i class="fa-solid fa-star-half-stroke" style="font-size: 1em;"></i>
+                                </span>
+                                <span id="favorite-mouse" class="favorite-mouse">
+                                    <button class="btn">
+                                        <i class="fa-solid fa-heart icon-card-favorite" style="font-size: 1.5em;"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <p class="p-card">{{produto.nome}} </p>
+                            
+                            {% if produto.valor_com_desconto == None %}
+                            <p class="p-value">R$ {{produto.valor_inicial}}</p>
+                            {% else %}
+                            <span class="price-old">R$ {{produto.valor_inicial}}</span>
+                            <div class="display-discount">
+                                <p class="p-value">R$ {{produto.valor_com_desconto}}</p>
+                                <p class="percent-discount">{{produto.percent_desconto|floatformat:2}}% desconto</p>
+                            </div>
+                            {% endif %}
+                        </a>
+        
+                        <div id="comprar-home" class="calculator-qtd">
+                            <div class="display-count">
+                                <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{produto.id}}" id="calculator_{{produto.id}}" value="1">
             
-                            <div id="comprar-home" class="calculator-qtd">
-                                <div class="display-count">
-                                    <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{produto.id}}" id="calculator_{{produto.id}}" value="1">
-                
-                                    <div class="display-count-button" role="group" aria-label="plus-minus">
-                                        <button type="button" class="btn-count" data-dir="up" id="up">
-                                            +
-                                        </button>
-                                        <button type="button" class="btn-count" data-dir="dwn" id="dwn">
-                                            -
-                                        </button>
-                                    </div>
-                                </div>
-            
-                                <div>
-                                    {% if novidade.valor_com_desconto == None %}
-                                    <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
-                                    {% else %}
-                                    <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
-                                    {% endif %}
+                                <div class="display-count-button" role="group" aria-label="plus-minus">
+                                    <button type="button" class="btn-count" data-dir="up" id="up">
+                                        +
+                                    </button>
+                                    <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                        -
+                                    </button>
                                 </div>
                             </div>
+        
+                            <div>
+                                {% if novidade.valor_com_desconto == None %}
+                                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                                {% else %}
+                                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                                {% endif %}
+                            </div>
                         </div>
-                        {% endfor %}
-                    {% else %}
-                    <p class="p-card">Nenhum produto encontrado!</p>
-                    {% endif %}
+                    </div>
+                    {% endfor %}
                 </div>
+                {% else %}
+                <p class="margin-top" style="text-align: center;">Nenhum produto encontrado!</p>
+                {% endif %}
 
                 {% if produtos %}
                     <div class="row" style="margin-top: 46px;">

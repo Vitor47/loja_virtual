@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 class Cliente(models.Model):
     id = models.IntegerField(null=False, primary_key=True, auto_created=True),
+    avatar = models.ImageField(upload_to="avatar", null=True)
+    telefone = models.ImageField(max_length=200, null=False, blank=False)
     telefone = models.CharField(max_length=200, null=False, blank=False)
     cpf_cnpj = models.CharField(max_length=200, null=False, blank=False)
     data_nascimento = models.DateField(null=False)
@@ -12,7 +14,7 @@ class Cliente(models.Model):
         db_table = "loja_cliente"
 
     def __str__(self):
-        return self.nome
+        return str(self.id)
 
 class Endereco(models.Model):
     id = models.IntegerField(null=False, primary_key=True, auto_created=True),

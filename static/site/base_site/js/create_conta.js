@@ -44,14 +44,24 @@ $(document).ready(function () {
                     else {
                         //CEP pesquisado não foi encontrado.
                         limpa_formulario_cep();
-                        alert("CEP não encontrado.");
+                        swal({
+                            title: "ERRO!",
+                            text: "CEP não encontrado.",
+                            icon: "error",
+                            button: "OK",
+                        })
                     }
                 });
             } //end if.
             else {
                 //cep é inválido.
                 limpa_formulario_cep();
-                alert("Formato de CEP inválido.");
+                swal({
+                    title: "ERRO!",
+                    text: "Formato de CEP inválido.",
+                    icon: "error",
+                    button: "OK",
+                })
             }
         } //end if.
         else {
@@ -61,35 +71,31 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function(){
+$(document).ready(function () {
     $('#telefone-create-conta').mask('(00) 00000-0000');
     $('#data-create-conta').mask('00/00/0000');
 });
 
 $('#cpfcnpj-create-conta').mask('000.000.000-00', {
-  onKeyPress : function(cpfcnpj, e, field, options) {
-    const masks = ['000.000.000-000', '00.000.000/0000-00'];
-    const mask = (cpfcnpj.length > 14) ? masks[1] : masks[0];
-    $('#cpfcnpj-create-conta').mask(mask, options);
-  }
+    onKeyPress: function (cpfcnpj, e, field, options) {
+        const masks = ['000.000.000-000', '00.000.000/0000-00'];
+        const mask = (cpfcnpj.length > 14) ? masks[1] : masks[0];
+        $('#cpfcnpj-create-conta').mask(mask, options);
+    }
 });
 
+function verificaForcaSenha() {
+    var numeros = /([0-9])/;
+    var alfabeto = /([a-zA-Z])/;
+    var chEspeciais = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
 
-function verificaForcaSenha() 
-    {
-        var numeros = /([0-9])/;
-        var alfabeto = /([a-zA-Z])/;
-        var chEspeciais = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
-    
-        if($('#senha-create-conta').val().length < 6 ) 
-        {
-            $('#password-status').html("<span style='color:red'>Fraco, insira no mínimo 6 caracteres</span>");
-        } else {  	
-            if($('#senha-create-conta').val().match(numeros) && $('#senha-create-conta').val().match(alfabeto) && $('#senha-create-conta').val().match(chEspeciais))
-            {            
-                $('#password-status').html("<span style='color:green'><b>Forte</b></span>");
-            } else {
-                $('#password-status').html("<span style='color:orange'>Médio, insira um caracter especial</span>");
-            }
+    if ($('#senha-create-conta').val().length < 6) {
+        $('#password-status').html("<span style='color:red'>Fraco, insira no mínimo 6 caracteres</span>");
+    } else {
+        if ($('#senha-create-conta').val().match(numeros) && $('#senha-create-conta').val().match(alfabeto) && $('#senha-create-conta').val().match(chEspeciais)) {
+            $('#password-status').html("<span style='color:green'><b>Forte</b></span>");
+        } else {
+            $('#password-status').html("<span style='color:orange'>Médio, insira um caracter especial</span>");
         }
     }
+}
