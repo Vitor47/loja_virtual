@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="{% static 'general/css/base.css' %}">
     <link rel="stylesheet" href="{% static 'general/css/general.css' %}">
     <link rel="stylesheet" href="{% static 'general/css/login.css' %}">
-    <link rel="shortcut icon" type="image/x-icon" href="/media/logo/icone.jpg"/>
-    {% block 'head' %}{% endblock %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/icone.jpg' %}"/>
     <title>Login Administrador</title>
 </head>
 <body>
@@ -19,7 +18,7 @@
             <div class="row">
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
-                    <div class="margin-bottom text-center txt-caixa" style="margin-top: 25%;">
+                    <div class="mb-4 text-center txt-caixa" style="margin-top: 25%;">
                         <img class="img-fluid" src="{% static 'images/logo/logo_sem_fundo.png' %}" alt="LOGO" />
                     </div>
                     <div class="caixa">
@@ -45,7 +44,7 @@
                                     </fieldset>
                                 </div>
                                 <div class="col-lg-3 col-md-3">
-                                    <button type="submit" class="vamos_mudar_um_pouco" title="Entrar">
+                                    <button type="submit" class="btn-login-admin" title="Entrar">
                                         {% bs_icon 'arrow-right-square' size='2.5em' %}</button>
                                 </div>
                             </div>

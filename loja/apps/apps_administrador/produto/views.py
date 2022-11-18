@@ -24,10 +24,13 @@ from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from decimal import Decimal
 #Forms
 from .forms import FormCodigoServico, FormCodigoFormato
-
+#Models
 from .models import Produto, ProdutoAtributo, ProdutoCategoria, ProdutoImagens, ProdutoTipo, ProdutoAtributoProduto, ProdutoDiamentro, ProdutoDiamentroProduto
+#Permissões
+from ..decorators import manager_required
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.view_produto')
 def produto(request):
     list_products = Produto.objects.all().order_by('-id')
@@ -43,6 +46,7 @@ def produto(request):
     return render(request, "produto/index.html", {'produtos': products})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.view_produto')
 def search_produto(request):
     list_products = Produto.objects.all().order_by('-id')
@@ -61,6 +65,7 @@ def search_produto(request):
     return render(request, "produto/index.html", {'produtos': products})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.add_produto')
 def create_produto(request):
     if request.method == "GET":
@@ -165,6 +170,7 @@ def create_produto(request):
             return redirect('/admin/create_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.change_produto')
 def edit_produto(request, id):
     item = Produto.objects.get(id=id)
@@ -277,6 +283,7 @@ def edit_produto(request, id):
             return redirect(f'/admin/edit_produto/{id}')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.delete_produto')
 def delete_produto(request, id):
     item = Produto.objects.get(id=id)
@@ -290,6 +297,7 @@ def delete_produto(request, id):
         return redirect('/admin/produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.delete_produto')
 def delete_image_produto(request, id):
     item = ProdutoImagens.objects.get(id=id)
@@ -304,6 +312,7 @@ def delete_image_produto(request, id):
         return redirect(f'/admin/edit_produto/{item.produto_id}')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.view_produtocategoria')
 def categoria_produto(request):
     if request.method == "GET":
@@ -311,6 +320,7 @@ def categoria_produto(request):
         return render(request, "produto/categoria/index.html", {'categorias': categorias})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.add_produtocategoria')
 def create_categoria_produto(request):
     if request.method == "GET":
@@ -340,6 +350,7 @@ def create_categoria_produto(request):
             return redirect('/admin/categoria_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.change_produtocategoria')
 def edit_categoria_produto(request, id):
     categoria = ProdutoCategoria.objects.get(id=id)
@@ -366,6 +377,7 @@ def edit_categoria_produto(request, id):
             return redirect('/admin/categoria_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.delete_produtocategoria')
 def delete_categoria_produto(request, id):
     categoria = ProdutoCategoria.objects.get(id=id)
@@ -380,6 +392,7 @@ def delete_categoria_produto(request, id):
         return redirect('/admin/categoria_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.view_produtoatributo')
 def atributo_produto(request):
     atributos = ProdutoAtributo.objects.all().order_by('-id')
@@ -396,6 +409,7 @@ def atributo_produto(request):
         return render(request, "produto/atributo/index.html", {'atributos': list_atributos})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.add_produtoatributo')
 def create_atributo_produto(request):
     if request.method == "GET":
@@ -421,6 +435,7 @@ def create_atributo_produto(request):
             return redirect('/admin/atributo_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.change_produtoatributo')
 def edit_atributo_produto(request, id):
     atributo = ProdutoAtributo.objects.get(id=id)
@@ -446,6 +461,7 @@ def edit_atributo_produto(request, id):
             return redirect('/admin/atributo_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.delete_produtoatributo')
 def delete_atributo_produto(request, id):
     atributo = ProdutoAtributo.objects.get(id=id)
@@ -461,6 +477,7 @@ def delete_atributo_produto(request, id):
         return redirect('/admin/atributo_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.add_produtoatributo')
 def produto_atributo_produto(request, id):
     atributo = ProdutoAtributo.objects.get(id=id)
@@ -515,6 +532,7 @@ def produto_atributo_produto(request, id):
             return redirect('/admin/atributo_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.view_produtodiamentro')
 def diametro_produto(request):
     if request.method == "GET":
@@ -531,6 +549,7 @@ def diametro_produto(request):
         return render(request, "produto/diametro/index.html", {'list_diameters': list_diameters})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.add_produtodiamentro')
 def create_diametro_produto(request):
     if request.method == "GET":
@@ -575,6 +594,7 @@ def create_diametro_produto(request):
             return redirect('/admin/create_diametro_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.change_produtodiamentro')
 def edit_diametro_produto(request, id):
     diametro_produto = ProdutoDiamentro.objects.get(id=id)
@@ -625,6 +645,7 @@ def edit_diametro_produto(request, id):
             return redirect(f'/admin/edit_diametro_produto/{id}')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.delete_produtodiamentro')
 def delete_diametro_produto(request, id):
     diametro = ProdutoDiamentro.objects.get(id=id)
@@ -638,6 +659,7 @@ def delete_diametro_produto(request, id):
         return redirect('/admin/diametro_produto/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('produto.add_produtodiamentro')
 def produto_diametro_produto(request, id):
     diametro = ProdutoDiamentro.objects.get(id=id)

@@ -3,8 +3,6 @@ from sqlite3 import Date
 #Mensagens Template
 from django.contrib import messages
 #Atenticação de Login e Session
-from django.contrib.auth import authenticate, logout
-from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required, permission_required
 #Retornar templates
 from django.shortcuts import redirect, render
@@ -14,16 +12,19 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 #Permissões
-
+from ..decorators import manager_required
+#Models
 from .models import Banner
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('banner.view_banner')
 def banner(request):
     banner = Banner.objects.all().order_by('-id')
     return render(request, "banner/index.html", {'banner': banner})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('banner.add_banner')
 def create_banner(request):
     if request.method == "GET":
@@ -52,6 +53,7 @@ def create_banner(request):
             return redirect('/admin/create_banner/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('banner.change_banner')
 def edit_banner(request, id):
     item = Banner.objects.get(id=id)
@@ -89,6 +91,7 @@ def edit_banner(request, id):
             return redirect(f'/admin/edit_banner/{id}')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('banner.change_banner')
 def delete_banner(request, id):
     item = Banner.objects.get(id=id)

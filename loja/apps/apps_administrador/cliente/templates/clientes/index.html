@@ -36,7 +36,8 @@
                 <th scope="col">Cpf / Cnpj</th>
                 <th scope="col">E-mail</th>
                 <th scope="col">Telefone</th>
-                <th>Informações Completas</th>
+                <th scope="col">Status</th>
+                <th scope="col">Informações Completas</th>
             </tr>
         </thead>
         <tbody>
@@ -45,10 +46,15 @@
             <tr>
                 <td data-label="#" scope="row"> {{ forloop.counter }}</td>
                 <td data-label="Nome">{{ item.nome }}</td>
-                <td data-label="Cpf / Cnpj"><span id="cpfcnpj">{{ item.cpf_cnpj }}</span></td>
+                <td data-label="Cpf / Cnpj">{{ item.cpf_cnpj }}</td>
                 <td data-label="E-mail">{{ item.email }}</td>
-                <td data-label="Telefone"><span id="telefone">{{ item.telefone }}</span></td>
-                <td data-label="Telefone"><a href="#" class="btn btn-primary">{% bs_icon 'info' size='1.5em' %} Informações</a></td>
+                <td data-label="Telefone">{{ item.telefone }}</td>
+                {% if item.is_active == True %}
+                <td data-label="Status"><a href="{% url 'apps_administrador.cliente:ativo_inativo' item.id %}" class="btn btn-success">Ativo</a></td>
+                {% else %}
+                <td data-label="Status"><a href="{% url 'apps_administrador.cliente:ativo_inativo' item.id %}" class="btn btn-danger">Inativo</a></td>
+                {% endif %}
+                <td data-label="Informações Completas"><a href="{% url 'apps_administrador.cliente:detalhes_cliente' item.id %}" class="btn btn-primary">{% bs_icon 'info' size='1.5em' %} Informações</a></td>
             </tr>
             {% endfor %}
             {% else %}
@@ -76,10 +82,4 @@
     {% endif %}
 </div>
 
-{% endblock %}
-
-{% block 'body' %}
-<script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.js' %}" type="text/javascript"></script>
-<script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'administrador/clientes/js/clientes.js' %}" type="text/javascript"></script>
 {% endblock %}

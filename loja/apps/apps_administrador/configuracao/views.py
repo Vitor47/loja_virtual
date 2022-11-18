@@ -1,6 +1,5 @@
 #Mensagens Template
 from django.contrib import messages
-from django.contrib.auth import login as login_django
 from django.contrib.auth.decorators import login_required, permission_required
 #Retornar templates
 from django.shortcuts import redirect, render
@@ -8,10 +7,12 @@ from django.shortcuts import redirect, render
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 #Permissões
-
+from ..decorators import manager_required
+#Models
 from .models import Configuracao
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('configuracao.view_configuracao')
 def configuracao(request):
     if request.method == "GET":
@@ -19,6 +20,7 @@ def configuracao(request):
         return render(request, "configuracao/index.html", {'configuracao': list_configs})
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('configuracao.create_configuracao')
 def create_configuracao(request):
     if request.method == "GET":
@@ -45,6 +47,7 @@ def create_configuracao(request):
             return redirect('/admin/create_configuracao/')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('configuracao.change_configuracao')
 def edit_configuracao(request, id):
     item = Configuracao.objects.get(id=id)
@@ -70,6 +73,7 @@ def edit_configuracao(request, id):
             return redirect(f'/admin/edit_configuracao/{id}')
 
 @login_required(login_url="/admin")
+@manager_required(login_url="/admin")
 @permission_required('configuracao.delete_configuracao')
 def delete_configuracao(request, id):
     item = Configuracao.objects.get(id=id)

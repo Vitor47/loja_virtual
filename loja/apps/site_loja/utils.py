@@ -2,17 +2,43 @@ import urllib.request
 import re
 from xml.dom import minidom
 import time
+from itertools import cycle
+
+TAMANHO_CPF = 11
+def is_cpf_valido(cpf: str) -> bool:
+    if len(cpf) != TAMANHO_CPF:
+        return False
+
+    if cpf in (c * TAMANHO_CPF for c in "1234567890"):
+        return False
+
+    cpf_reverso = cpf[::-1]
+    for i in range(2, 0, -1):
+        cpf_enumerado = enumerate(cpf_reverso[i:], start=2)
+        dv_calculado = sum(map(lambda x: int(x[1]) * x[0], cpf_enumerado)) * 10 % 11
+        if cpf_reverso[i - 1:i] != str(dv_calculado % 10):
+            return False
+
+    return True
+
+LENGTH_CNPJ = 14
+def is_cnpj_valido(cnpj: str) -> bool:
+    if len(cnpj) != LENGTH_CNPJ:
+        return False
+
+    if cnpj in (c * LENGTH_CNPJ for c in "1234567890"):
+        return False
+
+    cnpj_r = cnpj[::-1]
+    for i in range(2, 0, -1):
+        cnpj_enum = zip(cycle(range(2, 10)), cnpj_r[i:])
+        dv = sum(map(lambda x: int(x[1]) * x[0], cnpj_enum)) * 10 % 11
+        if cnpj_r[i - 1:i] != str(dv % 10):
+            return False
+
+    return True
 
 class Correios(object):
-    PAC = 41106
-    SEDEX = 40010
-    SEDEX_10 = 40215
-    SEDEX_HOJE = 40290
-    E_SEDEX = 81019
-    OTE = 44105
-    NORMAL = 41017
-    SEDEX_A_COBRAR = 40045
-
     def __init__(self):
         self.status = 'OK'
 
@@ -28,8 +54,6 @@ class Correios(object):
                 
         return dados
 
-    # Vários campos viraram obrigatórios para cálculo de frete:
-    # http://www.correios.com.br/webServices/PDF/SCPP_manual_implementacao_calculo_remoto_de_precos_e_prazos.pdf (páginas 2 e 3)
     def frete(self, cod, GOCEP, HERECEP, peso, formato,
               comprimento, altura, largura, diametro, mao_propria='N',
               valor_declarado='0', aviso_recebimento='N',
@@ -55,7 +79,7 @@ class Correios(object):
             ('StrRetorno', toback),
         ]
 
-        url = base_url + "?" + urllib.parse.urlencode(fields) #urllib.request.urlencode()
+        url = base_url + "?" + urllib.parse.urlencode(fields)
         dom = minidom.parse(urllib.request.urlopen(url))
 
         tags_name = ('MsgErro',

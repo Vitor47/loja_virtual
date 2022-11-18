@@ -49,6 +49,9 @@ $('#carousel2').owlCarousel({
   responsiveClass: true,
   responsive: {
     0: {
+      items: 1
+    },
+    368: {
       items: 1.3
     },
     600: {
@@ -76,10 +79,16 @@ $('#carousel3').owlCarousel({
   responsiveClass: true,
   responsive: {
     0: {
-      items: 2
+      items: 1
+    },
+    368: {
+      items: 1.3
     },
     600: {
-      items: 3
+      items: 2
+    },
+    800: {
+      items: 2.5
     },
     1000: {
       items: 4
@@ -101,37 +110,19 @@ $('#products_relacionados').owlCarousel({
   responsiveClass: true,
   responsive: {
     0: {
-      items: 2
+      items: 1
+    },
+    368: {
+      items: 1.3
     },
     600: {
-      items: 3
+      items: 2
+    },
+    800: {
+      items: 2.5
     },
     1000: {
       items: 4
-    }
-  }
-})
-
-$('#carousel_detalhes').owlCarousel({
-  loop: true,
-  margin: 10,
-  nav: false,
-  dots: true,
-  autoplay: true,
-  autoplayTimeout: 6000,
-  autoplayHoverPause: false,
-  stagePadding: 0,
-  smartSpeed: 2000,
-  responsiveClass: true,
-  responsive: {
-    0: {
-      items: 1
-    },
-    600: {
-      items: 1
-    },
-    1000: {
-      items: 1
     }
   }
 })

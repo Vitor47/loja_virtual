@@ -1,5 +1,4 @@
 {% load static %}
-{% load bootstrap_icons %}
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -15,9 +14,10 @@
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.carousel.min.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.css' %}">
   <link rel="stylesheet" href="{% static 'vendor/OwlCarousel/dist/assets/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/all.min.css' %}">
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/icone.jpg' %}"/>
   {% block 'head' %}{% endblock %}
-  <title>{% block 'title' %}{% endblock %}</title>
+  <title>{% block 'title' %}{% endblock %} | Cremonese LTDA</title>
 </head>
 
 <body>
@@ -36,7 +36,7 @@
           <form action="{% url 'site_loja:produtos' %}" method="GET">
             <div class="main-search-desktop">
               <div class="form-group has-search">
-                <span class="icon-search-desktop">{% bs_icon 'search' %}</span>
+                <span class="icon-search-desktop"><i class="fa-solid fa-magnifying-glass"></i></span>
                 <input style="background-color: black;" type="text" class="input-search-desktop" name="produtos_name" id="produtos_name" placeholder="O que você procura...">
               </div>
             </div>
@@ -46,13 +46,13 @@
           <ul class="nav nav-pills icon-container-desktop">
             <li class="nav-item">
               <a href="#" class="nav-link" aria-current="page">
-                {% bs_icon 'heart' extra_classes='icon-header' size='1.5em' %}
+                <i class="fa-solid fa-heart icon-header" style="font-size: 1.5em;"></i>
               </a>
             </li>
             <li class="nav-item">
               <div id="dropdown-carrinho">
                 <a href="#" class="nav-link">
-                  {% bs_icon 'cart' extra_classes='icon-header' size='1.5em' %}
+                  <i class="fa-solid fa-cart-shopping icon-header" style="font-size: 1.5em;"></i>
                   <span id="total-carrinho" class="contador-carrinho">0</span>
                 </a>
                 <div class="card-carrinho">
@@ -72,7 +72,7 @@
                 {{ user.first_name }}
               </span>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="{% url 'site_loja:login' %}?next={{ request.path }}">Meu Perfil</a>
+                <a class="dropdown-item" href="{% url 'site_loja:perfil_site' %}">Meu Perfil</a>
                 <a class="dropdown-item" href="{% url 'site_loja:sair' %}">Sair</a>
               </div>
             </div>
@@ -83,7 +83,7 @@
                 Entre | Cadastre
               </span>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="{% url 'site_loja:login' %}">Entrar</a>
+                <a class="dropdown-item" href="{% url 'site_loja:login' %}?next={{ request.path }}">Entrar</a>
                 <a class="dropdown-item" href="{% url 'site_loja:create_count' %}">Cadastrar</a>
               </div>
             </div>
@@ -97,14 +97,16 @@
     <!--Header Mobile-->
     <header class="mobile header">
       <a href="{% url 'site_loja:home' %}">
-        <p class="logo">{% bs_icon 'cart' size='1em' %} Cremonese LTDA</p>
+        <p class="logo"><i class="fa-solid fa-cart-shopping" style="font-size: 1em;"></i> Cremonese LTDA</p>
       </a>
+      <form action="{% url 'site_loja:produtos' %}" method="GET">
       <div class="main-search">
         <div class="form-group has-search">
-          <span class="form-control-feedback">{% bs_icon 'search' %}</span>
-          <input type="text" class="form-control search-background-color" placeholder="O que você procura...">
+          <span class="form-control-feedback"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <input type="text" class="form-control search-background-color" name="produtos_name" id="produtos_name" placeholder="O que você procura...">
         </div>
       </div>
+    </form>
     </header>
     <div class="margin-navbar"></div>
 
@@ -114,10 +116,9 @@
     <div class="wa__btn_popup">
       <div class="wa__btn_popup_txt">Precisa de ajuda? <strong>Converse conosco</strong></div>
     </div>
-    <a class="btn wa__btn_popup">
-      {% bs_icon 'whatsapp' size='1.5em' %}
+    <a href="https://api.whatsapp.com/send?phone=5555996986322" target="_blank" class="btn wa__btn_popup">
+      <i class="fa-brands fa-whatsapp" style="font-size: 1.6em;"></i>
     </a>
-
 
   <!-- Footer -->
   <footer class="desktop-footer text-lg-start bg-white text-muted desktop">
@@ -133,22 +134,22 @@
         <!-- Right -->
         <div>
           <a href="" class="me-4 text-reset letter-footer">
-            {% bs_icon 'facebook' extra_classes='icon-header' size='1.5em' %}
+            <i class="fa-brands fa-facebook icon-header" style="font-size: 1.5em;"></i>
           </a>
           <a href="" class="me-4 text-reset letter-footer">
-            {% bs_icon 'twitter' extra_classes='icon-header' size='1.5em' %}
+            <i class="fa-brands fa-twitter icon-header" style="font-size: 1.5em;"></i>
           </a>
           <a href="" class="me-4 text-reset letter-footer">
-            {% bs_icon 'whatsapp' extra_classes='icon-header' size='1.5em' %}
+            <i class="fa-brands fa-whatsapp icon-header" style="font-size: 1.5em;"></i>
           </a>
           <a href="" class="me-4 text-reset letter-footer">
-            {% bs_icon 'instagram' extra_classes='icon-header' size='1.5em' %}
+            <i class="fa-brands fa-instagram icon-header" style="font-size: 1.5em;"></i>
           </a>
           <a href="" class="me-4 text-reset letter-footer">
-            {% bs_icon 'linkedin' extra_classes='icon-header' size='1.5em' %}
+            <i class="fa-brands fa-linkedin icon-header" style="font-size: 1.5em;"></i>
           </a>
           <a href="" class="me-4 text-reset letter-footer">
-            {% bs_icon 'github' extra_classes='icon-header' size='1.5em' %}
+            <i class="fa-brands fa-github icon-header" style="font-size: 1.5em;"></i>
           </a>
         </div>
         <!-- Right -->
@@ -166,7 +167,7 @@
               <h6 class="text-uppercase fw-bold mb-4 letter-footer">
                 Cremonese LTDA
               </h6>
-              <p class="letter-footer">{% bs_icon 'house-fill' extra_classes='me-3' %} New York, NY 10012, US</p>
+              <p class="letter-footer"><i class="fa-solid fa-house me-3"></i> Brasil, RS, Restinga Seca, Recanto Maestro</p>
             </div>
             <!-- Grid column -->
 
@@ -177,10 +178,10 @@
                 Produtos
               </h6>
               <p>
-                <a href="#!" class="letter-footer">Novidades</a>
+                <a href="{% url 'site_loja:novidades' %}" class="letter-footer">Novidades</a>
               </p>
               <p>
-                <a href="#!" class="letter-footer">Ofertas</a>
+                <a href="{% url 'site_loja:ofertas' %}" class="letter-footer">Ofertas</a>
               </p>
             </div>
             <!-- Grid column -->
@@ -192,20 +193,20 @@
                 Links 
               </h6>
               <p>
-                <a href="#!" class="letter-footer">Todos Produtos</a>
+                <a href="{% url 'site_loja:produtos' %}" class="letter-footer">Todos Produtos</a>
               </p>
             </div>
             <!-- Grid column -->
 
             <!-- Grid column -->
-            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <div class="col-md-4 col-lg-4 col-xl-3 mx-auto mb-md-0 mb-4">
               <!-- Links -->
               <h6 class="text-uppercase fw-bold mb-4 letter-footer">Contato</h6>
               <p class="letter-footer">
-                {% bs_icon 'envelope-fill' extra_classes='me-3 text-secondary letter-footer' %}
-                info@example.com
+                <i class="fa-solid fa-envelope me-3 letter-footer"></i>
+                hirrua.silva20@gmail.com
               </p>
-              <p class="letter-footer">{% bs_icon 'phone-fill' extra_classes='me-3 text-secondary letter-footer' %} + 01 234 567 88</p>
+              <p class="letter-footer"><i class="fa-solid fa-phone me-3 letter-footer"></i> (55) 99698-6322</p>
             </div>
             <!-- Grid column -->
           </div>
@@ -216,7 +217,7 @@
       </div>
       <!-- Copyright -->
       <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 20%);">
-        © 2021 Copyright: Cremonese LTDA | Desenvolvido com {% bs_icon 'heart-fill' extra_classes='icon-color-heart' %} por HDV
+        © {%now "Y"%} Copyright: Cremonese LTDA | Desenvolvido com <i class="fa-solid fa-heart icon-heart icon-color-heart"></i> por <a class="letter-footer" href="mailto:hirrua.silva20@gmail.com">HDV</a>
       </div>
       <!-- Copyright -->
 
@@ -242,11 +243,7 @@
         button: "OK",
       });
     </script>
-    {% endif %}
-    {% endfor %}
-
-    {% for message in messages %}
-    {% if message.tags == 'error' %}
+    {% elif message.tags == 'error' %}
     <script>
       swal({
         title: "ERRO!",
@@ -257,6 +254,5 @@
     </script>
     {% endif %}
     {% endfor %}
-</body>
 
 </html>
