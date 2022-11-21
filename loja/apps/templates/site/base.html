@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_tags %}
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -55,13 +56,7 @@
                   <i class="fa-solid fa-cart-shopping icon-header" style="font-size: 1.5em;"></i>
                   <span id="total-carrinho" class="contador-carrinho">0</span>
                 </a>
-                <div class="card-carrinho">
-                  <div class="container-carrinho">
-                    <p>Meu carrinho </p>
-                    <div id="itens-carrinho"></div>
-                    <button class="btn btn-clear" type="button" onclick="clearCarrinho()"> Limpar carrinho </button>
-                  </div>
-                </div>
+                <div class="card-carrinho" id="conteudo-carrinho"></div>
               </div>
             </li>
 
@@ -69,7 +64,7 @@
             <div class="dropdown">
               <span class="btn dropdown-toggle btn-minha-conta" type="button" id="dropdownMenuButton"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ user.first_name }}
+                {{user.first_name|first_name_split}}
               </span>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="{% url 'site_loja:perfil_site' %}">Meu Perfil</a>
@@ -103,7 +98,7 @@
       <div class="main-search">
         <div class="form-group has-search">
           <span class="form-control-feedback"><i class="fa-solid fa-magnifying-glass"></i></span>
-          <input type="text" class="form-control search-background-color" name="produtos_name" id="produtos_name" placeholder="O que você procura...">
+          <input type="text" class="form-control search-background-color" name="produtos_name_mobile" id="busca_name" placeholder="O que você procura...">
         </div>
       </div>
     </form>
@@ -137,19 +132,10 @@
             <i class="fa-brands fa-facebook icon-header" style="font-size: 1.5em;"></i>
           </a>
           <a href="" class="me-4 text-reset letter-footer">
-            <i class="fa-brands fa-twitter icon-header" style="font-size: 1.5em;"></i>
-          </a>
-          <a href="" class="me-4 text-reset letter-footer">
             <i class="fa-brands fa-whatsapp icon-header" style="font-size: 1.5em;"></i>
           </a>
           <a href="" class="me-4 text-reset letter-footer">
             <i class="fa-brands fa-instagram icon-header" style="font-size: 1.5em;"></i>
-          </a>
-          <a href="" class="me-4 text-reset letter-footer">
-            <i class="fa-brands fa-linkedin icon-header" style="font-size: 1.5em;"></i>
-          </a>
-          <a href="" class="me-4 text-reset letter-footer">
-            <i class="fa-brands fa-github icon-header" style="font-size: 1.5em;"></i>
           </a>
         </div>
         <!-- Right -->

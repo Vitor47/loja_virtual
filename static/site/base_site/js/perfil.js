@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    document.querySelector('#home-icon').classList.replace('box-selected', 'box-footer');
+    document.querySelector('#conta-icon').classList.replace('box-footer', 'box-selected');
+})
+
+$(document).ready(function () {
     $('#expandir-menu').css('display', 'none');
     $('#expandir-menu-password').css('display', 'none');
     $('#icon-perfil-up').css('display', 'none');
@@ -157,10 +162,10 @@ function verificaForcaSenha() {
     var alfabeto = /([a-zA-Z])/;
     var chEspeciais = /([~,!,@,#,$,%,^,&,*,-,_,+,=,?,>,<])/;
 
-    if ($('#senha-create-conta').val().length < 6) {
+    if ($('#new_password').val().length < 6) {
         $('#password-status').html("<span style='color:red'>Fraco, insira no mínimo 6 caracteres</span>");
     } else {
-        if ($('#senha-create-conta').val().match(numeros) && $('#senha-create-conta').val().match(alfabeto) && $('#senha-create-conta').val().match(chEspeciais)) {
+        if ($('#new_password').val().match(numeros) && $('#new_password').val().match(alfabeto) && $('#new_password').val().match(chEspeciais)) {
             $('#password-status').html("<span style='color:green'><b>Forte</b></span>");
         } else {
             $('#password-status').html("<span style='color:orange'>Médio, insira um caracter especial</span>");

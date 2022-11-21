@@ -18,6 +18,7 @@
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item"><a href="{% url 'site_loja:home' %}">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">Perfil do usuário</li>
+              <li id="btn-sair-mobile" class="breadcrumb-item"><a href="{% url 'site_loja:sair' %}">Sair</a></li>
             </ol>
           </nav>
         </div>
@@ -153,41 +154,45 @@
                       <span id="icon-perfil-up">{% bs_icon 'caret-up-fill' extra_classes='icon-dropdown-perfil' size='1.5em' %}</span>
                     </button>
                   </div>
-                  <div class="display-forms" id="expandir-menu">
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="nome" id="nome" placeholder="Nome" value="{{perfil.nome}}" required>
+                  <form id="edit-perfil" action="{% url 'site_loja:perfil_site' %}" method="POST">
+                    <div class="display-forms" id="expandir-menu">
+                      {% csrf_token %}
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="nome" id="nome" placeholder="Nome" value="{{perfil.nome}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="email" name="email" id="email" placeholder="E-mail" value="{{perfil.email}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="telefone" id="telefone" placeholder="Telefone" value="{{perfil.telefone}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="cpf_cnpj" id="cpf_cnpj" placeholder="Cpf/Cnpj" value="{{perfil.cpf_cnpj}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="data_nascimento" id="data_nascimento" placeholder="Data de Nascimento" value="{{perfil.data_nascimento|date:'j/m/Y'}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="cep" id="cep" placeholder="Cep" value="{{perfil.cep}}" size="10" maxlength="8" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="estado" id="estado" placeholder="Estado" size="2" value="{{perfil.estado}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="cidade" id="cidade" placeholder="Cidade" size="40" value="{{perfil.cidade}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="bairro" id="bairro" placeholder="Bairro" size="40" value="{{perfil.bairro}}">
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="logradouro" id="logradouro" placeholder="Logradouro" size="60" value="{{perfil.logradouro}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="number" name="nr_casa" id="nr_casa" placeholder="Nr casa" size="3" {% if perfil.nr_casa is not None %}value="{{perfil.nr_casa}}" {% endif %}>
+                      </div>
+                      <button type="submit" class="btn btn-login fadeIn fourth">Editar Perfil</button>
                     </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="email" name="email" id="email" placeholder="E-mail" value="{{perfil.email}}" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="telefone" id="telefone" placeholder="Telefone" value="{{perfil.telefone}}" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="cpf_cnpj" id="cpf_cnpj" placeholder="Cpf/Cnpj" value="{{perfil.cpf_cnpj}}" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="data_nascimento" id="data_nascimento" placeholder="Data de Nascimento" value="{{perfil.data_nascimento|date:'j/m/Y'}}" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="cep" id="cep" placeholder="Cep" value="{{perfil.cep}}" size="10" maxlength="8" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="estado" id="estado" placeholder="Estado" size="2" value="{{perfil.estado}}" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="cidade" id="cidade" placeholder="Cidade" size="40" value="{{perfil.cidade}}" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="bairro" id="bairro" placeholder="Bairro" size="40" value="{{perfil.bairro}}">
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="text" name="logradouro" id="logradouro" placeholder="Logradouro" size="60" value="{{perfil.logradouro}}" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="number" name="nr_casa" id="nr_casa" placeholder="Nr casa" size="3" {% if perfil.nr_casa is not None %}value="{{perfil.nr_casa}}" {% endif %}>
-                    </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -201,17 +206,23 @@
                       <span id="icon-perfil-up-password">{% bs_icon 'caret-up-fill' extra_classes='icon-dropdown-perfil' size='1.5em' %}</span>
                     </button>
                   </div>
-                  <div class="display-forms" id="expandir-menu-password">
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="password" name="nome" id="nome" placeholder="Senha Atual" value="" required>
+                  <form action="{% url 'site_loja:edit_password_site' %}" method="POST">
+                    <div class="display-forms" id="expandir-menu-password">
+                      {% csrf_token %}
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="password" name="password" id="password" placeholder="Senha Atual" value="" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="password" name="new_password" id="new_password" placeholder="Nova Senha" value="" minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();" required>
+                      </div>
+                      <div class="display-form-conta" id="password-status" style="margin-left: 16px;">
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="password" name="confirm_password" id="confirm_password" placeholder="Confirmar Senha" value="" required>
+                      </div>
+                      <button type="submit" class="btn btn-login fadeIn fourth">Editar Senha</button>
                     </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="password" name="email" id="email" placeholder="Nova Senha" value="" required>
-                    </div>
-                    <div class="display-form-conta">
-                      <input class="form-create-conta fadeIn third" type="password" name="telefone" id="telefone" placeholder="Confirmar Senha" value="" required>
-                    </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -222,31 +233,33 @@
   </section>
   <div id="myPopup" aria-hidden="true" onClick="if(event.target == this){closePopup('#myPopup');}" class="wrapper fadeInDown" style="display: none;">
     <div id="formContentCreate">
-      <button class="btn btn-modal" id="closePopup" onClick="closePopup('#myPopup');" aria-label="Close popup">X</button>
+      <button class="btn btn-modal" id="closePopup" onClick="closePopup('#myPopup');" aria-label="Close popup"><span id="leter-close">X</span></button>
       <h4 class="title-popup">Escolha seu novo avatar</h4>
-      <div class="display-popup">
-        <button class="btn" type="button" onclick="editAvatarPerfil('1', '{{csrf_token}}')">
-          <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava1.webp">
-        </button>
-        <button class="btn" onclick="editAvatarPerfil('2', '{{csrf_token}}')">
-          <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava2.webp">
-        </button>
-        <button class="btn" type="button" onclick="editAvatarPerfil('3', '{{csrf_token}}')">
-          <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava3.webp">
-        </button>
-        <button class="btn" type="button" onclick="editAvatarPerfil('4', '{{csrf_token}}')">
-          <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava4.webp">
-        </button>
-        <button class="btn" type="button" onclick="editAvatarPerfil('5', '{{csrf_token}}')">
-          <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava5.webp">
-        </button>
-        <button class="btn" type="button" onclick="editAvatarPerfil('6', '{{csrf_token}}')">
-          <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava6.webp">
-        </button>
-      </div>
+      <form id="avatar-perfil" method="POST">
+        <div class="display-popup">
+          <button class="btn" type="button" onclick="editAvatarPerfil('1', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava1.webp">
+          </button>
+          <button class="btn" onclick="editAvatarPerfil('2', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava2.webp">
+          </button>
+          <button class="btn" type="button" onclick="editAvatarPerfil('3', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava3.webp">
+          </button>
+          <button class="btn" type="button" onclick="editAvatarPerfil('4', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava4.webp">
+          </button>
+          <button class="btn" type="button" onclick="editAvatarPerfil('5', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava5.webp">
+          </button>
+          <button class="btn" type="button" onclick="editAvatarPerfil('6', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava6.webp">
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-{% include 'site\footer_mobile\footer_home.html' %}
+{% include 'site\footer_mobile\footer_mobile.html' %}
 {% endblock %}
 
 {% block 'body' %}
