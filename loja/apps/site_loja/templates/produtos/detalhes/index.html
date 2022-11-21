@@ -87,9 +87,9 @@
                     </div>
 
                     {% if produto.valor_com_desconto == None %}
-                        <button class="btn btn-comprar-detail" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}', '1')"><i class="fa-solid fa-cart-shopping" style="font-size: 1em;"></i> Comprar </button>
+                        <button class="btn btn-comprar-detail" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}')"><i class="fa-solid fa-cart-shopping" style="font-size: 1em;"></i> Comprar </button>
                     {% else %}
-                        <button class="btn btn-comprar-detail" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}', '1')"><i class="fa-solid fa-cart-shopping" style="font-size: 1em;"></i> Comprar </button>
+                        <button class="btn btn-comprar-detail" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}')"><i class="fa-solid fa-cart-shopping" style="font-size: 1em;"></i> Comprar </button>
                     {% endif %}
                 </div>
 
@@ -188,9 +188,9 @@
 
                     <div>
                         {% if produto_relacionado.valor_com_desconto == None %}
-                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto_relacionado.id}}' ,'{{produto_relacionado.nome}}', '{{produto_relacionado.imagem_principal}}', document.querySelector('#calculator_{{produto_relacionado.id}}').value, '{{produto_relacionado.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto_relacionado.id}}' ,'{{produto_relacionado.nome}}', '{{produto_relacionado.imagem_principal}}', document.querySelector('#calculator_{{produto_relacionado.id}}').value, '{{produto_relacionado.valor_inicial}}')"> Comprar </button>
                         {% else %}
-                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto_relacionado.id}}' ,'{{produto_relacionado.nome}}', '{{produto_relacionado.imagem_principal}}', document.querySelector('#calculator_{{produto_relacionado.id}}').value, '{{produto_relacionado.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto_relacionado.id}}' ,'{{produto_relacionado.nome}}', '{{produto_relacionado.imagem_principal}}', document.querySelector('#calculator_{{produto_relacionado.id}}').value, '{{produto_relacionado.valor_com_desconto}}')"> Comprar </button>
                         {% endif %}
                     </div>
                 </div>
@@ -245,9 +245,9 @@
 
                     <div>
                         {% if produto_relacionado.valor_com_desconto == None %}
-                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto_relacionado.id}}' ,'{{produto_relacionado.nome}}', '{{produto_relacionado.imagem_principal}}', document.querySelector('#calculator_{{produto_relacionado.id}}').value, '{{produto_relacionado.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto_relacionado.id}}' ,'{{produto_relacionado.nome}}', '{{produto_relacionado.imagem_principal}}', document.querySelector('#calculator_{{produto_relacionado.id}}').value, '{{produto_relacionado.valor_inicial}}')"> Comprar </button>
                         {% else %}
-                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto_relacionado.id}}' ,'{{produto_relacionado.nome}}', '{{produto_relacionado.imagem_principal}}', document.querySelector('#calculator_{{produto_relacionado.id}}').value, '{{produto_relacionado.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                        <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto_relacionado.id}}' ,'{{produto_relacionado.nome}}', '{{produto_relacionado.imagem_principal}}', document.querySelector('#calculator_{{produto_relacionado.id}}').value, '{{produto_relacionado.valor_com_desconto}}')"> Comprar </button>
                         {% endif %}
                     </div>
                 </div>

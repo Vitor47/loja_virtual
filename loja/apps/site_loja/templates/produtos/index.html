@@ -170,9 +170,9 @@
         
                             <div>
                                 {% if novidade.valor_com_desconto == None %}
-                                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}', '{{ forloop.counter }}')"> Comprar </button>
+                                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}')"> Comprar </button>
                                 {% else %}
-                                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}', '{{ forloop.counter }}')"> Comprar </button>
+                                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}')"> Comprar </button>
                                 {% endif %}
                             </div>
                         </div>
