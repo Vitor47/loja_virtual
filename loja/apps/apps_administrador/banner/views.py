@@ -86,7 +86,6 @@ def edit_banner(request, id):
             messages.success(request, "Banner editado com sucesso!")
             return redirect('/admin/banner/')
         except Exception as e:
-            print(e)
             messages.error(request, "Banner não editado algum erro inesperado!")
             return redirect(f'/admin/edit_banner/{id}')
 

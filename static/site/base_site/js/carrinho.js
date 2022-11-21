@@ -63,29 +63,35 @@ $(document).ready(function () {
     var count = 0;
     var i = 0;
     var valor = 0;
+
+    $("#conteudo-carrinho").html('<div class="container-carrinho">'
+    + '<p>Meu carrinho </p>'
+    + '<div id="itens-carrinho">'
+    + '</div>'
+    + '<a class="btn btn-carrinho" href="/carrinho/"> Meu carrinho </a>'
+    + '<button class="btn btn-clear" type="button" onclick="clearCarrinho()"> Limpar carrinho </button>'
+    + '</div>');
+
+    var element = document.getElementById('itens-carrinho');
     for (i = 1; i <= 4; i++) {
         var prod = localStorage.getItem("produto" + i + "");
         if (prod != null) {
-            id = localStorage.getItem("id" + i);
             quantidade = localStorage.getItem("qtd" + i) + " x ";
             produto = localStorage.getItem("produto" + i);
             valor = "R$: " + localStorage.getItem("valor" + i);
-
-            $("#itens-carrinho").html('<div class="row">'
-                + '<input type="hidden" value="' + id + '">'
-                + '<div class="col-md-4"> '
-                + '<div id="image-carrinho" style="background-image: url(' + '/media/' + localStorage.getItem("imagem" + i) + ');">'
-                + '<span id="qtd-carrinho" class="quantidade-item-carrinho">' + quantidade + '</span>'
-                + '</div>'
-                + '</div>'
-                + '<div class="col-md-8">'
-                + '<div style="margin-top: 12px;"><span style="font-size: 12px; color: green; margin-right: 12px;" id="valor-carrinho">' + valor + '</span> <span style="font-size: 12px; color: darkgrey;" id="nome-carrinho">' + produto + '</span></div>'
-                + '</div>'
-                + '<button class="remove-item-carrinho" type="button" onclick="deleteItemCarrinho(' + i + ')">X</button>'
-                + '</div>'
-            );
+            element.innerHTML += ('<div class="row">'
+            + '<div class="col-md-4"> '
+            + '<div id="image-carrinho" style="background-image: url(' + '/media/' + localStorage.getItem("imagem" + i) + ');">'
+            + '<span id="qtd-carrinho" class="quantidade-item-carrinho">' + quantidade + '</span>'
+            + '</div>'
+            + '</div>'
+            + '<div class="col-md-8">'
+            + '<div style="margin-top: 12px;"><span style="font-size: 12px; color: var(--main-color); margin-right: 12px;" id="valor-carrinho">' + valor + '</span> <span style="font-size: 12px; color: darkgrey;" id="nome-carrinho">' + produto + '</span></div>'
+            + '</div>'
+            + '<button class="remove-item-carrinho" type="button" onclick="deleteItemCarrinho(' + i + ')">X</button>'
+            + '</div>');
             count++;
         }
-    }
+    }     
     $("#total-carrinho").html(count);
 });

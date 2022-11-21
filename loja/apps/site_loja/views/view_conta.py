@@ -29,13 +29,17 @@ def login(request):
 
                 user_cliente = authenticate(username=email, password=senha)
                 if user_cliente:
-                    cliente = Cliente.objects.get(user_cliente_id=user_cliente.id)
-                    if cliente.is_active:
-                        login_django(request, user_cliente)
-                        return redirect('/')
-                    else:
-                        messages.error(request, "Usuário inativo!")
+                    if user_cliente.is_staff or user_cliente.is_superuser:
+                        messages.error(request, "você não é cliente e sim administrador")
                         return render(request, "conta/login.html", context=context)
+                    else:
+                        cliente = Cliente.objects.get(user_cliente_id=user_cliente.id)
+                        if cliente.is_active:
+                            login_django(request, user_cliente)
+                            return redirect('/')
+                        else:
+                            messages.error(request, "Usuário inativo!")
+                            return render(request, "conta/login.html", context=context)
                 else:
                     messages.error(request, "E-mail ou senha incorretos!")
                     return render(request, "conta/login.html", context=context)

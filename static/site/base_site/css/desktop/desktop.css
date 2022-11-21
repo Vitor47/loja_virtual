@@ -369,6 +369,14 @@ ul li {
     color: var(--letter-color-light);
 }
 
+.btn-carrinho {
+    margin-top: 12px;
+    font-size: 10px;
+    background-color: var(--main-color);
+    color: var(--letter-color-light);
+    border-radius: 12px;
+}
+
 .btn-filtrar {
     padding: 4px;
     font-size: 12px;
