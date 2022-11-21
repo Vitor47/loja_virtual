@@ -68,15 +68,14 @@
                     <th class="leter-header" scope="col-2"><b class="color-leter-carrinho">Valor final</b></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="list-group-item">
-                    <td class="col-carrinho" data-label="Imagem"><img class="img-thumbnail" src="/media/produto/04_g_car.jpg"></td>
-                    <td class="col-carrinho" data-label="Produto">teste 1233</td>
-                    <td class="col-carrinho" data-label="Quantidade">5</td>
-                    <td class="col-carrinho" data-label="Valor da unidade">25</td>
-                    <td class="col-carrinho" data-label="Valor final">250</td>
-                </tr>
-            </tbody>
+
+            <td id="loading" style="display: none;">
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                <p id="fraseLoader">Processando, aguarde...</p>
+            </td>
+
+            <tbody id="table-carrinho"></tbody>
+
         </table>
         <div class="d-flex justify-content-between mt-3">
             <button class="btn btn-primary">Comprar</button>

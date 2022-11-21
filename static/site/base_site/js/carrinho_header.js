@@ -92,7 +92,7 @@ function deleteItemCarrinho(id) {
         .then((willSucess) => {
             if (willSucess) {
                 let products = getProdutos()
-                const index = products.findIndex(produto => produto.id == id);
+                const index = products.findIndex(produto => produto.id === parseInt(id));
                 if (index > -1) {
                     products.splice(index, 1);
                     localStorage.setItem('produtos', JSON.stringify(products));
