@@ -1,1 +1,1 @@
-$('.xzoom, .xzoom-gallery').xzoom({position: 'lens', lensShape: 'circle', bg:true, sourceClass: 'xzoom-hidden'});
+$('.xzoom, .xzoom-gallery').xzoom({ position: 'lens', lensShape: 'circle', bg: true, sourceClass: 'xzoom-hidden' });
