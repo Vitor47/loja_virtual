@@ -15,5 +15,6 @@ urlpatterns = [
     path('criar-conta/', view_conta.create_count, name='create_count'),
     path('perfil-site/', view_perfil.perfil_site, name='perfil_site'),
     path('edit-password-site/', view_perfil.edit_password_site, name='edit_password_site'),
+    path('adiciona-carrinho/', view_carrinho.adiciona_carrinho, name='adiciona_carrinho'),
     path('carrinho/', view_carrinho.carrinho, name='carrinho'),
     ]

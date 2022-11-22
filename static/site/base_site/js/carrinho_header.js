@@ -8,54 +8,81 @@ function getProdutos() {
 
 // adicona produtos ao carrinho
 function adicionarProduto(produto) {
-    var novaLista = getProdutos()
+    var novaLista = getProdutos();
     novaLista.push(produto);
 
     localStorage.setItem('produtos', JSON.stringify(novaLista));
+    ConteudoCarrinho()
     montaCarrinho();
 }
 
-// manipula valor
-function manipulaValor(valor, qtd) {
-    return Number(valor.toString().replace(",", ".") * qtd).toFixed(2);
-}
-
 // funcao para adicionar produtos nos produtos e salvar em localStorage
-function AddCarrinho(id, nome, imagem, qtd, valor) {
+function AddCarrinho(id, qtd) {
     event.preventDefault();
 
-    adicionarProduto({ id, nome, imagem, qtd, valor: manipulaValor(valor, qtd) });
+    $("#comprar_" + id).addClass("m-progress");
+    $.ajax({
+        url: "/adiciona-carrinho/",
+        type: "POST",
+        dataType: "json",
+        data: {
+            id_produto: id,
+            qtd: qtd,
+        },
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+        },
+        success: (data) => {
+            if (data) {
 
-    swal({
-        title: "SUCESSO!",
-        text: "Produto adicionado ao carrinho com sucesso!",
-        icon: "success",
-        button: "OK",
-    })
+                adicionarProduto({ id: data['id'], nome: data['nome'], imagem_pricipal: data['imagem_principal'], qtd: Number(qtd), valor: data['valor']});
 
-        .then((willSucess) => {
-            if (willSucess) {
-                ConteudoCarrinho();
-                montaCarrinho();
-            }
-        });
+                swal({
+                    title: "SUCESSO!",
+                    text: "Produto adicionado ao carrinho com sucesso!",
+                    icon: "success",
+                    button: "OK",
+                })
+
+            } else {
+                swal({
+                    title: "Opps!",
+                    text: "Algum erro inesperado tente novamente.",
+                    icon: "error",
+                    button: "OK",
+                });
+            } 
+        },
+        error: (error) => {
+            swal({
+                title: "Opps!",
+                text: "Algum erro inesperado tente novamente.",
+                icon: "error",
+                button: "OK",
+            });
+        }
+    });
+
+    $("#comprar_" + id).removeClass("m-progress");
+    ConteudoCarrinho();
+    montaCarrinho();
 }
 
 function itemCarrinho(produto) {
     return `
         <div class="row">
             <div class="col-md-4">
-                <div id="image-carrinho" style="background-image: url(/media/${produto.imagem}">
+                <div id="image-carrinho" style="background-image: url(/media/${produto.imagem_pricipal}">
                     <span id="qtd-carrinho" class="quantidade-item-carrinho">${produto.qtd}</span>
                 </div>
             </div>
             <div class="col-md-8">
                 <div style="margin-top: 12px;">
-                    <span style="font-size: 12px; color: var(--main-color); margin-right: 12px;" id="valor-carrinho">R\$ ${produto.valor}</span>
+                    <span style="font-size: 12px; color: var(--main-color); margin-right: 12px;" id="valor-carrinho">R\$ ${ parseInt(produto.valor * produto.qtd).toFixed(2) } </span>
                     <span style="font-size: 12px; color: darkgrey;" id="nome-carrinho">${produto.nome}</span>
                 </div>
             </div>
-            <button class="remove-item-carrinho" type="button" onclick="deleteItemCarrinho(${produto.id})">X</button>
+            <button class="remove-item-carrinho" type="button" onclick="deleteItemCarrinho('${produto.id}')">X</button>
         </div>
     `;
 }
@@ -69,7 +96,7 @@ function montaCarrinho() {
 
 window.onload = ConteudoCarrinho();
 function ConteudoCarrinho() {
-        $("#conteudo-carrinho").html(`
+    $("#conteudo-carrinho").html(`
             <div class="container-carrinho">
                 <p>Meu carrinho </p>
                 <div id="itens-carrinho"></div>
@@ -77,8 +104,8 @@ function ConteudoCarrinho() {
                 <button class="btn btn-clear" type="button" onclick="clearCarrinho()"> Limpar carrinho </button>
             </div>
         `);
-        montaCarrinho();
-        $("#total-carrinho").html(getProdutos().length);
+    montaCarrinho();
+    $("#total-carrinho").html(getProdutos().length);
 };
 
 function deleteItemCarrinho(id) {
@@ -91,12 +118,8 @@ function deleteItemCarrinho(id) {
 
         .then((willSucess) => {
             if (willSucess) {
-                let products = getProdutos()
-                const index = products.findIndex(produto => produto.id === parseInt(id));
-                if (index > -1) {
-                    products.splice(index, 1);
-                    localStorage.setItem('produtos', JSON.stringify(products));
-                }
+                const products = getProdutos().filter(produto => Number(produto.id) !== Number(id));
+                localStorage.setItem('produtos', JSON.stringify(products));
                 ConteudoCarrinho();
                 montaCarrinho();
             }
@@ -114,8 +137,7 @@ function clearCarrinho() {
         .then((willSucess) => {
             if (willSucess) {
                 localStorage.clear();
-                ConteudoCarrinho();
-                montaCarrinho();
+                location.reload();
             }
         });
 }

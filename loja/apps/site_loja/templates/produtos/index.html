@@ -169,11 +169,7 @@
                             </div>
         
                             <div>
-                                {% if novidade.valor_com_desconto == None %}
-                                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_inicial}}')"> Comprar </button>
-                                {% else %}
-                                <button class="btn btn-comprar-home ml-auto mr-auto" type="button" onclick="AddCarrinho('{{produto.id}}' ,'{{produto.nome}}', '{{produto.imagem_principal}}', document.querySelector('#calculator_{{produto.id}}').value, '{{produto.valor_com_desconto}}')"> Comprar </button>
-                                {% endif %}
+                                <button class="btn btn-comprar-home ml-auto mr-auto" id="comprar_{{produto.id}}" type="button" onclick="AddCarrinho('{{produto.id}}', document.querySelector('#calculator_{{produto.id}}').value)"> Comprar </button>
                             </div>
                         </div>
                     </div>

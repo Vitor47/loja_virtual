@@ -15,24 +15,24 @@ function getProdutos() {
 function itemTable(produto) {
     return `
         <tr class="list-group-item">
-            <td class="col-carrinho" data-label="Imagem"><img class="img-thumbnail" src="/media/${produto.imagem}"></td>
+            <td class="col-carrinho" data-label="Imagem"><img class="img-thumbnail" src="/media/${produto.imagem_pricipal}"></td>
             <td class="col-carrinho" data-label="Produto">${produto.nome}</td>
             <td class="col-carrinho" data-label="Quantidade">
                 <div class="display-count-carrinho">
-                    <input type="text" class="form-count" name="calculator_${produto.id}" id="calculator_${produto.id}" value="${produto.qtd}">
-
+                    <div class="text-count">${produto.qtd} </div>
                     <div class="display-count-button" role="group" aria-label="plus-minus">
-                        <button type="button" onClick="Calculator(${parseInt(produto.qtd) + 1}, ${produto.id})" class="btn-count" data-dir="up" id="up">
+                        <button type="button" onClick="aumentaQuantidade('${produto.id}')" class="btn-count" data-dir="up" id="up">
                             +
                         </button>
-                        <button type="button" onClick="Calculator(${parseInt(produto.qtd) - 1}, ${produto.id})" class="btn-count" data-dir="dwn" id="dwn">
+                        <button type="button" onClick="diminuiQuantidade('${produto.id}')" class="btn-count" data-dir="dwn" id="dwn">
                             -
                         </button>
                     </div>
                 </div>
             </td>
             <td class="col-carrinho" data-label="Valor da unidade">R\$ ${produto.valor}</td>
-            <td class="col-carrinho" data-label="Valor final">R\$ ${produto.valor * produto.qtd}</td>
+            <td class="col-carrinho" data-label="Valor final">R\$ ${(Number(produto.valor) * Number(produto.qtd)).toFixed(2)}</td>
+            <td class="col-carrinho" data-label="Quantidade"><button class="btn btn-danger" type="button" onclick="deletarItem(${produto.id})"><i class="fa fa-trash"></i></td>
         </tr>
     `;
 }
@@ -41,8 +41,7 @@ function reloadGif() {
     return $('#loading').show();
 }
 
-// percorre o array montando os itens
-window.onload = montaTable();
+
 function montaTable() {
     reloadGif();
 
@@ -54,48 +53,54 @@ function montaTable() {
     $('#loading').hide();
 }
 
-function Calculator(qtd, id) {
-    editItemCarrinho(qtd, id);
+function aumentaQuantidade(id) {
+    atualizaQtdProduto(id, 'aumenta')
 }
 
-$(document).on('click', '.display-count-carrinho button', function () {
-    var btn = $(this),
-        oldValue = btn.closest('.display-count-carrinho').find('input').val().trim(),
-        newVal = 0;
-    if (btn.attr('data-dir') == 'up') {
-        newVal = parseInt(oldValue) + 1;
-    } else {
-        if (oldValue > 1) {
-            newVal = parseInt(oldValue) - 1;
-        } else {
-            newVal = 0;
-        }
-    }
-    btn.closest('.display-count-carrinho').find('input').val(newVal);
-});
-
-function formataQtdValor(valor, qtd_produto, qtd){
-    if (qtd == 0){
-        return valor
-    }
-    else if(qtd_produto <= qtd) {
-        return valor * qtd
-    }else{
-        return valor / qtd
-    }
+function diminuiQuantidade(id) {
+    atualizaQtdProduto(id, 'diminui')
 }
 
-function editItemCarrinho(qtd, id) {
-    let products = getProdutos().filter(produto => produto.id !== id);
-
-    products.forEach(function(produto) {
-        produto.id = id,
-        produto.nome = produto.nome,
-        produto.imagem = produto.imagem,
-        produto.qtd = qtd,
-        produto.valor = formataQtdValor(produto.valor, produto.qtd, qtd)
-      });
-
+function atualizaQtdProduto(id, opcao) {
+    const produto = getProdutos().filter(produto => Number(produto.id) === Number(id))[0];
+    if (opcao === 'diminui' && (produto.qtd - 1) < 1) {
+        return;
+    }
+    const novoProduto = {...produto, qtd: opcao === 'aumenta' ? Number(produto.qtd) + 1 : Number(produto.qtd) - 1};
+    
+    const products = getProdutos().filter(produto => Number(produto.id) !== Number(id));
+    products.push(novoProduto);
+    
     localStorage.setItem('produtos', JSON.stringify(products));
     montaTable();
+    ConteudoCarrinho();
 }
+
+function deletarItem(id) {
+    swal({
+        title: "OPS!",
+        text: "Você realmente deseja remover este item do carrinho?",
+        icon: "warning",
+        buttons: true,
+    })
+
+        .then((willSucess) => {
+            if (willSucess) {
+                const products = getProdutos().filter(produto => Number(produto.id) !== Number(id));
+                localStorage.setItem('produtos', JSON.stringify(products));
+                ConteudoCarrinho();
+                montaCarrinho();
+                montaTable();
+            }
+        });
+}
+
+
+function fazerCheckout() {
+    const produtos = getProdutos();
+    const produtosIds = produtos.map((produto) => ({ id: produto.id, qtd: produto.qtd }));
+    console.log(produtosIds);
+}
+
+// percorre o array montando os itens
+window.onload = montaTable();
