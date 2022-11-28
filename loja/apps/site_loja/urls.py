@@ -21,4 +21,5 @@ urlpatterns = [
     path('frete-carrinho/', view_carrinho.frete_carrinho, name='frete_carrinho'),
     path('forma-pagamento-carrinho/', view_carrinho.forma_pagamento_carrinho, name='forma_pagamento_carrinho'),
     path('pagamento-carrinho/', view_carrinho.pagamento_carrinho, name='pagamento_carrinho'),
+    path('gerar-pagamento/', view_carrinho.gerar_pagamento, name='gerar_pagamento'),
     ]

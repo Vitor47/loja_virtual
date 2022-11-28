@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
 from django.core import serializers
+from ..utils import GeraPix
 from ...apps_administrador.produto.models import Produto
 from ...apps_administrador.cliente.models import Endereco, Cliente
 from django.contrib.auth.models import User
@@ -126,3 +127,24 @@ def pagamento_carrinho(request):
 			produtos.append(produto)
 
 		return JsonResponse({"produtos":produtos}, status=200, content_type="application/json")
+	
+@method_decorator(csrf_exempt, name='dispatch')
+@login_required(login_url="/login")
+def gerar_pagamento(request):
+	if request.method == "POST":
+		lista_produtos = json.loads(request.POST.get('produtos'))
+		valor = 0.00
+		for i in lista_produtos:
+			id = int(i['id'])
+			produto = Produto.objects.filter(id=id).first()
+
+			quantidade = int(i['qtd'])
+			if quantidade > produto.quantidade:
+				return JsonResponse ({"msg": "quantidade indisponivel!"}, status=200, content_type="application/json")
+			
+			valor = valor + (float(produto.valor) * quantidade)
+			
+		gera_pix = GeraPix()
+		url = gera_pix.envia_dados(valor=268)
+
+		return JsonResponse({"img": url}, status=200, content_type="application/json")

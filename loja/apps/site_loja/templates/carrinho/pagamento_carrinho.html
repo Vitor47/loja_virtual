@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <table class="table table-hover">
+        <table id="table-pagamento" class="table table-hover">
             <thead class="card-header-carrinho">
                 <tr>
                     <th class="leter-header" scope="col-2 text-center"><b class="color-leter-carrinho">Imagem</b></th>
@@ -77,8 +77,10 @@
             <tbody id="table-carrinho-compra"></tbody>
         </table>
 
-        <div class="d-flex mt-3">
-            <button style="margin-right: 12px;" class="btn btn-primary">Gerar QR CODE PIX</button>
+        <div id="column-img-pix"></div>
+
+        <div id="btn-pagamento" class="d-flex mt-3">
+            <button onclick="GerarQrCode()" style="margin-right: 12px;" class="btn btn-primary">Gerar QR CODE PIX</button>
             <a onclick="window.history.back();" class="btn btn-secondary">Voltar</a>
         </div>
     </div>
