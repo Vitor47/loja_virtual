@@ -7,13 +7,31 @@ function getProdutos() {
 }
 
 // adicona produtos ao carrinho
-function adicionarProduto(produto) {
-    var novaLista = getProdutos();
-    novaLista.push(produto);
+function adicionarProduto(data) {
+    const products = getProdutos().filter(produto => Number(produto.id) === Number(data['id']));
+    if (products.length === 0) {
+        var novaLista = getProdutos();
+        novaLista.push(data);
 
-    localStorage.setItem('produtos', JSON.stringify(novaLista));
-    ConteudoCarrinho()
-    montaCarrinho();
+        localStorage.setItem('produtos', JSON.stringify(novaLista));
+        ConteudoCarrinho()
+        montaCarrinho();
+
+        swal({
+            title: "Sucesso!",
+            text: "Produto adcionado ao carrinho com sucesso!",
+            icon: "success",
+            button: "OK",
+        });
+
+    } else {
+        swal({
+            title: "Opps!",
+            text: "Este produto já existe no carrinho.",
+            icon: "error",
+            button: "OK",
+        });
+    }
 }
 
 // funcao para adicionar produtos nos produtos e salvar em localStorage
@@ -32,28 +50,22 @@ function AddCarrinho(id, qtd) {
         headers: {
             "X-Requested-With": "XMLHttpRequest",
         },
-        success: (data) => {
-            if (data) {
-
-                adicionarProduto({ id: data['id'], nome: data['nome'], imagem_pricipal: data['imagem_principal'], qtd: Number(qtd), valor: data['valor']});
-
-                swal({
-                    title: "SUCESSO!",
-                    text: "Produto adicionado ao carrinho com sucesso!",
-                    icon: "success",
-                    button: "OK",
-                })
-
-            } else {
-                swal({
-                    title: "Opps!",
-                    text: "Algum erro inesperado tente novamente.",
-                    icon: "error",
-                    button: "OK",
-                });
-            } 
+        success: function (data) {
+            if (data.msg) {
+                if (data.msg.length > 0) {
+                    swal({
+                        title: "Opps!",
+                        text: data.msg,
+                        icon: "error",
+                        button: "OK",
+                    });
+                }
+            }
+            else if (data) {
+                adicionarProduto({ id: data['id'], nome: data['nome'], imagem_pricipal: data['imagem_principal'], qtd: Number(qtd), valor: data['valor'] });
+            }
         },
-        error: (error) => {
+        error: function (data) {
             swal({
                 title: "Opps!",
                 text: "Algum erro inesperado tente novamente.",
@@ -78,7 +90,7 @@ function itemCarrinho(produto) {
             </div>
             <div class="col-md-8">
                 <div style="margin-top: 12px;">
-                    <span style="font-size: 12px; color: var(--main-color); margin-right: 12px;" id="valor-carrinho">R\$ ${ parseInt(produto.valor * produto.qtd).toFixed(2) } </span>
+                    <span style="font-size: 12px; color: var(--main-color); margin-right: 12px;" id="valor-carrinho">R\$ ${parseInt(produto.valor * produto.qtd).toFixed(2)} </span>
                     <span style="font-size: 12px; color: darkgrey;" id="nome-carrinho">${produto.nome}</span>
                 </div>
             </div>
@@ -106,6 +118,9 @@ function ConteudoCarrinho() {
         `);
     montaCarrinho();
     $("#total-carrinho").html(getProdutos().length);
+    $("#span-value").html(`
+        <p class="value-carrinho-mobile">${getProdutos().length}</p>
+    `)
 };
 
 function deleteItemCarrinho(id) {

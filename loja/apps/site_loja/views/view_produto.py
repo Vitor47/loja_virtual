@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 import re
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
 from django.http import JsonResponse
 from django.contrib import messages
@@ -10,7 +11,7 @@ from django.core.paginator import (
     PageNotAnInteger,
 )
 
-from ...apps_administrador.produto.models import Produto, ProdutoCategoria, ProdutoTipo, ProdutoImagens, ProdutoDiamentro, ProdutoDiamentroProduto
+from ...apps_administrador.produto.models import Produto, ProdutoCategoria, ProdutoTipo, ProdutoImagens, ProdutoAtributo, ProdutoAtributoProduto, ProdutoDiamentro, ProdutoDiamentroProduto
 from ..utils import Correios
 
 def produtos(request):
@@ -294,7 +295,20 @@ def detalhes_produto(request, slug):
             Q(categoria_id=produto.categoria_id) and
             Q(tipo_id=produto.tipo_id)
         ).exclude(quantidade=0).order_by('-id')[:10]
+
         categorys = ProdutoCategoria.objects.all().order_by('-id')
+
+        atributos = []
+        produtos_atributo = ProdutoAtributoProduto.objects.filter(produto_id=produto.id).order_by('-id')
+        for atributo in produtos_atributo:
+            print(atributo.atributo_id)
+            atributo_produto = ProdutoAtributo.objects.filter(id=atributo.atributo_id).first()
+            if atributo_produto:
+                item = {
+                    'nome': atributo_produto.nome,
+                    'valor': atributo_produto.valor,
+                }
+                atributos.append(item)
 
         products_relacioned = []
         for produto_relacionado in produtos_relacionados:
@@ -340,6 +354,7 @@ def detalhes_produto(request, slug):
         context['produto'] = produto
         context['categorias'] = categorys
         context['produto_categoria'] = categoria_produto
+        context['atributos'] = atributos
         context['produto_tipo'] = tipo_produto
         context['imagens_produto'] = imagens_produto
         context['tamanho_array_produtos_relacionados'] = len(products_relacioned)
@@ -352,18 +367,19 @@ def detalhes_produto(request, slug):
         r = re.compile(r'[^0-9]')
         cep = r.sub('', cep)
 
-        produto_diametro_produto = ProdutoDiamentroProduto.objects.filter(produto_id__gte=id_produto).first()
+        produto_diametro_produto = ProdutoDiamentroProduto.objects.filter(produto_id=id_produto).first()
         if produto_diametro_produto:
-            diametros_produto = ProdutoDiamentro.objects.get(id=produto_diametro_produto.diametro_id)
-            correio = Correios()
-            tags_name, retorno_envio = correio.frete(
-                diametros_produto.nCdServico, diametros_produto.sCepOrigem, cep, diametros_produto.nVlPeso, diametros_produto.nCdFormato,
-                diametros_produto.nVlComprimento, diametros_produto.nVlAltura, diametros_produto.nVlLargura, diametros_produto.nVlDiametro, mao_propria='N',
-                valor_declarado='0', aviso_recebimento='N',
-                empresa='', senha='', toback='xml'
-            )
-            calculo_frete = correio._getDados(tags_name, retorno_envio)
-            return JsonResponse({'context': calculo_frete}, status=200, content_type="application/json")
+            if produto_diametro_produto:
+                diametros_produto = ProdutoDiamentro.objects.get(id=produto_diametro_produto.diametro_id)
+                correio = Correios()
+                tags_name, retorno_envio = correio.frete(
+                    diametros_produto.nCdServico, diametros_produto.sCepOrigem, cep, diametros_produto.nVlPeso, diametros_produto.nCdFormato,
+                    diametros_produto.nVlComprimento, diametros_produto.nVlAltura, diametros_produto.nVlLargura, diametros_produto.nVlDiametro, mao_propria='N',
+                    valor_declarado='0', aviso_recebimento='N',
+                    empresa='', senha='', toback='xml'
+                )
+                calculo_frete = correio._getDados(tags_name, retorno_envio)
+                return JsonResponse({'context': calculo_frete}, status=200, content_type="application/json")
         else:
-            return JsonResponse(False, status=400, content_type="application/json")
+            return JsonResponse ({"msg": "Esse produto não tem calculo de frete registrado, favor entrar em contato via Whatsapp!"}, status=200, content_type="application/json")
             

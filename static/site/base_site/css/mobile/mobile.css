@@ -174,3 +174,20 @@
         display: block;
     }
 }
+
+.span-carrinho-mobile {
+    position: fixed;
+    height: 20px;
+    width: 18px;
+    border-radius: 28px;
+    color: var(--dark-color);
+    background: #fff;
+    padding: 4px;
+    bottom: 39px;
+}
+
+.value-carrinho-mobile {
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+}

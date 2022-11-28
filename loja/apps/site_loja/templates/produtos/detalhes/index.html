@@ -65,6 +65,10 @@
                     <p>Categoria: <i class="fa-solid fa-circle-info" style="font-size: 1.2em;"></i> {{produto_categoria.nome}}</p>
                 </div>
 
+                {% for atributo in atributos %}
+                    <p>{{atributo.nome}}: {{atributo.valor}}</p>
+                {% endfor %}
+
                 {% if produto.valor_com_desconto == None %}
                     <p class="p-value-detail"><span class="value-detail">R$ {{produto.valor_inicial}}</span></p>
                     {% else %}
@@ -86,7 +90,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-comprar-home ml-auto mr-auto" id="comprar_{{produto.id}}" type="button" onclick="AddCarrinho('{{produto.id}}', document.querySelector('#calculator_{{produto.id}}').value)"> Comprar </button>
+                    <button class="btn btn-comprar-home" id="comprar_{{produto.id}}" type="button" onclick="AddCarrinho('{{produto.id}}', document.querySelector('#calculator_{{produto.id}}').value)"> Comprar </button>
                 </div>
 
                 <form method="POST">
@@ -112,9 +116,8 @@
                         </a>
                       
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <a class="dropdown-item" href="#">Something else here</a>
+                          <a style="color: var(--main-color); margin: 12px;" href="#"><i class="fa-brands fa-facebook" style="font-size: 2em;"></i></a>
+                          <a  style="color: var(--main-color); margin: 12px;" href="#"><i class="fa-brands fa-whatsapp" style="font-size: 2em;"></i></a>
                         </div>
                     </div>
                 </div>

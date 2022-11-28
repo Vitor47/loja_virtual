@@ -19,9 +19,9 @@ from ..decorators import manager_required
 def cliente(request):
     if request.method == "GET":
         users_clientes = User.objects.filter(
-            Q(is_superuser__gte=False),
-            Q(is_staff__gte=False),
-            Q(is_active__gte=True)
+            Q(is_superuser=False),
+            Q(is_staff=False),
+            Q(is_active=True)
         ).order_by('-id')
 
         list_clientes = []
@@ -64,9 +64,9 @@ def search_cliente(request):
         consulta_nome = request.GET.get('pesquisar_por_nome')
         if consulta_nome is not None:
             users_clientes = User.objects.filter(
-                Q(is_superuser__gte=False),
-                Q(is_staff__gte=False),
-                Q(is_active__gte=True),
+                Q(is_superuser=False),
+                Q(is_staff=False),
+                Q(is_active=True),
                 Q(first_name__icontains=consulta_nome)
             ).order_by('-id')
 
@@ -107,9 +107,9 @@ def search_cliente(request):
 def detalhes_cliente(request, id):
     if request.method == "GET":
         user_cliente = User.objects.filter(
-            Q(is_superuser__gte=False),
-            Q(is_staff__gte=False),
-            Q(is_active__gte=False)
+            Q(is_superuser=False),
+            Q(is_staff=False),
+            Q(is_active=False)
         ).get(id=id)
 
         cliente = Cliente.objects.get(user_cliente__id=id)

@@ -41,12 +41,24 @@ function reloadGif() {
     return $('#loading').show();
 }
 
+function OrderBy(pessoas) {
+
+}
+
 
 function montaTable() {
     reloadGif();
-
     $('#table-carrinho').html('');
-    getProdutos().slice(0, 10).forEach((produto) => {
+
+    produtos = getProdutos().sort(function (a, b) {
+        if (a.id < b.id) {
+            return -1;
+        } else {
+            return true;
+        }
+    });
+
+    produtos.slice(0, 10).forEach((produto) => {
         $('#table-carrinho').append(itemTable(produto));
     });
 
@@ -66,11 +78,11 @@ function atualizaQtdProduto(id, opcao) {
     if (opcao === 'diminui' && (produto.qtd - 1) < 1) {
         return;
     }
-    const novoProduto = {...produto, qtd: opcao === 'aumenta' ? Number(produto.qtd) + 1 : Number(produto.qtd) - 1};
-    
+    const novoProduto = { ...produto, qtd: opcao === 'aumenta' ? Number(produto.qtd) + 1 : Number(produto.qtd) - 1 };
+
     const products = getProdutos().filter(produto => Number(produto.id) !== Number(id));
     products.push(novoProduto);
-    
+
     localStorage.setItem('produtos', JSON.stringify(products));
     montaTable();
     ConteudoCarrinho();
@@ -93,13 +105,6 @@ function deletarItem(id) {
                 montaTable();
             }
         });
-}
-
-
-function fazerCheckout() {
-    const produtos = getProdutos();
-    const produtosIds = produtos.map((produto) => ({ id: produto.id, qtd: produto.qtd }));
-    console.log(produtosIds);
 }
 
 // percorre o array montando os itens

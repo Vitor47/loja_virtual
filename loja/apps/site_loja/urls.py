@@ -17,4 +17,8 @@ urlpatterns = [
     path('edit-password-site/', view_perfil.edit_password_site, name='edit_password_site'),
     path('adiciona-carrinho/', view_carrinho.adiciona_carrinho, name='adiciona_carrinho'),
     path('carrinho/', view_carrinho.carrinho, name='carrinho'),
+    path('dados-perfil-carrinho/', view_carrinho.dados_perfil_carrinho, name='dados_perfil_carrinho'),
+    path('frete-carrinho/', view_carrinho.frete_carrinho, name='frete_carrinho'),
+    path('forma-pagamento-carrinho/', view_carrinho.forma_pagamento_carrinho, name='forma_pagamento_carrinho'),
+    path('pagamento-carrinho/', view_carrinho.pagamento_carrinho, name='pagamento_carrinho'),
     ]
