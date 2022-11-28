@@ -68,12 +68,12 @@ def perfil(request):
                     username = request.POST.get('usuario')
                     email = request.POST.get('email_usuario')
 
-                    user_name = User.objects.exclude(id__gte=user.id).filter(username__iexact=username).exists()
+                    user_name = User.objects.exclude(id=user.id).filter(username__iexact=username).exists()
                     if user_name:
                         messages.error(request, "Este usuário já existe por favor digite um usuário diferente!")
                         return redirect('/admin/perfil/')
 
-                    email_verifica = User.objects.exclude(id__gte=user.id).filter(email__iexact=email).exists()
+                    email_verifica = User.objects.exclude(id=user.id).filter(email__iexact=email).exists()
                     if email_verifica:
                         messages.error(request, "Este E-mail já existe por favor digite um e-mail diferente!")
                         return redirect('/admin/perfil/')
@@ -151,7 +151,7 @@ def sair(request):
 @permission_required('user.view_user')
 def list_user(request):
     if request.method == "GET":
-        list_users = User.objects.filter(is_staff__gte=True).order_by('-id')
+        list_users = User.objects.filter(is_staff=True).order_by('-id')
         return render(request, "usuarios/index.html", {'users': list_users})
 
 @login_required(login_url="/admin")
@@ -248,12 +248,12 @@ def edit_user(request, id):
             elif status == "2":
                 status = False
 
-            usuario_username = User.objects.exclude(id__gte=user.id).filter(username__iexact=username).exists()
+            usuario_username = User.objects.exclude(id=user.id).filter(username__iexact=username).exists()
             if usuario_username:
                 messages.error(request, "Erro! Já existe um usuário com o mesmo username!")
                 return redirect(f'/admin/edit_user/{id}')
 
-            usuario_email = User.objects.exclude(id__gte=user.id).filter(email__iexact=email).exists()
+            usuario_email = User.objects.exclude(id=user.id).filter(email__iexact=email).exists()
             if usuario_email:
                 messages.error(request, "Erro! Já existe um usuário com o mesmo email!")
                 return redirect(f'/admin/edit_user/{id}')
@@ -361,7 +361,7 @@ def edit_grupo_acesso(request, id):
     elif request.method == "POST":
         try:
             nome = request.POST.get('nome_group')
-            name = Group.objects.exclude(name__gte=group.name).filter(name__iexact=nome).exists()
+            name = Group.objects.exclude(name=group.name).filter(name__iexact=nome).exists()
             if name:
                 messages.error(request, "Erro! Já existe um grupo com o mesmo nome!")
                 return redirect(f'/admin/edit_grupo_acesso/{id}')
@@ -397,9 +397,9 @@ def delete_grupo_acesso(request, id):
 @manager_required(login_url="/admin")
 @permission_required('group.add_group')
 def add_users_group(request, id_group):
-    users = User.objects.exclude(Q(is_superuser__gte=True)).filter(
-        Q(is_staff__gte=True),
-        Q(is_active__gte=True)
+    users = User.objects.exclude(Q(is_superuser=True)).filter(
+        Q(is_staff=True),
+        Q(is_active=True)
     ).order_by('-id')
     grupo = Group.objects.get(id=id_group)
     users_in_group = grupo.user_set.all()
@@ -430,7 +430,7 @@ def add_users_group(request, id_group):
         try:
 
             list_id_users = request.POST.getlist('user_id[]')
-            list_users = User.objects.all().exclude(is_superuser=True).filter(is_staff__gte=True).values_list(flat=True).order_by('-id')
+            list_users = User.objects.all().exclude(is_superuser=True).filter(is_staff=True).values_list(flat=True).order_by('-id')
             for i in list_users:
                 user = User.objects.get(id=i)
                 group = Group.objects.get(id=id_group)

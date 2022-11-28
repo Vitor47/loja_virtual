@@ -27,16 +27,24 @@ function CalcularFrete(id, slug, csrf_token) {
                     "X-Requested-With": "XMLHttpRequest",
                     "X-CSRFToken": csrf_token,
                 },
-                success: (data) => {
+                success: function (data) {
+                    console.log(data);
                     if (data) {
-                        $.each(data, function (index, data) {
-                            if(data['MsgErro'].length > 0){
-                                html += '<p style="margin-top: 12px;"> '+ data['MsgErro'] +' </p>';
-                            }else{
-                                html += '<p style="margin-top: 12px;"> Valor do frete: R$ ' + data['Valor'] + ', prazo de entrega: ' + data['PrazoEntrega'] + ' dias, entrega domiciliar: ' + data['EntregaDomiciliar'] + ' </p>';
+                        if (data.msg) {
+                            if (data.msg.length > 0) {
+                                swal({
+                                    title: "Opps!",
+                                    text: data.msg,
+                                    icon: "error",
+                                    button: "OK",
+                                });
                             }
-                        });
-
+                        }
+                        else if (data) {
+                            $.each(data, function (index, data) {
+                                html += '<p style="margin-top: 12px;"> Valor do frete: R$ ' + data['Valor'] + ', prazo de entrega: ' + data['PrazoEntrega'] + ' dias, entrega domiciliar: ' + data['EntregaDomiciliar'] + ' </p>';
+                            });
+                        }
                         $("#result-fret").html(html);
                     } else {
                         html += '<p style="margin-top: 12px;">Não possuei cobrança de frete para este cep.</p>';
@@ -45,10 +53,10 @@ function CalcularFrete(id, slug, csrf_token) {
 
                     $('#img-reload').css('display', 'none');
                 },
-                error: (error) => {
+                error: function (data) {
                     swal({
                         title: "Opps!",
-                        text: "Algum erro inesperado tente novamente.",
+                        text: data.msg,
                         icon: "error",
                         button: "OK",
                     });

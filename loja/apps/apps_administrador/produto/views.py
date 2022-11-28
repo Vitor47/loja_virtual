@@ -165,7 +165,6 @@ def create_produto(request):
             messages.success(request, "Produto cadastrado com sucesso!")
             return redirect('/admin/produto/')
         except Exception as e:
-            print(e)
             messages.error(request, "Produto não cadastrado algum erro inesperado!")
             return redirect('/admin/create_produto/')
 
@@ -193,7 +192,6 @@ def edit_produto(request, id):
             categoria = request.POST.get('categoria_produto')
 
             valor_formatado = valor.replace("R$:","").replace(".", "").replace(",", ".")
-            print(desconto)
             if desconto is not None and desconto != "":
                 valor_formatado_desconto = desconto.replace("R$:","").replace(".", "").replace(",", ".")
             else:
@@ -278,7 +276,6 @@ def edit_produto(request, id):
             messages.success(request, "Produto editado com sucesso!")
             return redirect('/admin/produto/')
         except Exception as e:
-            print(e)
             messages.error(request, "Produto não editado algum erro inesperado!")
             return redirect(f'/admin/edit_produto/{id}')
 

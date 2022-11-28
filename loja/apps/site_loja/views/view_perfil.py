@@ -61,7 +61,7 @@ def perfil_site(request):
 			return render(request, "perfil_site/index.html", {'perfil': perfil})
 		elif request.method == "POST":
 			try:
-				cliente = Cliente.objects.filter(user_cliente_id__gte=user.id).first()
+				cliente = Cliente.objects.filter(user_cliente_id=user.id).first()
 				if cliente:
 					image = request.POST.get('image')
 					if image:
@@ -90,7 +90,7 @@ def perfil_site(request):
 						nr_casa = request.POST.get('nr_casa')
 
 						try:
-							user_verifica = User.objects.exclude(id__gte=user.id).filter(email__iexact=email).exists()
+							user_verifica = User.objects.exclude(id=user.id).filter(email__iexact=email).exists()
 							if user_verifica:
 								messages.error(request, "Este e-mail já existe por favor digite um e-mail diferente!")
 								return redirect('/perfil-site/')
@@ -114,7 +114,7 @@ def perfil_site(request):
 									messages.error(request, "Este CNPJ não é valido!")
 									return redirect('/perfil-site/')
 
-							cpf_verifica = Cliente.objects.exclude(user_cliente_id__gte=user.id).filter(cpf_cnpj__iexact=cpf_cnpj).exists()
+							cpf_verifica = Cliente.objects.exclude(user_cliente_id=user.id).filter(cpf_cnpj__iexact=cpf_cnpj).exists()
 							if cpf_verifica:
 								messages.error(request, "Este CPF ou CNPJ já existe por favor digite um CPF ou CNPJ diferente!")
 								return redirect('/perfil-site/')
@@ -127,8 +127,8 @@ def perfil_site(request):
 							else: 
 								nr_casa = int(nr_casa)
 
-							cliente = Cliente.objects.filter(user_cliente_id__gte=user.id).first()
-							cliente_endereco = Endereco.objects.filter(user_cliente_id__gte=user.id).first()
+							cliente = Cliente.objects.filter(user_cliente_id=user.id).first()
+							cliente_endereco = Endereco.objects.filter(user_cliente_id=user.id).first()
 							if cliente:
 								user.first_name = nome
 								user.email = email

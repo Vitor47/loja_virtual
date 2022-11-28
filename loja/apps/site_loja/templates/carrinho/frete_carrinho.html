@@ -25,7 +25,7 @@
             <div class="card-body">
                 <nav class="nav nav-pills nav-justified">
                     <span class="nav-item ng-isolate-scope">
-                        <a href="{% url 'site_loja:carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center active">
+                        <a href="{% url 'site_loja:carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
                             <i class="fa fa-shopping-cart fa-icon-carrinho"></i>
                             <b class="ng-scope leter-icon-header">Itens</b>
                         </a>
@@ -37,7 +37,7 @@
                         </a>
                     </span>
                     <span class="nav-item ng-isolate-scope">
-                        <a href="{% url 'site_loja:frete_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                        <a href="{% url 'site_loja:frete_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center active">
                             <i class="fa fa-truck fa-icon-carrinho"></i>
                             <b class="ng-scope leter-icon-header">Entrega</b>
                         </a>
@@ -49,7 +49,7 @@
                         </a>
                     </span>
                     <span class="nav-item ng-isolate-scope">
-                        <a class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                        <a href="" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
                             <i class="fa fa-check-circle fa-icon-carrinho"></i>
                             <b class="ng-scope leter-icon-header">Concluir compra</b>
                         </a>
@@ -58,28 +58,21 @@
             </div>
         </div>
 
-        <table class="table table-hover">
-            <thead class="card-header-carrinho">
-                <tr>
-                    <th class="leter-header" scope="col-2 text-center"><b class="color-leter-carrinho">Imagem</b></th>
-                    <th class="leter-header" scope="col-4"><b class="color-leter-carrinho">Produto</b></th>
-                    <th class="leter-header" scope="col-2"><b class="color-leter-carrinho">Quantidade</b></th>
-                    <th class="leter-header" scope="col-2"><b class="color-leter-carrinho">Valor da unidade</b></th>
-                    <th class="leter-header" scope="col-2"><b class="color-leter-carrinho">Valor final</b></th>
-                    <th class="leter-header" scope="col-2"><b class="color-leter-carrinho">Deletar</b></th>
-                </tr>
-            </thead>
+        <div class="card mb-3">
+            <div class="mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <p class="mb-0">Entrega diretamente com o fornecedor</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <td id="loading" style="display: none;">
-                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-                <p id="fraseLoader">Processando, aguarde...</p>
-            </td>
-
-            <tbody id="table-carrinho"></tbody>
-
-        </table>
-        <div class="d-flex justify-content-between mt-3">
-            <a href="{% url 'site_loja:dados_perfil_carrinho' %}" class="btn btn-primary">Avançar</a>
+        <div class="d-flex margin-left mt-3">
+            <a href="{% url 'site_loja:pagamento_carrinho' %}" style="margin-right: 12px;" class="btn btn-primary">Avançar</a>
+            <a onclick="window.history.back();" class="btn btn-secondary">Voltar</a>
         </div>
     </div>
 </section>
