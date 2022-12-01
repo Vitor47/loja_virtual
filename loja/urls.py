@@ -11,5 +11,6 @@ urlpatterns = [
     path('admin/', include('loja.apps.apps_administrador.sistema.urls', namespace='loja.apps.apps_administrador.sistema')),
     path('', include('loja.apps.site_loja.urls', namespace='loja.apps.site_loja')),
     
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
