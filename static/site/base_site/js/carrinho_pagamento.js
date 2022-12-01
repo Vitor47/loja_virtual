@@ -61,10 +61,12 @@ function itemTable(produto) {
     `;
 }
 
+// gif de reload table
 function reloadGif() {
     return $('#loading').show();
 }
 
+//monta a tabela com os itens salvos em localStorage
 function montaTable(produto) {
     reloadGif();
 
@@ -77,3 +79,46 @@ function montaTable(produto) {
 }
 
 window.onload = fazerCheckout();
+
+//gera QR CODE para pagamento
+function GerarQrCode() {
+    const produtos = getProdutos();
+    const produtosquery = produtos.map((produto) => ({ id: produto.id, qtd: produto.qtd }));
+
+    $.ajax({
+        url: "/gerar-pagamento/",
+        type: "POST",
+        data: { 'produtos': JSON.stringify(produtosquery) },
+        success: function (response) {
+            if (response.msg) {
+                if (response.msg.length > 0) {
+                    swal({
+                        title: "Opps!",
+                        text: response.msg,
+                        icon: "error",
+                        button: "OK",
+                    });
+                }
+            }
+            else if (response) {
+                $('#table-pagamento').html('');
+                $('#btn-pagamento').html('');
+                $('#column-img-pix').html(
+                    `
+                        <p>Leia o QR CODE abaixo para realizar o pagamento!</p>
+                        <img src="${response.img}">
+                        <p>Informações importantes, após pagamento efetuado a loja imediatamente enviara a encomenda via correios, ou conforme escolhido na opção de entrega.</p>
+                    `
+                )
+            }
+        },
+        error: function (response) {
+            swal({
+                title: "Opps!",
+                text: "Algum erro inesperado tente novamente.",
+                icon: "error",
+                button: "OK",
+            });
+        }
+    });
+}

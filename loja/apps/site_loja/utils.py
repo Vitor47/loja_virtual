@@ -94,7 +94,7 @@ class Correios(object):
 
         return tags_name, dom
 
-    def cep(self, numero):
+    '''def cep(self, numero):
         url = 'http://cep.republicavirtual.com.br/web_cep.php?formato=' \
               'xml&cep=%s' % str(numero)
         dom = minidom.parse(urllib.request.urlopen(url))
@@ -110,9 +110,9 @@ class Correios(object):
         if resultado != 0:
             return self._getDados(tags_name, dom)
         else:
-            return {}
+            return {}'''
 
-    def encomenda(self, numero):
+    '''def encomenda(self, numero):
         # Usado como referencia o codigo do Guilherme Chapiewski
         # https://github.com/guilhermechapiewski/correios-api-py
 
@@ -123,7 +123,7 @@ class Correios(object):
         html = urllib.request.urlopen(url).read()
         table = re.search(r'<table.*</TABLE>', html, re.S).group(0)
 
-        '''parsed = BeautifulSoup(table)
+        parsed = BeautifulSoup(table)
         dados = []
 
         for count, tr in enumerate(parsed.table):
@@ -142,3 +142,40 @@ class Correios(object):
                         tr.contents[0].string)
 
         return dados'''
+
+class GeraPix():
+    def __init__(self) -> None:
+        self.status = "OK"
+
+        '''
+            nome	Sim	Nome do recebedor.
+            cidade	Sim	Cidade do recebedor.
+            valor	Não	Valor do QrCode. Exemplo: 1200.99
+            saida	Sim	Use br para string e qr para imagem.
+            tamanho	Não	Define a altura do QrCode em pixels.
+            txid	Não	Define um identificador pro Pix.
+            chave	Sim	Chave Pix cadastrada em qualquer PSP.
+
+            Exemplos:
+            - Telefone: +5531912345678
+            - CPF ou CNPJ: 01234567890
+            - E-mail: teste@pix.com.br
+            - Aleatória: 2aa96c40-d85f-4b98-b29f-d158a1c45f7f
+
+            Exemplo -> nome=Cecília%20Devêza&cidade=Ouro%20Preto&valor=10.00&saida=qr&chave=2aa96c40-d85f-4b98-b29f-d158a1c45f7f&txid=testeCecilia
+        '''
+
+    def envia_dados(self, valor):
+        base_url = "https://gerarqrcodepix.com.br/api/v1?"
+
+        fields = [
+            ('nome', 'Vitor Miolo'),
+            ('cidade', 'Santa Maria'),
+            ('valor', valor),
+            ('saida', 'qr'),
+            ('chave', '04992940099'),
+            ('txid', 'testeVitor'),  
+        ]
+
+        url = base_url + urllib.parse.urlencode(fields)
+        return url
