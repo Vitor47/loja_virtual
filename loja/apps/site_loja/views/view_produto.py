@@ -292,8 +292,9 @@ def detalhes_produto(request, slug):
         )
 
         produtos_relacionados = Produto.objects.filter(
-            Q(categoria_id=produto.categoria_id) and
-            Q(tipo_id=produto.tipo_id)
+            Q(categoria_id=produto.categoria_id),
+            Q(tipo_id=produto.tipo_id),
+            ~Q(id=produto.id)
         ).exclude(quantidade=0).order_by('-id')[:10]
 
         categorys = ProdutoCategoria.objects.all().order_by('-id')
