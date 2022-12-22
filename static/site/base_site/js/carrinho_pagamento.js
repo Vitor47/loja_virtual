@@ -105,9 +105,9 @@ function GerarQrCode() {
                 $('#btn-pagamento').html('');
                 $('#column-img-pix').html(
                     `
+                        <p>Informações importantes, após pagamento efetuado a loja imediatamente enviara a encomenda via correios, ou conforme escolhido na opção de entrega.</p>
                         <p>Leia o QR CODE abaixo para realizar o pagamento!</p>
                         <img src="${response.img}">
-                        <p>Informações importantes, após pagamento efetuado a loja imediatamente enviara a encomenda via correios, ou conforme escolhido na opção de entrega.</p>
                     `
                 )
             }

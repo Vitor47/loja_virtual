@@ -109,11 +109,11 @@ def detalhes_cliente(request, id):
         user_cliente = User.objects.filter(
             Q(is_superuser=False),
             Q(is_staff=False),
-            Q(is_active=False)
+            Q(is_active=True),
         ).get(id=id)
 
-        cliente = Cliente.objects.get(user_cliente__id=id)
-        endereco = Endereco.objects.get(user_cliente__id=id)
+        cliente = Cliente.objects.get(user_cliente_id=id)
+        endereco = Endereco.objects.get(user_cliente_id=id)
         if cliente and endereco:
             if len(cliente.cpf_cnpj) == 11:
                 cpf_cnpj = f'{cliente.cpf_cnpj[0:3]}.{cliente.cpf_cnpj[3:6]}.{cliente.cpf_cnpj[6:9]}-{cliente.cpf_cnpj[9:11]}'

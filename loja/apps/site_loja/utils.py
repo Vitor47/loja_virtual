@@ -94,87 +94,20 @@ class Correios(object):
 
         return tags_name, dom
 
-    '''def cep(self, numero):
-        url = 'http://cep.republicavirtual.com.br/web_cep.php?formato=' \
-              'xml&cep=%s' % str(numero)
-        dom = minidom.parse(urllib.request.urlopen(url))
-
-        tags_name = ('uf',
-                     'cidade',
-                     'bairro',
-                     'tipo_logradouro',
-                     'logradouro',)
-
-        resultado = dom.getElementsByTagName('resultado')[0]
-        resultado = int(resultado.childNodes[0].data)
-        if resultado != 0:
-            return self._getDados(tags_name, dom)
-        else:
-            return {}'''
-
-    '''def encomenda(self, numero):
-        # Usado como referencia o codigo do Guilherme Chapiewski
-        # https://github.com/guilhermechapiewski/correios-api-py
-
-        url = 'http://websro.correios.com.br/sro_bin/txect01$.QueryList?' \
-              'P_ITEMCODE=&P_LINGUA=001&P_TESTE=&P_TIPO=001&P_COD_UNI=%s' % \
-              str(numero)
-
-        html = urllib.request.urlopen(url).read()
-        table = re.search(r'<table.*</TABLE>', html, re.S).group(0)
-
-        parsed = BeautifulSoup(table)
-        dados = []
-
-        for count, tr in enumerate(parsed.table):
-            if count > 4 and str(tr).strip() != '':
-                if re.match(r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}',
-                            tr.contents[0].string):
-
-                    dados.append({
-                        'data': str(tr.contents[0].string),
-                        'local': str(tr.contents[1].string),
-                        'status': str(tr.contents[2].font.string)
-                    })
-
-                else:
-                    dados[len(dados) - 1]['detalhes'] = str(
-                        tr.contents[0].string)
-
-        return dados'''
-
 class GeraPix():
     def __init__(self) -> None:
         self.status = "OK"
-
-        '''
-            nome	Sim	Nome do recebedor.
-            cidade	Sim	Cidade do recebedor.
-            valor	Não	Valor do QrCode. Exemplo: 1200.99
-            saida	Sim	Use br para string e qr para imagem.
-            tamanho	Não	Define a altura do QrCode em pixels.
-            txid	Não	Define um identificador pro Pix.
-            chave	Sim	Chave Pix cadastrada em qualquer PSP.
-
-            Exemplos:
-            - Telefone: +5531912345678
-            - CPF ou CNPJ: 01234567890
-            - E-mail: teste@pix.com.br
-            - Aleatória: 2aa96c40-d85f-4b98-b29f-d158a1c45f7f
-
-            Exemplo -> nome=Cecília%20Devêza&cidade=Ouro%20Preto&valor=10.00&saida=qr&chave=2aa96c40-d85f-4b98-b29f-d158a1c45f7f&txid=testeCecilia
-        '''
 
     def envia_dados(self, valor):
         base_url = "https://gerarqrcodepix.com.br/api/v1?"
 
         fields = [
-            ('nome', 'Vitor Miolo'),
-            ('cidade', 'Santa Maria'),
+            ('nome', ''),
+            ('cidade', ''),
             ('valor', valor),
             ('saida', 'qr'),
-            ('chave', '04992940099'),
-            ('txid', 'testeVitor'),  
+            ('chave', ''),
+            ('txid', ''),  
         ]
 
         url = base_url + urllib.parse.urlencode(fields)

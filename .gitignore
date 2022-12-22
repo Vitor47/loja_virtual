@@ -41,7 +41,7 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
-/site
-
+Procfile
 .venv/
+media
 
