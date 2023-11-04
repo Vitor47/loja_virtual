@@ -1,0 +1,51 @@
+{% extends 'site\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+{% load widget_tweaks %}
+
+{% block 'title' %}Fazer Login{% endblock %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'site/base_site/css/conta.css' %}">
+<link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
+{% endblock %}
+
+{% block 'main' %}
+
+<section class="mt-4">
+    <div class="container">
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+
+              <h2 class="title-conta active"> Login </h2>
+              <a href="{% url 'loja:create_count' %}" class="title-conta inactive underlineHover">Cria Conta </a>
+
+              <form action="{% url 'loja:login' %}" method="POST">
+                {% csrf_token %}
+                <div class="display-form-conta">
+                    <label class="label-conta" for="login__username"><span class="icon-conta">{% bs_icon 'people' size='1.5em' %}</span></label>
+                    {% render_field form_login.email type="email" class="form-conta fadeIn second" placeholder="E-mail" id="user-login" %}
+                </div>
+                
+                <div class="display-form-conta">
+                    <label class="label-conta" for="login__password"><span class="icon-conta">{% bs_icon 'key' size='1.5em' %}</span></label>
+                    {% render_field form_login.password type="password" class="form-conta fadeIn third" placeholder="Senha" id="password-login" %}
+                </div>
+
+                <button type="submit" class="btn btn-login fadeIn fourth">Login</button>
+              </form>
+
+              <div id="formFooter">
+                <a class="recuperar-senha underlineHover" href="#"><b>Esqueceu a senha?</b></a>
+              </div>
+          
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'site\footer_mobile\footer_mobile.html' %}
+{% endblock %}
+
+{% block 'body' %}
+{% endblock %}

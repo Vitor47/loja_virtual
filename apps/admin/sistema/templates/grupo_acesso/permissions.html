@@ -1,0 +1,67 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Cadastrar Permissões no Grupo de Acesso {{grupo.name}}{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container mb-4">
+    <div class="container-box-admin">
+        <h2>Cadastrar Permissões no Grupo de Acesso {{grupo.name}}</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.sistema:add_permission_group' grupo.id %}" method="POST">
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Permissões :</label>
+                    <div class="form-control" style="height: 400px; resize: auto; overflow-y: scroll;">
+                        {% for permissao in permissoes %}
+                        <div class="form-check">
+                            {% if permissao.marcado == True %}
+                            <input class="form-check-input marcar" type="checkbox" name="permissao_id[]" id="permissao_id" value="{{permissao.id}}" checked>
+                            {% else %}
+                            <input class="form-check-input marcar" type="checkbox" name="permissao_id[]" id="permissao_id" value="{{permissao.id}}">
+                            {% endif %}
+                                <label class="form-label" for="permissao_id">
+                                    Nome: {{permissao.name}}
+                                </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button style="margin-top: 6px; float: right;" class='btn btn-secondary' type='button' title='Todos' id='todos' onclick='marcardesmarcar();'> Marcar Todos</button>    
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Permissões Do Grupo:</label>
+                    <div class="form-control" style="height: 400px; resize: auto; overflow-y: scroll;">
+                        {% for item in table_relacionada %}
+                        <div class="form-check">
+                                <label class="form-label">
+                                    <span style="color: blue;" >{% bs_icon 'bookmark-check' %}</span> Nome: {{item.name}}
+                                </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="margin mt-4 mb-4">
+                <button type="submit" class="btn-principal">Cadastrar</button>
+                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block 'body' %}
+<script>
+    function marcardesmarcar() {
+    $('.marcar').each(function () {
+        if (this.checked) this.checked = false;
+        else this.checked = true;
+    });
+}
+</script>
+{% endblock %}

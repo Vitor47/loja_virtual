@@ -1,0 +1,53 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+
+{% block 'title' %}Cadastrar Usuários no Grupo de Acesso {{grupo.name}}{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container mb-4">
+    <div class="container-box-admin">
+        <h2>Cadastrar Usuários no Grupo de Acesso {{grupo.name}}</h2>
+        <form class="mt-4 mb-4" action="{% url 'apps_administrador.sistema:add_users_group' grupo.id %}" method="POST">
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Usuários<span style="color: red"> * </span>:</label>
+                    {% for user in usuarios %}
+                        <div class="form-check">
+                            {% if user.marcado == True %}
+                            <input class="form-check-input marcar" type="checkbox" name="user_id[]" id="user_id" value="{{user.id}}" checked>
+                            {% else %}
+                            <input class="form-check-input marcar" type="checkbox" name="user_id[]" id="user_id" value="{{user.id}}">
+                            {% endif %}
+                                <label class="form-label" for="user_id">
+                                    Nome: {{user.nome}} Usuário: {{user.usuario}}
+                                </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="margin mt-4 mb-4">
+                <button type="submit" class="btn-principal">Cadastrar</button>
+                <button style="margin-top: 6px; float: right;" class='btn btn-secondary' type='button' title='Todos' id='todos' onclick='marcardesmarcar();'> Marcar Todos</button>
+                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block 'body' %}
+<script>
+    function marcardesmarcar() {
+    $('.marcar').each(function () {
+        if (this.checked) this.checked = false;
+        else this.checked = true;
+    });
+}
+</script>
+{% endblock %}

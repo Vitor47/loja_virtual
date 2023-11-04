@@ -1,0 +1,63 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Grupo de Acesso{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'title-page' %}
+Grupo de Acesso
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="mt-4 mb-4">
+        <h2>Grupo de Acesso </h2>
+    </div>
+
+    <div class="margin mt-4 mb-4">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="{% url 'apps_administrador.sistema:create_grupo_acesso' %}" class="btn btn-success">{% bs_icon 'people' %} Cadastrar
+                    Grupo Acesso</a>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover container-box-admin">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if groups.count > 0 %}
+            {% for item in groups %}
+            <tr>
+                <td data-label="#" scope="row"> {{ forloop.counter }}</td>
+                <td data-label="Nome">{{ item.name }}</td>
+                <td data-label="Ações">
+                    <form method="GET" action="{% url 'apps_administrador.sistema:delete_grupo_acesso' item.id%} ">
+                        <a href="{% url 'apps_administrador.sistema:add_users_group' item.id %}" class="btn btn-success">{% bs_icon 'person' %} Adicionar Usuários</a>
+                        <a href="{% url 'apps_administrador.sistema:add_permission_group' item.id %}" class="btn btn-info">{% bs_icon 'bookmark-check' %} Adicionar Permissões</a>
+                        <a href="{% url 'apps_administrador.sistema:edit_grupo_acesso' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
+                        <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
+                            <i>{% bs_icon 'trash' %}</i> Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <td>Grupo de acesso não encontrado</td>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+{% block 'body' %}
+<script src="{% static 'administrador/grupo_acesso/js/grupo_acesso.js' %}" type="text/javascript"></script>
+{% endblock %}

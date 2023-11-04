@@ -1,0 +1,164 @@
+{% extends 'site\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Carrinho{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'main' %}
+<section>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{% url 'loja:home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Carrinho</li>
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="card mb-3">
+      <div class="card-body">
+        <nav class="nav nav-pills nav-justified">
+          <span class="nav-item ng-isolate-scope">
+            <a href="{% url 'loja:carrinho' %}"
+              class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+              <i class="fa fa-shopping-cart fa-icon-carrinho"></i>
+              <b class="ng-scope leter-icon-header">Itens</b>
+            </a>
+          </span>
+          <span class="nav-item ng-isolate-scope">
+            <a href="{% url 'loja:dados_perfil_carrinho' %}"
+              class="nav-link d-flex flex-column color-leter-carrinho align-items-center active">
+              <i class="fa fa-id-card fa-icon-carrinho"></i>
+              <b class="ng-scope leter-icon-header">Dados</b>
+            </a>
+          </span>
+          <span class="nav-item ng-isolate-scope">
+            <a href="{% url 'loja:frete_carrinho' %}"
+              class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+              <i class="fa fa-truck fa-icon-carrinho"></i>
+              <b class="ng-scope leter-icon-header">Entrega</b>
+            </a>
+          </span>
+          <span class="nav-item ng-isolate-scope">
+            <a href="{% url 'loja:forma_pagamento_carrinho' %}"
+              class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+              <i class="fa fa-credit-card fa-icon-carrinho"></i>
+              <b class="ng-scope leter-icon-header">Forma Pagamento</b>
+            </a>
+          </span>
+          <span class="nav-item ng-isolate-scope">
+            <a class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+              <i class="fa fa-check-circle fa-icon-carrinho"></i>
+              <b class="ng-scope leter-icon-header">Concluir compra</b>
+            </a>
+          </span>
+        </nav>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-9">
+              <p class="mb-0">Observação se algum dado não estiver correto favor editar as informações no perfil!</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Nome completo:</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{perfil.nome}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">E-mail:</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{perfil.email}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Telefone:</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{perfil.telefone}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Cpf/Cnpj:</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{perfil.cpf_cnpj}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Data de Nascimento:</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{perfil.data_nascimento}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Cep:</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{perfil.cep}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Endereço:</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{perfil.estado}}, {{perfil.cidade}}, {% if perfil.bairro is not None and perfil.bairro != "" %}{{perfil.bairro}},{% endif %} {{perfil.logradouro}}</p>
+            </div>
+          </div>
+          {% if perfil.nr_casa is not None and perfil.nr_casa != "" %}
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Nr casa:</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">
+                {{perfil.nr_casa}}
+              </p>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex margin-left mt-3">
+      <a href="{% url 'loja:frete_carrinho' %}" style="margin-right: 12px;" class="btn btn-primary">Avançar</a>
+      <a onclick="window.history.back();" class="btn btn-secondary">Voltar</a>
+    </div>
+  </div>
+</section>
+{% include 'site\footer_mobile\footer_mobile.html' %}
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'site/base_site/js/carrinho_page.js' %}" type="text/javascript"></script>
+{% endblock %}

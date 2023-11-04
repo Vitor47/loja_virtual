@@ -1,0 +1,257 @@
+{% extends 'site\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Perfil{% endblock %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
+<link rel="stylesheet" href="{% static 'site/base_site/css/conta.css' %}">
+{% endblock %}
+
+{% block 'main' %}
+<section>
+    <div class="container py-5">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item"><a href="{% url 'loja:home' %}">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Perfil do usuário</li>
+              <li id="btn-sair-mobile" class="breadcrumb-item"><a href="{% url 'loja:sair' %}">Sair</a></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="/media/avatar/{{perfil.avatar}}" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{perfil.nome}}</h5>
+              <p class="text-muted mb-4">{{perfil.logradouro}}</p>
+              <div class="d-flex justify-content-center mb-2">
+                <button id="openMyPopup" data-popup="myPopup" onClick="openPopup('#myPopup')" aria-controls="myPopup" aria-label="Open popup" class="btn btn-primary">{% bs_icon 'camera2' size='1.5em' %} trocar avatar</button>
+              </div>
+            </div>
+          </div>
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush rounded-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fa-brands fa-whatsapp fa-lg" style="color: green;"></i>
+                  <p class="mb-0">(55) 99698-6322</p>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                  <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                  <p class="mb-0"></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Nome completo:</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{perfil.nome}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">E-mail:</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{perfil.email}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Telefone:</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{perfil.telefone}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Cpf/Cnpj:</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{perfil.cpf_cnpj}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Data de Nascimento:</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{perfil.data_nascimento}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Cep:</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{perfil.cep}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Endereço:</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{perfil.estado}}, {{perfil.cidade}}, {% if perfil.bairro is not None and perfil.bairro != "" %}{{perfil.bairro}},{% endif %} {{perfil.logradouro}}</p>
+                </div>
+              </div>
+              <hr>
+              {% if perfil.nr_casa is not None and perfil.nr_casa != "" %}
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Nr casa:</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">
+                    {{perfil.nr_casa}}
+                  </p>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                  <div class="display-head-detail-perfil">
+                    <p class="mb-4"><span class="text-primary font-italic me-1">Editar</span> Perfil</p>
+                    <button onclick="ExpandirMenu()" class="btn-dropown-perfil">
+                      <span id="icon-perfil-down">{% bs_icon 'caret-down-fill' extra_classes='icon-dropdown-perfil' size='1.5em' %}</span>
+                      <span id="icon-perfil-up">{% bs_icon 'caret-up-fill' extra_classes='icon-dropdown-perfil' size='1.5em' %}</span>
+                    </button>
+                  </div>
+                  <form id="edit-perfil" action="{% url 'loja:perfil_site' %}" method="POST">
+                    <div class="display-forms" id="expandir-menu">
+                      {% csrf_token %}
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="nome" id="nome" placeholder="Nome" value="{{perfil.nome}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="email" name="email" id="email" placeholder="E-mail" value="{{perfil.email}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="telefone" id="telefone" placeholder="Telefone" value="{{perfil.telefone}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="cpf_cnpj" id="cpf_cnpj" placeholder="Cpf/Cnpj" value="{{perfil.cpf_cnpj}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="data_nascimento" id="data_nascimento" placeholder="Data de Nascimento" value="{{perfil.data_nascimento|date:'j/m/Y'}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="cep" id="cep" placeholder="Cep" value="{{perfil.cep}}" size="10" maxlength="8" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="estado" id="estado" placeholder="Estado" size="2" value="{{perfil.estado}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="cidade" id="cidade" placeholder="Cidade" size="40" value="{{perfil.cidade}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="bairro" id="bairro" placeholder="Bairro" size="40" value="{{perfil.bairro}}">
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="text" name="logradouro" id="logradouro" placeholder="Logradouro" size="60" value="{{perfil.logradouro}}" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="number" name="nr_casa" id="nr_casa" placeholder="Nr casa" size="3" {% if perfil.nr_casa is not None %}value="{{perfil.nr_casa}}" {% endif %}>
+                      </div>
+                      <button type="submit" class="btn btn-login fadeIn fourth">Editar Perfil</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                  <div class="display-head-detail-perfil">
+                    <p class="mb-4"><span class="text-primary font-italic me-1">Editar</span> Senha</p>
+                    <button onclick="ExpandirMenuPassword()" class="btn-dropown-perfil">
+                      <span id="icon-perfil-down-password">{% bs_icon 'caret-down-fill' extra_classes='icon-dropdown-perfil' size='1.5em' %}</span>
+                      <span id="icon-perfil-up-password">{% bs_icon 'caret-up-fill' extra_classes='icon-dropdown-perfil' size='1.5em' %}</span>
+                    </button>
+                  </div>
+                  <form action="{% url 'loja:edit_password_site' %}" method="POST">
+                    <div class="display-forms" id="expandir-menu-password">
+                      {% csrf_token %}
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="password" name="password" id="password" placeholder="Senha Atual" value="" required>
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="password" name="new_password" id="new_password" placeholder="Nova Senha" value="" minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();" required>
+                      </div>
+                      <div class="display-form-conta" id="password-status" style="margin-left: 16px;">
+                      </div>
+                      <div class="display-form-conta">
+                        <input class="form-create-conta fadeIn third" type="password" name="confirm_password" id="confirm_password" placeholder="Confirmar Senha" value="" required>
+                      </div>
+                      <button type="submit" class="btn btn-login fadeIn fourth">Editar Senha</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="myPopup" aria-hidden="true" onClick="if(event.target == this){closePopup('#myPopup');}" class="wrapper fadeInDown" style="display: none;">
+    <div id="formContentCreate">
+      <button class="btn btn-modal" id="closePopup" onClick="closePopup('#myPopup');" aria-label="Close popup"><span id="leter-close">X</span></button>
+      <h4 class="title-popup">Escolha seu novo avatar</h4>
+      <form id="avatar-perfil" method="POST">
+        <div class="display-popup">
+          <button class="btn" type="button" onclick="editAvatarPerfil('1', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava1.webp">
+          </button>
+          <button class="btn" onclick="editAvatarPerfil('2', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava2.webp">
+          </button>
+          <button class="btn" type="button" onclick="editAvatarPerfil('3', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava3.webp">
+          </button>
+          <button class="btn" type="button" onclick="editAvatarPerfil('4', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava4.webp">
+          </button>
+          <button class="btn" type="button" onclick="editAvatarPerfil('5', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava5.webp">
+          </button>
+          <button class="btn" type="button" onclick="editAvatarPerfil('6', '{{csrf_token}}')">
+            <img class="rounded-circle img-fluid img-avatar-modal" src="/media/avatar/ava6.webp">
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% include 'site\footer_mobile\footer_mobile.html' %}
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.js' %}" type="text/javascript"></script>
+<script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'site/base_site/js/perfil.js' %}" type="text/javascript"></script>
+{% endblock %}

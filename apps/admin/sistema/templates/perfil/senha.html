@@ -1,0 +1,63 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Senha do Usuário{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="mt-4 mb-4">
+        <h2>Editar minha senha</h2>
+    </div>
+
+    <div class="container-box-admin">
+        <form action="{% url 'apps_administrador.sistema:senha' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Senha Atual <span style="color: red"> * </span> :</label>
+                        <input type="password" class="form-control" id="senha_atual_usuario" name="senha_atual_usuario" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Nova Senha <span style="color: red"> * </span> :</label>
+                        <input type="password" class="form-control" id="nova_senha_usuario" name="nova_senha_usuario" required minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();">
+                        <span id="password-status"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Confirmar Nova Senha <span style="color: red"> * </span> :</label>
+                        <input type="password" class="form-control" id="confirmar_nova_senha_usuario" name="confirmar_nova_senha_usuario" required minlength="6" maxlength="12">
+                        <span id="password-status"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <button type="submit" class="btn-principal">Editar Senha</button>
+                        <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block 'body' %}
+    <script src="{% static 'administrador/perfil/js/perfil.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+
+{% block 'title' %}Editar Configuração{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'title-page' %}
+Editar Configuração
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="container-box-admin">
+        <form class="mt-4" action="{% url 'apps_administrador.configuracao:edit_configuracao' configuracao.id %}" method="POST">
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Nome<span style="color: red"> * </span>:</label>
+                    <input type="text" class="form-control" name="nome_configuracao" id="nome_configuracao" value="{{configuracao.nome}}" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Valor da chave<span style="color: red"> * </span>:</label>
+                    <input type="text" class="form-control" name="valor_configuracao" id="valor_configuracao" value="{{configuracao.valor}}" required>
+                </div>
+            </div>
+
+            <div class="margin mt-4 mb-4">
+                <button type="submit" class="btn-principal">Cadastrar</button>
+                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

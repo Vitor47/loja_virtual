@@ -1,0 +1,39 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+
+{% block 'title' %}Cadastrar Nova Categoria{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="container-box-admin">
+        <h2>Cadastrar Nova Categoria</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.produto:create_categoria_produto' %}" method="POST">
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Nome<span style="color: red"> * </span>:</label>
+                    <input type="text" class="form-control" name="nome_categoria" id="nome_categoria" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Icone<span style="color: red"> * </span>:</label>
+                    <label class="form-label"><span style="color: red"> Atenção somente usar os icones nesse link ao lado -> </span> <a target="_blank" href="https://icons.getbootstrap.com/" >Abrir icones</a> </label>
+                    <label class="form-label">Somente usar a parte em vermelho icone de exemplo -> i class="<span style="color: red">bi bi-clipboard-check </span> " i</label>
+                    <input type="text" class="form-control" name="icone_categoria" id="icone_categoria"
+                        required placeholder="bi bi-clipboard-check">
+                </div>
+            </div>
+            <div class="margin mt-4 mb-4">
+                <button type="submit" class="btn-principal">Cadastrar</button>
+                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

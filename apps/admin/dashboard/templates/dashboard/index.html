@@ -1,0 +1,127 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+
+{% block 'title' %}Dashboard{% endblock %}
+
+{% block 'head' %}
+<link rel='stylesheet' href="{% static 'administrador/dashboard/css/dashboard.css' %}">
+{% endblock %}
+
+{% block 'title-page' %}
+Dashboard
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="margin">
+        <div class="row mb-4">
+            <div class="col-md-8 mb-4">
+                <canvas class="container-box-admin" id="LineChart"></canvas>
+            </div>
+            <div class="col-md-4 mb-4">
+                <canvas class="container-box-admin" id="PieChart"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <canvas class="container-box-admin" id="BarChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block 'body' %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const labels = [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+    ];
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'Progresso de vendas no mês',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45],
+        }]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {}
+    };
+
+    const LineChart = new Chart(
+        document.getElementById('LineChart'),
+        config
+    );
+
+
+    const ctx = document.getElementById('BarChart').getContext('2d');
+    const BarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: 'Categorias mais vendidas',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+    const pie = document.getElementById('PieChart').getContext('2d');
+    const PieChart = new Chart(pie, {
+        type: 'pie',
+        data: {
+            labels: [
+            'Despesa',
+            'Lucro',
+            'Neutro'
+        ],
+        datasets: [{
+            label: 'Lucros do mês',
+            data: [300, 50, 100],
+            backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+        }
+    });
+</script>
+{% endblock %}

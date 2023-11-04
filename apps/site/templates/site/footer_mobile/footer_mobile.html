@@ -1,0 +1,40 @@
+{% load static %}
+{% load bootstrap_icons %}
+
+<div class="margin-navbar-footer"></div>
+<footer class="mobile nav-footer">
+    <div class="display-item">
+        <a href="{% url 'loja:home' %}">
+            <div id="home-icon" class="box-selected">
+                {% bs_icon 'house-door-fill' size='2em' %}
+                <p class="p-footer">Inicio</p>
+            </div>
+        </a>
+        <div class="box-footer">
+            {% bs_icon 'heart' size='2em' %}
+            <p class="p-footer">Favoritos</p>
+        </div>
+        <a href="{% url 'loja:carrinho' %}">
+            <div id="carrinho" class="box-footer">
+                {% bs_icon 'cart' size='2em' %}
+                <span id="span-value" class="span-carrinho-mobile"></span>
+                <p class="p-footer">Carrinho</p>
+            </div>
+        </a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'loja:perfil_site' %}">
+            <div id="conta-icon" class="box-footer">
+                {% bs_icon 'person-fill' size='2em' %}
+                <p class="p-footer">Conta</p>
+            </div>
+        </a>
+        {% else %}
+        <a href="{% url 'loja:login' %}">
+            <div id="conta-icon" class="box-footer">
+                {% bs_icon 'person' size='2em' %}
+                <p class="p-footer">Conta</p>
+            </div>
+        </a>
+        {% endif %}
+    </div>
+</footer>

@@ -1,0 +1,101 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block 'title' %}Cadastrar Novo Produto{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container mb-4">
+    <div class="container-box-admin">
+        <h2>Cadastrar Novo Produto</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.produto:create_produto' %}" method="POST"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Nome<span style="color: red"> * </span>:</label>
+                    <input type="text" class="form-control" name="nome_produto" id="nome_produto" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Quantidade<span style="color: red"> * </span>:</label>
+                    <input type="number" class="form-control" name="quantidade_produto" id="quantidade_produto"
+                        required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Valor<span style="color: red"> * </span>:</label>
+                    <input type="text" class="form-control" name="valor_produto" id="valor_produto" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Desconto :</label>
+                    <input type="text" class="form-control" name="desconto_produto" id="desconto_produto">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label">Tipo<span style="color: red"> * </span>:</label>
+                    <select class="form-control" id="tipo_produto" name="tipo_produto" aria-label="Default select example" required>
+                        {% for tipo in tipos %}
+                        <option value="{{tipo.tipo_id}}">{{tipo.get_tipo_id_display}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Categoria<span style="color: red"> * </span>:</label>
+                    <select class="form-control" id="categoria_produto" name="categoria_produto" aria-label="Default select example" required>
+                        {% for categoria in categorias %}
+                        <option value="{{categoria.id}}">{{categoria.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="inputDnD">
+                        <label class="form-label" for="image_stand">Imagem Principal<span style="color: red"> * </span>:</label>
+                        <input type="file" class="form-control-file text-primary font-weight-bold" id="image_produto"
+                            name="image_produto" accept="image/*" onchange="readUrl(this)" data-title="Adicionar imagem"
+                            required>
+                    </div>
+                    <p>Dimensões ideais	1024x 1024 px</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <label class="form-label" for="image_stand">Imagens Secundárias: </label>
+                    <input type="file" class="form-control" id="imagens_produto[]"
+                        name="imagens_produto[]" accept="image/*" multiple>
+                    <p>Dimensões ideais	1024x 1024 px</p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label class="form-label">Descrição :</label>
+                    <textarea style="height: 240px;" id="descricao_produto" name="descricao_produto"
+                        class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="margin margin-top margin-bottom">
+                <button type="submit" class="btn-principal">Cadastrar</button>
+                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block 'body' %}
+<script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js" type="text/javascript"></script>
+<script src="{% static 'administrador/produtos/js/produtos.js' %}" type="text/javascript"></script>
+<script>
+    CKEDITOR.replace('descricao_produto' );
+</script>
+{% endblock %}

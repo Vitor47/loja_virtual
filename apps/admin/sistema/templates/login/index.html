@@ -1,0 +1,93 @@
+{% load static %}
+{% load bootstrap_icons %}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'general/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'general/css/general.css' %}">
+    <link rel="stylesheet" href="{% static 'general/css/login.css' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/logo/icone.jpg' %}"/>
+    <title>Login Administrador</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <div class="mb-4 text-center txt-caixa" style="margin-top: 25%;">
+                        <img class="img-fluid" src="{% static 'images/logo/logo_sem_fundo.png' %}" alt="LOGO" />
+                    </div>
+                    <div class="caixa">
+                        <form action="{% url 'apps_administrador.sistema:login' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-9 col-md-9">
+                                    <fieldset class="formRow">
+                                        <div class="formRow--item">
+                                            <label for="username" class="formRow--input-wrapper js-inputWrapper">
+                                                <input type="text" class="formRow--input js-input" id="username"
+                                                    name="username" placeholder="Usuário " required>
+                                            </label>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset class="formRow">
+                                        <div class="formRow--item">
+                                            <label for="senha" class="formRow--input-wrapper js-inputWrapper">
+                                                <input type="password" class="formRow--input js-input" id="senha"
+                                                    name="senha" placeholder="Sua Senha " required>
+                                            </label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-3 col-md-3">
+                                    <button type="submit" class="btn-login-admin" title="Entrar">
+                                        {% bs_icon 'arrow-right-square' size='2.5em' %}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+        </div>
+    </div>
+
+    {% block 'body' %}
+    {% endblock %}
+    
+    <script src="{% static 'vendor/jquery/jquery.slim.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+    <script href="{% static 'general/js/login.js' %}"></script>
+
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <script>
+        swal({
+        title: "SUCESSO!",
+        text: "{{message}}",
+        icon: "success",
+        button: "OK",
+        });
+    </script>
+    {% endif %}
+    {% endfor %}
+
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <script>
+        swal({
+        title: "ERRO!",
+        text: "{{message}}",
+        icon: "error",
+        button: "OK",
+        });
+    </script>
+    {% endif %}
+    {% endfor %}
+</body>
+</html>

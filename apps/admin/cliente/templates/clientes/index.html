@@ -1,0 +1,83 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Clientes{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="mt-4">
+        <h2>Lista de Clientes Cadastrados</h2>
+    </div>
+
+    <div class="margin mt-4 mb-4">
+        <div class="row">
+            <div class="col-md-4">
+                <form method="GET" action=" {% url 'apps_administrador.cliente:search_cliente' %} ">
+                    <div class="form-group input-group">
+                        <input name="pesquisar_por_nome" id="pesquisar_por_nome" placeholder="Consultar por Nome" type="text" class="form-control">
+                        <button type="submit" class="btn-search">
+                            <span>{% bs_icon 'search' size='1.5em' %}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover container-box-admin">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Cpf / Cnpj</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">Status</th>
+                <th scope="col">Informações Completas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if len_clientes > 0 %}
+            {% for item in clientes %}
+            <tr>
+                <td data-label="#" scope="row"> {{ forloop.counter }}</td>
+                <td data-label="Nome">{{ item.nome }}</td>
+                <td data-label="Cpf / Cnpj">{{ item.cpf_cnpj }}</td>
+                <td data-label="E-mail">{{ item.email }}</td>
+                <td data-label="Telefone">{{ item.telefone }}</td>
+                {% if item.is_active == True %}
+                <td data-label="Status"><a href="{% url 'apps_administrador.cliente:ativo_inativo' item.id %}" class="btn btn-success">Ativo</a></td>
+                {% else %}
+                <td data-label="Status"><a href="{% url 'apps_administrador.cliente:ativo_inativo' item.id %}" class="btn btn-danger">Inativo</a></td>
+                {% endif %}
+                <td data-label="Informações Completas"><a href="{% url 'apps_administrador.cliente:detalhes_cliente' item.id %}" class="btn btn-primary">{% bs_icon 'info' size='1.5em' %} Informações</a></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <td>Nenhum Cliente encontrado</td>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if clientes.has_previous %}
+                <a class="btn-left" href="?page={{ clientes.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>
+            {% endif %}
+    
+            <span class="current">
+                {{ clientes.number }} de {{ clientes.paginator.num_pages }}
+            </span>
+    
+            {% if clientes.has_next %}
+                <a class="btn-right" href="?page={{ clientes.next_page_number }}">{% bs_icon 'arrow-right-circle' size='1.5em' %}</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+
+{% endblock %}

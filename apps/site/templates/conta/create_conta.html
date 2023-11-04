@@ -1,0 +1,90 @@
+{% extends 'site\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+{% load widget_tweaks %}
+
+{% block 'title' %}Criar Conta{% endblock %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
+<link rel="stylesheet" href="{% static 'site/base_site/css/conta.css' %}">
+{% endblock %}
+
+{% block 'main' %}
+
+<section class="mt-4">
+    <div class="container">
+        <div class="wrapper fadeInDown">
+            <div id="formContentCreate">
+
+              <a href="{% url 'loja:login' %}"  class="title-conta inactive underlineHover"> Login </a>
+              <h2 class="title-conta active">Cria Conta </h2>
+
+              <form action="{% url 'loja:create_count' %}" method="POST">
+                {% csrf_token %}
+                <div class="display-forms">
+                    <div class="display-form-conta">
+                        {% render_field form_user.first_name type="text" class="form-create-conta fadeIn second" placeholder="Nome" id="nome-create-conta" %}
+                    </div>
+                    
+                    <div class="display-form-conta">
+                        {% render_field form_cliente.telefone type="text" class="form-create-conta fadeIn third" placeholder="Telefone" id="telefone-create-conta" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_user.email type="email" class="form-create-conta fadeIn third" placeholder="Endereço de e-mail" id="email-create-conta" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_cliente.cpf_cnpj type="text" class="form-create-conta fadeIn third" placeholder="Cpf/Cnpj" id="cpfcnpj-create-conta" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_cliente.data_nascimento type="text" class="form-create-conta fadeIn third" placeholder="Data de nascimento" id="data-create-conta" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_cliente_endereco.cep type="text" class="form-create-conta fadeIn third" placeholder="Cep" id="cep" value="" size="20" maxlength="8" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_cliente_endereco.estado type="text" class="form-create-conta fadeIn third" id="uf" size="2" placeholder="Estado" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_cliente_endereco.cidade type="text" class="form-create-conta fadeIn third" id="cidade" size="38" placeholder="Cidade" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_cliente_endereco.bairro type="text" class="form-create-conta fadeIn third" id="bairro" size="40" placeholder="Bairro" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_cliente_endereco.logradouro type="text" class="form-create-conta fadeIn third" id="rua" size="54" placeholder="Logradouro" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_cliente_endereco.nr_casa type="number" class="form-create-conta fadeIn third" id="nr-casa-create-conta" size="3" placeholder="Nº Casa" %}
+                    </div>
+
+                    <div class="display-form-conta">
+                        {% render_field form_user.password type="password" class="form-create-conta fadeIn third" placeholder="Senha" id="senha-create-conta" minlength="6" maxlength="12" onKeyUp="verificaForcaSenha();" %}
+                        <span id="password-status"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-login fadeIn fourth">Criar Conta</button>
+              </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'site\footer_mobile\footer_mobile.html' %}
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.js' %}" type="text/javascript"></script>
+<script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'site/base_site/js/create_conta.js' %}" type="text/javascript"></script>
+{% endblock %}

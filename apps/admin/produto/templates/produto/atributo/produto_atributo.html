@@ -1,0 +1,116 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Cadastrar Produtos no Atributo {{atributo.nome}}{% endblock %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="{% static 'administrador/produtos/css/produtos.css' %}" />
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container mb-4">
+    <div class="container-box-admin">
+        <h2>Cadastrar Produtos no Atributo {{atributo.nome}} com valor {{atributo.valor}}</h2>
+        <form class="mt-4" action="{% url 'apps_administrador.produto:produto_atributo_produto' atributo.id %}"
+            method="POST">
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+            <div class="form-group row">
+                <div class="col-md-9">
+                    <label class="form-label">Produtos :</label>
+                    <div class="panel-body">
+                        <table id="example"
+                            class="table table-bordered bordered table-striped table-condensed datatable"
+                            ui-jq="dataTable" ui-options="dataTableOpt">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Selecionar</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Categoria</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Data Cadastrado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for produto in produtos %}
+                                <tr>
+                                    <td data-label="Selecionar">
+                                        <div class="checkbox">
+                                            {% if produto.marcado == True %}
+                                            <input type="checkbox" id="{{produto.id}}" class="checkbox" name="produto_id[]" value="{{produto.id}}" checked>
+                                            {% else %}
+                                            <input type="checkbox" id="{{produto.id}}" class="checkbox" name="produto_id[]" value="{{produto.id}}">
+                                            {% endif %}
+                                            <label for="{{produto.id}}"></label>
+                                          </div>
+                                    </td>
+                                    <td data-label="Nome">{{produto.nome}}</td>
+                                    <td data-label="Categoria">{{produto.categoria}}</td>
+                                    <td data-label="Tipo">{{produto.tipo}}</td>
+                                    <td data-label="Data Cadastrado">{{produto.data_cad}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="margin mt-4 mb-4">
+                            <button type="submit" class="btn-principal">Cadastrar</button>
+                            <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Produtos já com o Atributo:</label>
+                    <div class="form-control" style="height: 502px; resize: auto; overflow-y: scroll;">
+                        {% for item in table_relacionada %}
+                        <div class="form-check">
+                            <label class="form-label">
+                                <span style="color: blue;">{% bs_icon 'bookmark-check' %}</span> Nome: {{item.produto.nome}}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block 'body' %}
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="{% static 'administrador/produtos/js/produtos.js' %}" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+    $('#example').DataTable({
+        "paging": true,
+        "ordering": true,
+        "info": false,
+        "language": {
+            "sEmptyTable": "Nenhum registro encontrado",
+            "sInfo": "Mostrando de _START_ atÃ© _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 atÃ© 0 de 0 registros",
+            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "_MENU_ resultados por pagina",
+            "sLoadingRecords": "Carregando...",
+            "sProcessing": "Processando...",
+            "sZeroRecords": "Nenhum registro encontrado",
+            "sSearch": "Pesquisar",
+            "oPaginate": {
+                "sNext": "Proximo",
+                "sPrevious": "Anterior",
+                "sFirst": "Primeiro",
+                "sLast": "Ultimo"
+            },
+            "oAria": {
+                "sSortAscending": ": Ordenar colunas de forma ascendente",
+                "sSortDescending": ": Ordenar colunas de forma descendente"
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'site\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Carrinho{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'main' %}
+<section>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col">
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'loja:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Carrinho</li>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <nav class="nav nav-pills nav-justified">
+                    <span class="nav-item ng-isolate-scope">
+                        <a href="{% url 'loja:carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                            <i class="fa fa-shopping-cart fa-icon-carrinho"></i>
+                            <b class="ng-scope leter-icon-header">Itens</b>
+                        </a>
+                    </span>
+                    <span class="nav-item ng-isolate-scope">
+                        <a href="{% url 'loja:dados_perfil_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                            <i class="fa fa-id-card fa-icon-carrinho"></i>
+                            <b class="ng-scope leter-icon-header">Dados</b>
+                        </a>
+                    </span>
+                    <span class="nav-item ng-isolate-scope">
+                        <a href="{% url 'loja:frete_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                            <i class="fa fa-truck fa-icon-carrinho"></i>
+                            <b class="ng-scope leter-icon-header">Entrega</b>
+                        </a>
+                    </span>
+                    <span class="nav-item ng-isolate-scope">
+                        <a href="{% url 'loja:forma_pagamento_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center active">
+                            <i class="fa fa-credit-card fa-icon-carrinho"></i>
+                            <b class="ng-scope leter-icon-header">Pagamento</b>
+                        </a>
+                    </span>
+                    <span class="nav-item ng-isolate-scope">
+                        <a class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                            <i class="fa fa-check-circle fa-icon-carrinho"></i>
+                            <b class="ng-scope leter-icon-header">Concluir compra</b>
+                        </a>
+                    </span>
+                </nav>
+            </div>
+        </div>
+
+
+        <div class="card mb-3">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-9">
+                    <p class="mb-0">Somente forma de Pagamento em pix disponivel no momento!</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <img class="img-fluid" style="width: 280px;" src="{% static 'images/pix-bc-logo.png' %}">
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="d-flex mt-3">
+            <a href="{% url 'loja:pagamento_carrinho' %}" style="margin-right: 12px;" class="btn btn-primary">Avançar</a>
+            <a onclick="window.history.back();" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+</section>
+{% include 'site\footer_mobile\footer_mobile.html' %}
+{% endblock %}
+
+{% block 'body' %}
+{% endblock %}

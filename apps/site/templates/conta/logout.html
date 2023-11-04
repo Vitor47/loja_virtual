@@ -1,0 +1,30 @@
+{% extends 'site\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+{% load widget_tweaks %}
+
+{% block 'title' %}Você Saiu{% endblock %}
+
+{% block 'head' %}
+<link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
+<link rel="stylesheet" href="{% static 'site/base_site/css/conta.css' %}">
+{% endblock %}
+
+{% block 'main' %}
+
+<section class="margin-top">
+    <div class="container">
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+                <h2 class="title-login">Você Saiu</h2>
+                <a href="{% url 'loja:home' %}"  class="btn btn-login fadeIn fourth">Home</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'site\footer_mobile\footer_mobile.html' %}
+{% endblock %}
+
+{% block 'body' %}
+{% endblock %}

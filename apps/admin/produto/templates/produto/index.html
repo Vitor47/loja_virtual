@@ -1,0 +1,107 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Produtos{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'title-page' %}
+Lista de Produtos Cadastrados
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="mt-4 mb-4">
+        <h2>Lista de Produtos Cadastrados </h2>
+    </div>
+
+    <div class="margin mb-4">
+        <div class="row">
+            {% if perms.produto.add_produto %}
+            <div class="col-md-8 mb-2">
+                <a href="{% url 'apps_administrador.produto:create_produto' %}" class="btn btn-success">{% bs_icon 'basket' %}
+                    Cadastrar Produto</a>
+            </div>
+            {% endif %}
+            <div class="col-md-4">
+                <form method="GET" action=" {% url 'apps_administrador.produto:search_produto' %} ">
+                    <div class="form-group input-group">
+                        <input name="pesquisar_por_nome" id="pesquisar_por_nome" placeholder="Consultar por Nome"
+                            type="text" class="form-control">
+                        <button type="submit" class="btn-search">
+                            <span>{% bs_icon 'search' size='1.5em' %}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover container-box-admin mb-4">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col">Imagem Principal</th>
+                <th scope="col">Status</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if produtos.object_list.count > 0 %}
+            {% for item in produtos.object_list %}
+            <tr>
+                <td data-label="#" scope="row"> {{ forloop.counter }}</td>
+                <td data-label="Nome" >{{ item.nome }}</td>
+                <td data-label="Valor">{{ item.valor }}</td>
+                <td data-label="Quantidade">{{ item.quantidade }}</td>
+                <td data-label="Imagem Principal"><img src="/media/{{ item.imagem_principal }}" style="width: 80px"></td>
+                {% if item.status == True %}
+                <td data-label="Status"><span style="cursor: context-menu;" class="btn btn-success">Ativo</span></td>
+                {% else %}
+                <td data-label="Status"><span style="cursor: context-menu;" class="btn btn-danger">Inativo</span></td>
+                {% endif %}
+                <td data-label="Ações">
+                    <form method="GET" action=" {% url 'apps_administrador.produto:delete_produto' item.id %} ">
+                        {% if perms.produto.change_produto %}
+                        <a href="{% url 'apps_administrador.produto:edit_produto' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
+                        {% endif %}
+                        {% if perms.produto.delete_produto %}
+                        <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
+                            <i>{% bs_icon 'trash' %}</i> Excluir</button>
+                        {% endif %}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <td>Nenhum Produto encontrado</td>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="pagination mb-4">
+        <span class="step-links">
+            {% if produtos.has_previous %}
+            <a class="btn-left" href="?page={{ produtos.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>
+            {% endif %}
+
+            <span class="current">
+                {{ produtos.number }} de {{ produtos.paginator.num_pages }}
+            </span>
+
+            {% if produtos.has_next %}
+            <a class="btn-right" href="?page={{ produtos.next_page_number }}">{% bs_icon 'arrow-right-circle' size='1.5em' %}</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'administrador/produtos/js/produtos.js' %}" type="text/javascript"></script>
+{% endblock %}

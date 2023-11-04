@@ -1,0 +1,219 @@
+{% extends 'site\base.html' %}
+{% load static %}
+
+{% block 'title' %}Produtos{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'main' %}
+
+<section class="margin-top">
+    <div class="main-products">
+        <div class="display-top-page-products mobile">
+            <h2 class="title-page-product">Produtos</h2>
+
+            <div id="filter" class="display-filter">
+                <div class="box-filter-1">
+                    <button class="btn" onclick="expandFilterCategory()">
+                        <i class="fa-solid fa-filter icon-filter" style="font-size: 1em;"></i>
+                    </button>
+                </div>
+
+                <div class="box-filter-2">
+                    <button class="btn" onclick="expandFilterOrder()">
+                        <i class="fa-solid fa-arrow-down-short-wide icon-filter" style="font-size: 1em;"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="margin-top" id="select-filter">
+                <select class="form-control" name='categoria_slug' id='categoria_slug' onchange="SelectCategoria()" aria-label="Default select example">
+                    <option selected>Selecione a categoria desejada</option>
+                    {% for categoria in categorias %}
+                        <option value="{{categoria.slug}}"> {{categoria.nome}} </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="margin-top" id="select-order">
+                <select class="form-control" name='valor' id='valor' onchange="SelectPreco()" aria-label="Default select example">
+                    <option selected>Selecione a ordem desejada</option>
+                    <option value="maior_100" name="valor" id="valor"> Maior que R$: 100 reais </option>
+                    <option value="menor_100" name="valor" id="valor"> Menor que R$: 100 reais </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row margin-top-desktop">
+            <div class="col-md-3 desktop" style="margin-top: 20px;">
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                    <h2 class="title-page-product">Buscar</h2>
+                    <hr>
+                    <form method="GET" action="{% url 'loja:produtos' %}">
+                        <div id="divBusca">
+                            <input type="text" id="txtBusca" name="produtos_name" placeholder="Buscar..." />
+                            <button type="submit" id="btnBusca"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                    <h2 class="title-page-product">Categorias</h2>
+                    <hr>
+                    <form method="GET" action=" {% url 'loja:produtos' %} ">
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            {% for categoria in categorias %}
+                            <li class="nav-item">
+                                <a class="nav-link link-dark">
+                                    {% if categoria.marcado == True %}
+                                    <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug" id="categoria_slug" multiple checked> {{categoria.nome}}
+                                    {% else %}
+                                    <input type="checkbox" value="{{categoria.slug}}" name="categoria_slug" id="categoria_slug" multiple> {{categoria.nome}}
+                                    {% endif %}
+                                </a>
+                            </li>
+                            {% endfor %}
+                            <li class="nav-item">
+                                <div class="nav-link link-dark">
+                                    <button class="btn btn-filtrar" type="submit">Filtrar</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+
+                <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+                    <h2 class="title-page-product">Preço</h2>
+                    <hr>
+                    <form method="GET" action=" {% url 'loja:produtos' %} ">
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            <li class="nav-item">
+                                <a class="nav-link link-dark">
+                                    {% if valor == "maior_100" %}
+                                    <input type="radio" value="maior_100" name="valor" id="valor" checked> Maior que R$: 100 reais
+                                    {% else %}
+                                    <input type="radio" value="maior_100" name="valor" id="valor"> Maior que R$: 100 reais
+                                    {% endif %}
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link link-dark">
+                                    {% if valor == "menor_100" %}
+                                    <input type="radio" value="menor_100" name="valor" id="valor" checked> Menor que R$: 100 reais
+                                    {% else %}
+                                    <input type="radio" value="menor_100" name="valor" id="valor"> Menor que R$: 100 reais
+                                    {% endif %}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="nav-link link-dark">
+                                    <button class="btn btn-filtrar" type="submit">Filtrar</button>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="col-md-9">
+                {% if tamanho_array_products > 0 %}
+                <div class="display-card-shop margin-top">
+                    {% for produto in produtos %}
+                    <div id="passar_mouse" class="product-card">
+                        <a href="{% url 'loja:detalhes_produto' produto.slug %}">
+                            <div class="img-product" style="background-image: url('/media/{{produto.imagem_principal}}');">
+                                <span class="display-avaliation-card">
+                                    <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
+                                    <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
+                                    <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
+                                    <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
+                                    <i class="fa-solid fa-star-half-stroke" style="font-size: 1em;"></i>
+                                </span>
+                                <span id="favorite-mouse" class="favorite-mouse">
+                                    <button class="btn">
+                                        <i class="fa-regular fa-heart icon-card-favorite" style="font-size: 1.5em;"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <p class="p-card">{{produto.nome}} </p>
+                            
+                            {% if produto.valor_com_desconto == None %}
+                            <p class="p-value">R$ {{produto.valor_inicial}}</p>
+                            {% else %}
+                            <span class="price-old">R$ {{produto.valor_inicial}}</span>
+                            <div class="display-discount">
+                                <p class="p-value">R$ {{produto.valor_com_desconto}}</p>
+                                <p class="percent-discount">{{produto.percent_desconto|floatformat:2}}% desconto</p>
+                            </div>
+                            {% endif %}
+                        </a>
+        
+                        <div id="comprar-home" class="calculator-qtd">
+                            <div class="display-count">
+                                <input type="text" class="form-count" onchange="Calculator(this.value)" name="calculator_{{produto.id}}" id="calculator_{{produto.id}}" value="1">
+            
+                                <div class="display-count-button" role="group" aria-label="plus-minus">
+                                    <button type="button" class="btn-count" data-dir="up" id="up">
+                                        +
+                                    </button>
+                                    <button type="button" class="btn-count" data-dir="dwn" id="dwn">
+                                        -
+                                    </button>
+                                </div>
+                            </div>
+        
+                            <div>
+                                <button class="btn btn-comprar-home ml-auto mr-auto" id="comprar_{{produto.id}}" type="button" onclick="AddCarrinho('{{produto.id}}', document.querySelector('#calculator_{{produto.id}}').value)"> Comprar </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="margin-top" style="text-align: center;">Nenhum produto encontrado!</p>
+                {% endif %}
+
+                {% if produtos %}
+                    <div class="row" style="margin-top: 46px;">
+                        {% if produtos.has_other_pages %}
+                        <div class="btn-group" role="group" aria-label="Item pagination">
+                            {% if produtos.has_previous %}
+                                <a href="?page={{ produtos.previous_page_number }}" class="btn btn-outline-primary">&laquo;</a>
+                            {% endif %}
+
+                            {% for page_number in produtos.paginator.page_range %}
+                                {% if produtos.number == page_number %}
+                                    <button class="btn btn-outline-primary active">
+                                        <span>{{ page_number }} <span class="sr-only">(current)</span></span>
+                                    </button>
+                                {% else %}
+                                    <a href="?page={{ page_number }}" class="btn btn-outline-primary">
+                                        {{ page_number }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if produtos.has_next %}
+                                <a href="?page={{ produtos.next_page_number }}" class="btn btn-outline-primary">&raquo;</a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'site\footer_mobile\footer_mobile.html' %}
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'site/base_site/js/produtos.js' %}"></script>
+{% endblock %}

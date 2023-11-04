@@ -1,0 +1,41 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+
+{% block 'title' %}Cadastrar Novo Banner{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="container-box-admin">
+        <h2>Cadastrar Novo Banner</h2>
+        <form class="mt-4 mb-4" action="{% url 'apps_administrador.banner:create_banner' %}" method="POST"
+            enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
+
+            <div class="form-group row">
+                <div class="col-md-6">
+                    <div class="inputDnD">
+                        <label class="form-label" for="image_stand">Imagem<span style="color: red"> * </span>:</label>
+                        <input type="file" class="form-control-file text-primary font-weight-bold" id="image_banner"
+                            name="image_banner" accept="image/*" onchange="readUrl(this)" data-title="Adicionar imagem"
+                            required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="margin mt-4 mb-4">
+                <button type="submit" class="btn-principal">Cadastrar</button>
+                <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'administrador/banner/js/banner.js' %}" type="text/javascript"></script>
+{% endblock %}

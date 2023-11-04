@@ -1,0 +1,54 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Perfil do Usuário{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="mt-4 mb-4">
+        <h2>Meu perfil</h2>
+    </div>
+
+    <div class="container-box-admin">
+        <form action="{% url 'apps_administrador.sistema:perfil' %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Nome <span style="color: red"> * </span> :</label>
+                        <input type="text" class="form-control" id="nome_usuario" name="nome_usuario" value="{{usuario.first_name}}" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Usuário <span style="color: red"> * </span> :</label>
+                        <input type="text" class="form-control" id="usuario" name="usuario" value="{{usuario.username}}" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label">Email <span style="color: red"> * </span> :</label>
+                        <input type="email" class="form-control" id="email_usuario" name="email_usuario" value="{{usuario.email}}" required>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <button type="submit" class="btn-principal">Editar Perfil</button>
+                        <button type="button" onclick="window.history.back();" class="btn btn-secondary">Voltar</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block 'body' %}
+{% endblock %}

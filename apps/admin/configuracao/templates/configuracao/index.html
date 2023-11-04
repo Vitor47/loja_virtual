@@ -1,0 +1,67 @@
+{% extends 'administrador\base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Configurações{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="mt-4">
+        <h2>Lista de Configurações Cadastradas </h2>
+    </div>
+
+    <div class="margin mt-4 mb-4">
+        <div class="row">
+            {% if perms.configuracao.add_configuracao %}
+            <div class="col-md-4">
+                <a href="{% url 'apps_administrador.configuracao:create_configuracao' %}" class="btn btn-success">{% bs_icon 'gear' %} Cadastrar Configuração</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <table class="table table-hover container-box-admin">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if configuracao.count > 0 %}
+            {% for item in configuracao  %}
+            <tr>
+                <td data-label="#" scope="row"> {{ forloop.counter }}</td>
+                <td data-label="Nome">{{ item.nome }}</td>
+                <td data-label="Valor">{{ item.valor }}</td>
+                <td data-label="Ações">
+                    <form method="GET" action=" {% url 'apps_administrador.configuracao:delete_configuracao' item.id %} ">
+                        {% if perms.configuracao.change_configuracao %}
+                        <a href="{% url 'apps_administrador.configuracao:edit_configuracao' item.id %}" class="btn btn-warning">{% bs_icon 'pencil'%} Editar</a>
+                        {% endif %}
+                        {% if perms.configuracao.delete_configuracao %}
+                        <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
+                            <i>{% bs_icon 'trash' %}</i> Excluir
+                        </button>
+                        {% endif %}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <td>Nenhuma Configuração cadastrada</td>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block 'body' %}
+<script src="{% static 'administrador/configuracao/js/configuracao.js' %}" type="text/javascript"></script>
+{% endblock %}
