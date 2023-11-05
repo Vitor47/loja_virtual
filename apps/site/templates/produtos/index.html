@@ -1,4 +1,4 @@
-{% extends 'site\base.html' %}
+{% extends 'site/base.html' %}
 {% load static %}
 
 {% block 'title' %}Produtos{% endblock %}
@@ -52,7 +52,7 @@
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
                     <h2 class="title-page-product">Buscar</h2>
                     <hr>
-                    <form method="GET" action="{% url 'loja:produtos' %}">
+                    <form method="GET" action="{% url 'site:produtos' %}">
                         <div id="divBusca">
                             <input type="text" id="txtBusca" name="produtos_name" placeholder="Buscar..." />
                             <button type="submit" id="btnBusca"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -64,7 +64,7 @@
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
                     <h2 class="title-page-product">Categorias</h2>
                     <hr>
-                    <form method="GET" action=" {% url 'loja:produtos' %} ">
+                    <form method="GET" action=" {% url 'site:produtos' %} ">
                         <ul class="nav nav-pills flex-column mb-auto">
                             {% for categoria in categorias %}
                             <li class="nav-item">
@@ -89,7 +89,7 @@
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
                     <h2 class="title-page-product">Preço</h2>
                     <hr>
-                    <form method="GET" action=" {% url 'loja:produtos' %} ">
+                    <form method="GET" action=" {% url 'site:produtos' %} ">
                         <ul class="nav nav-pills flex-column mb-auto">
                             <li class="nav-item">
                                 <a class="nav-link link-dark">
@@ -126,7 +126,7 @@
                 <div class="display-card-shop margin-top">
                     {% for produto in produtos %}
                     <div id="passar_mouse" class="product-card">
-                        <a href="{% url 'loja:detalhes_produto' produto.slug %}">
+                        <a href="{% url 'site:detalhes_produto' produto.slug %}">
                             <div class="img-product" style="background-image: url('/media/{{produto.imagem_principal}}');">
                                 <span class="display-avaliation-card">
                                     <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
@@ -211,9 +211,9 @@
     </div>
 </section>
 
-{% include 'site\footer_mobile\footer_mobile.html' %}
+{% include 'footer_mobile/footer_mobile.html' %}
 {% endblock %}
 
 {% block 'body' %}
-<script src="{% static 'site/base_site/js/produtos.js' %}"></script>
+<script src="{% static 'site/js/produtos.js' %}"></script>
 {% endblock %}

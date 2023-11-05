@@ -96,15 +96,15 @@ ul li {
 }
 
 .logo-desktop {
-    margin-top: 12px;
+    margin-top: 6px;
 }
 
-.logo-cremonese-desktop {
+.logo-desktop {
     color: var(--letter-color-light);
     font-size: 30px;
 }
 
-.logo-cremonese-desktop:hover {
+.logo-desktop:hover {
     color: var(--letter-color-light);
 }
 

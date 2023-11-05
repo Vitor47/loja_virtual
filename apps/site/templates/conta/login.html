@@ -1,4 +1,4 @@
-{% extends 'site\base.html' %}
+{% extends 'site/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 {% load widget_tweaks %}
@@ -6,8 +6,8 @@
 {% block 'title' %}Fazer Login{% endblock %}
 
 {% block 'head' %}
-<link rel="stylesheet" href="{% static 'site/base_site/css/conta.css' %}">
-<link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
+<link rel="stylesheet" href="{% static 'site/css/conta.css' %}">
+<link rel="stylesheet" href="{% static 'site/css/header_default.css' %}">
 {% endblock %}
 
 {% block 'main' %}
@@ -18,9 +18,9 @@
             <div id="formContent">
 
               <h2 class="title-conta active"> Login </h2>
-              <a href="{% url 'loja:create_count' %}" class="title-conta inactive underlineHover">Cria Conta </a>
+              <a href="{% url 'site:create_count' %}" class="title-conta inactive underlineHover">Cria Conta </a>
 
-              <form action="{% url 'loja:login' %}" method="POST">
+              <form action="{% url 'site:login' %}" method="POST">
                 {% csrf_token %}
                 <div class="display-form-conta">
                     <label class="label-conta" for="login__username"><span class="icon-conta">{% bs_icon 'people' size='1.5em' %}</span></label>
@@ -44,7 +44,7 @@
     </div>
 </section>
 
-{% include 'site\footer_mobile\footer_mobile.html' %}
+{% include 'footer_mobile/footer_mobile.html' %}
 {% endblock %}
 
 {% block 'body' %}

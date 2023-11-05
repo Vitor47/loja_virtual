@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -11,7 +11,7 @@
 <div class="container mb-4">
     <div class="container-box-admin">
         <h2>Cadastrar Novo Diametro</h2>
-        <form class="mt-4" action="{% url 'apps_administrador.produto:create_diametro_produto' %}" method="POST">
+        <form class="mt-4" action="{% url 'admin.produto:create_diametro_produto' %}" method="POST">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
             <div class="form-group row">

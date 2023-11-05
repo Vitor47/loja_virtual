@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -16,7 +16,7 @@
     <div class="margin mt-4 mb-4">
         <div class="row">
             <div class="col-md-4">
-                <form method="GET" action=" {% url 'apps_administrador.cliente:search_cliente' %} ">
+                <form method="GET" action=" {% url 'admin.cliente:search_cliente' %} ">
                     <div class="form-group input-group">
                         <input name="pesquisar_por_nome" id="pesquisar_por_nome" placeholder="Consultar por Nome" type="text" class="form-control">
                         <button type="submit" class="btn-search">
@@ -50,11 +50,11 @@
                 <td data-label="E-mail">{{ item.email }}</td>
                 <td data-label="Telefone">{{ item.telefone }}</td>
                 {% if item.is_active == True %}
-                <td data-label="Status"><a href="{% url 'apps_administrador.cliente:ativo_inativo' item.id %}" class="btn btn-success">Ativo</a></td>
+                <td data-label="Status"><a href="{% url 'admin.cliente:ativo_inativo' item.id %}" class="btn btn-success">Ativo</a></td>
                 {% else %}
-                <td data-label="Status"><a href="{% url 'apps_administrador.cliente:ativo_inativo' item.id %}" class="btn btn-danger">Inativo</a></td>
+                <td data-label="Status"><a href="{% url 'admin.cliente:ativo_inativo' item.id %}" class="btn btn-danger">Inativo</a></td>
                 {% endif %}
-                <td data-label="Informações Completas"><a href="{% url 'apps_administrador.cliente:detalhes_cliente' item.id %}" class="btn btn-primary">{% bs_icon 'info' size='1.5em' %} Informações</a></td>
+                <td data-label="Informações Completas"><a href="{% url 'admin.cliente:detalhes_cliente' item.id %}" class="btn btn-primary">{% bs_icon 'info' size='1.5em' %} Informações</a></td>
             </tr>
             {% endfor %}
             {% else %}

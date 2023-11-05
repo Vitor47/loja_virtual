@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -17,7 +17,7 @@
         <div class="row">
             {% if perms.produto.add_produtoatributo %}
             <div class="col-md-8">
-                <a href="{% url 'apps_administrador.produto:create_atributo_produto' %}" class="btn btn-success">{% bs_icon 'bookmark-star' %}
+                <a href="{% url 'admin.produto:create_atributo_produto' %}" class="btn btn-success">{% bs_icon 'bookmark-star' %}
                     Cadastrar Atributo</a>
             </div>
             {% endif %}
@@ -41,12 +41,12 @@
                 <td data-label="Nome" >{{ item.nome }}</td>
                 <td data-label="Valor">{{item.valor}}</td>
                 <td data-label="Ações">
-                    <form method="GET" action=" {% url 'apps_administrador.produto:delete_atributo_produto' item.id %} ">
+                    <form method="GET" action=" {% url 'admin.produto:delete_atributo_produto' item.id %} ">
                         {% if perms.produto.add_produtoatributo %}
-                        <a href="{% url 'apps_administrador.produto:produto_atributo_produto' item.id %}" class="btn btn-primary margin-bottom">{% bs_icon 'basket' %} Produtos com atributo</a>
+                        <a href="{% url 'admin.produto:produto_atributo_produto' item.id %}" class="btn btn-primary margin-bottom">{% bs_icon 'basket' %} Produtos com atributo</a>
                         {% endif %}
                         {% if perms.produto.change_produtoatributo %}
-                        <a href="{% url 'apps_administrador.produto:edit_atributo_produto' item.id %}" class="btn btn-warning margin-bottom">{% bs_icon 'pencil' %} Editar</a>
+                        <a href="{% url 'admin.produto:edit_atributo_produto' item.id %}" class="btn btn-warning margin-bottom">{% bs_icon 'pencil' %} Editar</a>
                         {% endif %}
                         {% if perms.produto.delete_produtoatributo %}
                         <button type="submit" class="btn btn-danger show_confirm margin-bottom" data-toggle="tooltip" title='Excluir'>
@@ -82,5 +82,5 @@
 {% endblock %}
 
 {% block 'body' %}
-<script src="{% static 'administrador/produtos/js/produtos.js' %}" type="text/javascript"></script>
+<script src="{% static 'admin/produtos/js/produtos.js' %}" type="text/javascript"></script>
 {% endblock %}

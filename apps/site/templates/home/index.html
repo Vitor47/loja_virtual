@@ -1,4 +1,4 @@
-{% extends 'site\base.html' %}
+{% extends 'site/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -63,7 +63,7 @@
             <div id="carousel1" class="owl-carousel owl-theme">
                 {% for categoria_produto in categorias_produtos %}
                 <div class="item">
-                    <a href="{% url 'loja:categoria_produto' categoria_produto.slug %}">
+                    <a href="{% url 'site:categoria_produto' categoria_produto.slug %}">
                         <div class="box-category">
                             <span class="icon-category"><i style="font-size: 2em;" class="{{categoria_produto.icone}}"></i></span>
                             <p>{{categoria_produto.nome}}</p>
@@ -76,7 +76,7 @@
             <div class="display-category">
             {% for categoria_produto in categorias_produtos %}
                 <div class="item" style="margin-right: 12px;">
-                    <a href="{% url 'loja:categoria_produto' categoria_produto.slug %}">
+                    <a href="{% url 'site:categoria_produto' categoria_produto.slug %}">
                         <div class="box-category">
                             <span class="icon-category"><i style="font-size: 2em;" class="{{categoria_produto.icone}}"></i></span>
                             <p>{{categoria_produto.nome}}</p>
@@ -98,7 +98,7 @@
         <div id="carousel2" class="owl-carousel owl-theme">
             {% for oferta in ofertas %}
             <div id="passar_mouse" class="item product-card">
-                <a href="{% url 'loja:detalhes_produto' oferta.slug %}">
+                <a href="{% url 'site:detalhes_produto' oferta.slug %}">
                     <div class="img-product" style="background-image: url('/media/{{oferta.imagem_principal}}');">
                         <span class="display-avaliation-card">
                             <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
@@ -151,7 +151,7 @@
         <div class="display-card-shop">
             {% for oferta in ofertas %}
             <div id="passar_mouse" class="product-card">
-                <a href="{% url 'loja:detalhes_produto' oferta.slug %}">
+                <a href="{% url 'site:detalhes_produto' oferta.slug %}">
                     <div class="img-product" style="background-image: url('/media/{{oferta.imagem_principal}}');">
                         <span class="display-avaliation-card">
                             <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
@@ -213,7 +213,7 @@
         <div id="carousel2" class="owl-carousel owl-theme">
             {% for novidade in novidades %}
             <div id="passar_mouse" class="item product-card">
-                <a href="{% url 'loja:detalhes_produto' novidade.slug %}">
+                <a href="{% url 'site:detalhes_produto' novidade.slug %}">
                     <div class="img-product" style="background-image: url('/media/{{novidade.imagem_principal}}');">
                         <span class="display-avaliation-card">
                             <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
@@ -266,7 +266,7 @@
         <div class="display-card-shop">
             {% for novidade in novidades %}
             <div id="passar_mouse" class="product-card">
-                <a href="{% url 'loja:detalhes_produto' novidade.slug %}">
+                <a href="{% url 'site:detalhes_produto' novidade.slug %}">
                     <div class="img-product" style="background-image: url('/media/{{novidade.imagem_principal}}');">
                         <span class="display-avaliation-card">
                             <i class="fa-solid fa-star icon-avaliation" style="font-size: 1em;"></i>
@@ -321,9 +321,9 @@
 
 <section class="margin-top">
     <div class="container">
-        <a href="{% url 'loja:produtos' %}" class="btn btn-ver-mais mr-auto ml-auto">Ver todos</a>
+        <a href="{% url 'site:produtos' %}" class="btn btn-ver-mais mr-auto ml-auto">Ver todos</a>
     </div>
 </section>
 
-{% include 'site\footer_mobile\footer_mobile.html' %}
+{% include 'footer_mobile/footer_mobile.html' %}
 {% endblock %}

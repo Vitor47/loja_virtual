@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -11,7 +11,7 @@
 <div class="container mb-4">
     <div class="container-box-admin">
         <h2>Cadastrar Permissões no Grupo de Acesso {{grupo.name}}</h2>
-        <form class="mt-4" action="{% url 'apps_administrador.sistema:add_permission_group' grupo.id %}" method="POST">
+        <form class="mt-4" action="{% url 'admin.sistema:add_permission_group' grupo.id %}" method="POST">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
             <div class="form-group row">

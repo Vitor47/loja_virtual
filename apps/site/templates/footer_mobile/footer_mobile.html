@@ -4,7 +4,7 @@
 <div class="margin-navbar-footer"></div>
 <footer class="mobile nav-footer">
     <div class="display-item">
-        <a href="{% url 'loja:home' %}">
+        <a href="{% url 'site:home' %}">
             <div id="home-icon" class="box-selected">
                 {% bs_icon 'house-door-fill' size='2em' %}
                 <p class="p-footer">Inicio</p>
@@ -14,7 +14,7 @@
             {% bs_icon 'heart' size='2em' %}
             <p class="p-footer">Favoritos</p>
         </div>
-        <a href="{% url 'loja:carrinho' %}">
+        <a href="{% url 'site:carrinho' %}">
             <div id="carrinho" class="box-footer">
                 {% bs_icon 'cart' size='2em' %}
                 <span id="span-value" class="span-carrinho-mobile"></span>
@@ -22,14 +22,14 @@
             </div>
         </a>
         {% if user.is_authenticated %}
-        <a href="{% url 'loja:perfil_site' %}">
+        <a href="{% url 'site:perfil_site' %}">
             <div id="conta-icon" class="box-footer">
                 {% bs_icon 'person-fill' size='2em' %}
                 <p class="p-footer">Conta</p>
             </div>
         </a>
         {% else %}
-        <a href="{% url 'loja:login' %}">
+        <a href="{% url 'site:login' %}">
             <div id="conta-icon" class="box-footer">
                 {% bs_icon 'person' size='2em' %}
                 <p class="p-footer">Conta</p>

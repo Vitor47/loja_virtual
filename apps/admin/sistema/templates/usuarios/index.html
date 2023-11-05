@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -16,7 +16,7 @@
     <div class="margin mt-4 mb-4">
         <div class="row">
             <div class="col-md-12">
-                <a href="{% url 'apps_administrador.sistema:create_user' %}" class="btn btn-success">{% bs_icon 'person' %} Cadastrar
+                <a href="{% url 'admin.sistema:create_user' %}" class="btn btn-success">{% bs_icon 'person' %} Cadastrar
                     Usuário</a>
             </div>
         </div>
@@ -48,11 +48,11 @@
                 {% endif %}
 
                 {% if item.email == "vitormateusmiolo@gmail.com" or item.username == "vitor.miolo" %}
-                <td data-label="Ações"><span style="cursor: context-menu;" class="btn btn-primary">Super administrador</span></td>
+                <td data-label="Ações"><span style="cursor: context-menu;" class="btn btn-primary">Super admin</span></td>
                 {% else %}
                 <td data-label="Ações">
-                    <form method="GET" action=" {% url 'apps_administrador.sistema:delete_user' item.id %} ">
-                        <a href="{% url 'apps_administrador.sistema:edit_user' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
+                    <form method="GET" action=" {% url 'admin.sistema:delete_user' item.id %} ">
+                        <a href="{% url 'admin.sistema:edit_user' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
                         <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
                             <i>{% bs_icon 'trash' %}</i> Excluir</button>
                     </form>
@@ -68,5 +68,5 @@
 </div>
 {% endblock %}
 {% block 'body' %}
-<script src="{% static 'administrador/usuarios/js/usuarios.js' %}" type="text/javascript"></script>
+<script src="{% static 'admin/usuarios/js/usuarios.js' %}" type="text/javascript"></script>
 {% endblock %}

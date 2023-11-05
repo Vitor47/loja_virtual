@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -12,7 +12,7 @@ Lista de Banners Cadastrados
 <div class="container">
     {% if perms.banner.add_banner %}
     <div class="margin mt-4 mb-2">
-        <a href="{% url 'apps_administrador.banner:create_banner' %}" class="btn btn-success">{% bs_icon 'card-image' %} Cadastrar Banner</a>
+        <a href="{% url 'admin.banner:create_banner' %}" class="btn btn-success">{% bs_icon 'card-image' %} Cadastrar Banner</a>
     </div>
     {% endif %}
 
@@ -37,9 +37,9 @@ Lista de Banners Cadastrados
                 <td data-label="Status"><span style="cursor: context-menu;" class="btn btn-danger">Inativo</span></td>
                 {% endif %}
                 <td data-label="Ações">
-                    <form method="GET" action=" {% url 'apps_administrador.banner:delete_banner' item.id %} ">
+                    <form method="GET" action=" {% url 'admin.banner:delete_banner' item.id %} ">
                         {% if perms.banner.change_banner %}
-                        <a href="{% url 'apps_administrador.banner:edit_banner' item.id %}" class="btn btn-warning">{% bs_icon 'pencil'%} Editar</a>
+                        <a href="{% url 'admin.banner:edit_banner' item.id %}" class="btn btn-warning">{% bs_icon 'pencil'%} Editar</a>
                         {% endif %}
                         {% if perms.banner.delete_banner %}
                         <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
@@ -60,5 +60,5 @@ Lista de Banners Cadastrados
 {% endblock %}
 
 {% block 'body' %}
-<script src="{% static 'administrador/banner/js/banner.js' %}" type="text/javascript"></script>
+<script src="{% static 'admin/banner/js/banner.js' %}" type="text/javascript"></script>
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -14,7 +14,7 @@
     </div>
 
     <div class="container-box-admin">
-        <form action="{% url 'apps_administrador.sistema:perfil' %}" method="POST">
+        <form action="{% url 'admin.sistema:perfil' %}" method="POST">
             {% csrf_token %}
             <div class="row">
                 <div class="col-md-6">

@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 
 {% block 'title' %}Cadastrar Novo Grupo de Acesso{% endblock %}
@@ -10,7 +10,7 @@
 <div class="container">
     <div class="container-box-admin">
         <h2>Cadastrar Novo Grupo de Acesso</h2>
-        <form class="mt-4" action="{% url 'apps_administrador.sistema:create_grupo_acesso' %}" method="POST">
+        <form class="mt-4" action="{% url 'admin.sistema:create_grupo_acesso' %}" method="POST">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
 

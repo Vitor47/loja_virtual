@@ -1,4 +1,4 @@
-{% extends 'site\base.html' %}
+{% extends 'site/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 {% load widget_tweaks %}
@@ -6,7 +6,7 @@
 {% block 'title' %}Página não encontrada{% endblock %}
 
 {% block 'head' %}
-<link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
+<link rel="stylesheet" href="{% static 'site/css/header_default.css' %}">
 {% endblock %}
 
 {% block 'main' %}
@@ -17,7 +17,7 @@
             <div class="col-md-6 mr-auto ml-auto box-conta">
                 <h2 class="title-login">ERRO 404</h2>
                 <p style="text-align: center;">Página não encontrada<p>
-                <p style="text-align: center;"><a href="{% url 'loja:home' %}" class="btn btn-primary">Home</a><p>
+                <p style="text-align: center;"><a href="{% url 'site:home' %}" class="btn btn-primary">Home</a><p>
             </div>
         </div>
     </div>

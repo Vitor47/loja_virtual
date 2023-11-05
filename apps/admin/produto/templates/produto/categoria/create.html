@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 
 {% block 'title' %}Cadastrar Nova Categoria{% endblock %}
@@ -10,7 +10,7 @@
 <div class="container">
     <div class="container-box-admin">
         <h2>Cadastrar Nova Categoria</h2>
-        <form class="mt-4" action="{% url 'apps_administrador.produto:create_categoria_produto' %}" method="POST">
+        <form class="mt-4" action="{% url 'admin.produto:create_categoria_produto' %}" method="POST">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
             <div class="form-group row">

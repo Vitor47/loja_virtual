@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 
 {% block 'title' %}Editar Produto{% endblock %}
@@ -10,7 +10,7 @@
 <div class="container mb-4">
     <div class="container-box-admin">
         <h2>Editar Produto {{ produto.nome }}</h2>
-        <form class="mt-4" action="{% url 'apps_administrador.produto:edit_produto' produto.id %}" method="POST"
+        <form class="mt-4" action="{% url 'admin.produto:edit_produto' produto.id %}" method="POST"
             enctype="multipart/form-data">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
@@ -130,7 +130,7 @@
 
 {% block 'body' %}
 <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js" type="text/javascript"></script>
-<script src="{% static 'administrador/produtos/js/produtos.js' %}" type="text/javascript"></script>
+<script src="{% static 'admin/produtos/js/produtos.js' %}" type="text/javascript"></script>
 <script>
     CKEDITOR.replace('descricao_produto' );
 </script>

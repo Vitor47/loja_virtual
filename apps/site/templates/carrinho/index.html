@@ -1,4 +1,4 @@
-{% extends 'site\base.html' %}
+{% extends 'site/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -14,7 +14,7 @@
             <div class="col">
                 <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                     <ol class="breadcrumb mb-0">
-                        <li class="breadcrumb-item"><a href="{% url 'loja:home' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'site:home' %}">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Carrinho</li>
                         </li>
                     </ol>
@@ -25,25 +25,25 @@
             <div class="card-body">
                 <nav class="nav nav-pills nav-justified">
                     <span class="nav-item ng-isolate-scope">
-                        <a href="{% url 'loja:carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center active">
+                        <a href="{% url 'site:carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center active">
                             <i class="fa fa-shopping-cart fa-icon-carrinho"></i>
                             <b class="ng-scope leter-icon-header">Itens</b>
                         </a>
                     </span>
                     <span class="nav-item ng-isolate-scope">
-                        <a href="{% url 'loja:dados_perfil_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                        <a href="{% url 'site:dados_perfil_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
                             <i class="fa fa-id-card fa-icon-carrinho"></i>
                             <b class="ng-scope leter-icon-header">Dados</b>
                         </a>
                     </span>
                     <span class="nav-item ng-isolate-scope">
-                        <a href="{% url 'loja:frete_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                        <a href="{% url 'site:frete_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
                             <i class="fa fa-truck fa-icon-carrinho"></i>
                             <b class="ng-scope leter-icon-header">Entrega</b>
                         </a>
                     </span>
                     <span class="nav-item ng-isolate-scope">
-                        <a href="{% url 'loja:forma_pagamento_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
+                        <a href="{% url 'site:forma_pagamento_carrinho' %}" class="nav-link d-flex flex-column color-leter-carrinho align-items-center">
                             <i class="fa fa-credit-card fa-icon-carrinho"></i>
                             <b class="ng-scope leter-icon-header">Pagamento</b>
                         </a>
@@ -79,13 +79,13 @@
 
         </table>
         <div class="d-flex justify-content-between mt-3">
-            <a href="{% url 'loja:dados_perfil_carrinho' %}" class="btn btn-primary">Avançar</a>
+            <a href="{% url 'site:dados_perfil_carrinho' %}" class="btn btn-primary">Avançar</a>
         </div>
     </div>
 </section>
-{% include 'site\footer_mobile\footer_mobile.html' %}
+{% include 'footer_mobile/footer_mobile.html' %}
 {% endblock %}
 
 {% block 'body' %}
-<script src="{% static 'site/base_site/js/carrinho_page.js' %}" type="text/javascript"></script>
+<script src="{% static 'site/js/carrinho_page.js' %}" type="text/javascript"></script>
 {% endblock %}

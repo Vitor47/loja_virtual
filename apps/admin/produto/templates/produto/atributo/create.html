@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 
 {% block 'title' %}Cadastrar Novo Atributo{% endblock %}
@@ -10,7 +10,7 @@
 <div class="container">
     <div class="container-box-admin">
         <h2>Cadastrar Novo Atributo</h2>
-        <form class="margin-top" action="{% url 'apps_administrador.produto:create_atributo_produto' %}" method="POST">
+        <form class="margin-top" action="{% url 'admin.produto:create_atributo_produto' %}" method="POST">
             {% csrf_token %}
             <p>Observação os campos com<span style="color: red"> * </span>são obrigatorios</p>
             <div class="form-group row">

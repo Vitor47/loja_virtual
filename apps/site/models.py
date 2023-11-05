@@ -1,6 +1,6 @@
 """from django.db import models
 from django.contrib.auth.models import User
-from ..apps_administrador.produto.models import Produto
+from ..admin.produto.models import Produto
 
 class StatusCarrinho(models.Model):
 	id = models.IntegerField(null=False, primary_key=True, auto_created=True),

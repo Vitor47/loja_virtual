@@ -1,12 +1,12 @@
-{% extends 'site\base.html' %}
+{% extends 'site/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
 {% block 'title' %}Perfil{% endblock %}
 
 {% block 'head' %}
-<link rel="stylesheet" href="{% static 'site/base_site/css/header_default.css' %}">
-<link rel="stylesheet" href="{% static 'site/base_site/css/conta.css' %}">
+<link rel="stylesheet" href="{% static 'site/css/header_default.css' %}">
+<link rel="stylesheet" href="{% static 'site/css/conta.css' %}">
 {% endblock %}
 
 {% block 'main' %}
@@ -16,9 +16,9 @@
         <div class="col">
           <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
             <ol class="breadcrumb mb-0">
-              <li class="breadcrumb-item"><a href="{% url 'loja:home' %}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'site:home' %}">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">Perfil do usuário</li>
-              <li id="btn-sair-mobile" class="breadcrumb-item"><a href="{% url 'loja:sair' %}">Sair</a></li>
+              <li id="btn-sair-mobile" class="breadcrumb-item"><a href="{% url 'site:sair' %}">Sair</a></li>
             </ol>
           </nav>
         </div>
@@ -142,7 +142,7 @@
                       <span id="icon-perfil-up">{% bs_icon 'caret-up-fill' extra_classes='icon-dropdown-perfil' size='1.5em' %}</span>
                     </button>
                   </div>
-                  <form id="edit-perfil" action="{% url 'loja:perfil_site' %}" method="POST">
+                  <form id="edit-perfil" action="{% url 'site:perfil_site' %}" method="POST">
                     <div class="display-forms" id="expandir-menu">
                       {% csrf_token %}
                       <div class="display-form-conta">
@@ -194,7 +194,7 @@
                       <span id="icon-perfil-up-password">{% bs_icon 'caret-up-fill' extra_classes='icon-dropdown-perfil' size='1.5em' %}</span>
                     </button>
                   </div>
-                  <form action="{% url 'loja:edit_password_site' %}" method="POST">
+                  <form action="{% url 'site:edit_password_site' %}" method="POST">
                     <div class="display-forms" id="expandir-menu-password">
                       {% csrf_token %}
                       <div class="display-form-conta">
@@ -247,11 +247,11 @@
       </form>
     </div>
   </div>
-{% include 'site\footer_mobile\footer_mobile.html' %}
+{% include 'footer_mobile/footer_mobile.html' %}
 {% endblock %}
 
 {% block 'body' %}
 <script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.js' %}" type="text/javascript"></script>
 <script src="{% static 'vendor/jQuery-Mask-Plugin/dist/jquery.mask.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'site/base_site/js/perfil.js' %}" type="text/javascript"></script>
+<script src="{% static 'site/js/perfil.js' %}" type="text/javascript"></script>
 {% endblock %}

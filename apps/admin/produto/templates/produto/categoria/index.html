@@ -1,4 +1,4 @@
-{% extends 'administrador\base.html' %}
+{% extends 'admin/base.html' %}
 {% load static %}
 {% load bootstrap_icons %}
 
@@ -18,7 +18,7 @@
         <div class="row">
             {% if perms.produto.add_produtocategoria %}
             <div class="col-md-8 margin-bottom">
-                <a href="{% url 'apps_administrador.produto:create_categoria_produto' %}" class="btn btn-success">{% bs_icon 'bookmarks' %}
+                <a href="{% url 'admin.produto:create_categoria_produto' %}" class="btn btn-success">{% bs_icon 'bookmarks' %}
                     Cadastrar Categoria</a>
             </div>
             {% endif %}
@@ -44,9 +44,9 @@
                     <i class="{{item.icone}}"></i>
                 </td>
                 <td data-label="Ações">
-                    <form method="GET" action=" {% url 'apps_administrador.produto:delete_categoria_produto' item.id %} ">
+                    <form method="GET" action=" {% url 'admin.produto:delete_categoria_produto' item.id %} ">
                         {% if perms.produto.change_produtocategoria %}
-                        <a href="{% url 'apps_administrador.produto:edit_categoria_produto' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
+                        <a href="{% url 'admin.produto:edit_categoria_produto' item.id %}" class="btn btn-warning">{% bs_icon 'pencil' %} Editar</a>
                         {% endif %}
                         {% if perms.produto.delete_produtocategoria %}
                         <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title='Excluir'>
@@ -65,5 +65,5 @@
 {% endblock %}
 
 {% block 'body' %}
-<script src="{% static 'administrador/produtos/js/produtos.js' %}" type="text/javascript"></script>
+<script src="{% static 'admin/produtos/js/produtos.js' %}" type="text/javascript"></script>
 {% endblock %}
