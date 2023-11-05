@@ -1,5 +1,6 @@
 # Mensagens Template
 from django.contrib import messages
+from django.utils.translation import gettext as translation
 
 # Atenticação de Login e Session
 from django.contrib.auth import authenticate, logout
@@ -92,7 +93,10 @@ def perfil(request):
                     if user_name:
                         messages.error(
                             request,
-                            "Este usuário já existe por favor digite um usuário diferente!",
+                            (
+                                "Este usuário já existe por favor digite um"
+                                " usuário diferente!"
+                            ),
                         )
                         return redirect("/admin/perfil/")
 
@@ -104,7 +108,10 @@ def perfil(request):
                     if email_verifica:
                         messages.error(
                             request,
-                            "Este E-mail já existe por favor digite um e-mail diferente!",
+                            (
+                                "Este E-mail já existe por favor digite um"
+                                " e-mail diferente!"
+                            ),
                         )
                         return redirect("/admin/perfil/")
 
@@ -117,7 +124,10 @@ def perfil(request):
                         request.user.id,
                         ContentType.objects.get_for_model(User).id,
                         user.id,
-                        f"EDIT -> {user.first_name + '-' + user.username + '-' + user.email}",
+                        (
+                            "EDIT ->"
+                            f" {user.first_name + '-' + user.username + '-' + user.email}"
+                        ),
                         CHANGE,
                         "O Usuário com id -> %s alterou o perfil" % user.id,
                     )
@@ -129,7 +139,9 @@ def perfil(request):
                     return redirect("/admin/perfil/")
 
             except Exception as e:
-                messages.error(request, "Perfil não editado algum erro inesperado!")
+                messages.error(
+                    request, "Perfil não editado algum erro inesperado!"
+                )
                 return redirect("/admin/perfil/")
     else:
         return redirect("/admin")
@@ -165,17 +177,23 @@ def senha(request):
                                 "O Usuário %s alterou a senha" % user.id,
                             )
 
-                            messages.success(request, "Senha editada com sucesso!")
+                            messages.success(
+                                request, "Senha editada com sucesso!"
+                            )
                             return redirect("/admin/dashboard/")
                         else:
                             messages.error(
                                 request,
-                                "A nova senha digitada não confere com a senha digitada para confirmar!",
+                                (
+                                    "A nova senha digitada não confere com a"
+                                    " senha digitada para confirmar!"
+                                ),
                             )
                             return redirect("/admin/senha/")
                     else:
                         messages.error(
-                            request, "Senha atual não confirma com o que foi digitado!"
+                            request,
+                            "Senha atual não confirma com o que foi digitado!",
                         )
                         return redirect("/admin/senha/")
                 else:
@@ -183,7 +201,9 @@ def senha(request):
                     return redirect("/admin/dashboard/")
 
             except Exception as e:
-                messages.error(request, "Senha não editada algum erro inesperado!")
+                messages.error(
+                    request, "Senha não editada algum erro inesperado!"
+                )
                 return redirect("/admin/senha/")
     else:
         return redirect("/admin")
@@ -222,7 +242,9 @@ def create_user(request):
             super_admin = request.POST.get("super_admin")
             membro_equipe = request.POST.get("membro_equipe")
 
-            usuario_username = User.objects.filter(username__iexact=username).exists()
+            usuario_username = User.objects.filter(
+                username__iexact=username
+            ).exists()
             if usuario_username:
                 messages.error(
                     request, "Erro! Já existe um usuário com o mesmo username!"
@@ -231,7 +253,9 @@ def create_user(request):
 
             usuario_email = User.objects.filter(email__iexact=email).exists()
             if usuario_email:
-                messages.error(request, "Erro! Já existe um usuário com o mesmo email!")
+                messages.error(
+                    request, "Erro! Já existe um usuário com o mesmo email!"
+                )
                 return redirect("/admin/create_user/")
 
             if senha != confirmar_senha_user:
@@ -275,7 +299,9 @@ def create_user(request):
             messages.success(request, "Usuário criado com sucesso!")
             return redirect("/admin/usuario/")
         except Exception as e:
-            messages.error(request, "Usuário não criado algum erro inesperado!")
+            messages.error(
+                request, "Usuário não criado algum erro inesperado!"
+            )
             return redirect("/admin/create_user/")
 
 
@@ -285,8 +311,13 @@ def create_user(request):
 def edit_user(request, id):
     user = User.objects.get(id=id)
     if request.method == "GET":
-        if user.username == "vitor.miolo" or user.email == "vitormateusmiolo@gmail.com":
-            messages.error(request, "Você não tem acesso para editar esse usuário!")
+        if (
+            user.username == "vitor.miolo"
+            or user.email == "vitormateusmiolo@gmail.com"
+        ):
+            messages.error(
+                request, "Você não tem acesso para editar esse usuário!"
+            )
             return redirect("/admin/usuario/")
 
         return render(request, "usuarios/edit.html", {"user": user})
@@ -319,10 +350,14 @@ def edit_user(request, id):
                 return redirect(f"/admin/edit_user/{id}")
 
             usuario_email = (
-                User.objects.exclude(id=user.id).filter(email__iexact=email).exists()
+                User.objects.exclude(id=user.id)
+                .filter(email__iexact=email)
+                .exists()
             )
             if usuario_email:
-                messages.error(request, "Erro! Já existe um usuário com o mesmo email!")
+                messages.error(
+                    request, "Erro! Já existe um usuário com o mesmo email!"
+                )
                 return redirect(f"/admin/edit_user/{id}")
 
             if senha != confirmar_senha_user:
@@ -364,7 +399,9 @@ def edit_user(request, id):
             messages.success(request, "Usuário editado com sucesso!")
             return redirect("/admin/usuario/")
         except Exception as e:
-            messages.error(request, "Usuário não editado algum erro inesperado!")
+            messages.error(
+                request, "Usuário não editado algum erro inesperado!"
+            )
             return redirect(f"/admin/edit_user/{id}")
 
 
@@ -374,8 +411,13 @@ def edit_user(request, id):
 def delete_user(request, id):
     item = User.objects.get(id=id)
     if request.method == "GET":
-        if item.username == "vitor.miolo" or item.email == "vitormateusmiolo@gmail.com":
-            messages.error(request, "Você não tem acesso para deletar esse usuário!")
+        if (
+            item.username == "vitor.miolo"
+            or item.email == "vitormateusmiolo@gmail.com"
+        ):
+            messages.error(
+                request, "Você não tem acesso para deletar esse usuário!"
+            )
             return redirect("/admin/usuario/")
 
         LogEntry.objects.log_action(
@@ -413,7 +455,9 @@ def create_grupo_acesso(request):
             nome = request.POST.get("nome_group")
             name = Group.objects.filter(name__iexact=nome).exists()
             if name:
-                messages.error(request, "Erro! Já existe um grupo com o mesmo nome!")
+                messages.error(
+                    request, "Erro! Já existe um grupo com o mesmo nome!"
+                )
                 return redirect("/admin/create_grupo_acesso/")
 
             group = Group(
@@ -453,7 +497,9 @@ def edit_grupo_acesso(request, id):
                 .exists()
             )
             if name:
-                messages.error(request, "Erro! Já existe um grupo com o mesmo nome!")
+                messages.error(
+                    request, "Erro! Já existe um grupo com o mesmo nome!"
+                )
                 return redirect(f"/admin/edit_grupo_acesso/{id}")
 
             group.name = nome
@@ -471,7 +517,9 @@ def edit_grupo_acesso(request, id):
             messages.success(request, "O grupo foi editado com sucesso!")
             return redirect("/admin/grupo_acesso/")
         except Exception as e:
-            messages.error(request, "O grupo não foi editado algum erro inesperado!")
+            messages.error(
+                request, "O grupo não foi editado algum erro inesperado!"
+            )
             return redirect(f"/admin/edit_grupo_acesso/{id}")
 
 
@@ -565,7 +613,10 @@ def add_users_group(request, id_group):
         except Exception as e:
             messages.error(
                 request,
-                "Usuários não foram adicionados ao grupo algum erro inesperado!",
+                (
+                    "Usuários não foram adicionados ao grupo algum erro"
+                    " inesperado!"
+                ),
             )
             return redirect("/admin/grupo_acesso/")
 
@@ -585,9 +636,15 @@ def add_permission_group(request, id_group):
     content_type_ids.append(ContentType.objects.get(model="auditoria").id)
     content_type_ids.append(ContentType.objects.get(model="produtoimagens").id)
     content_type_ids.append(ContentType.objects.get(model="endereco").id)
-    content_type_ids.append(ContentType.objects.get(model="produtoatributoproduto").id)
-    content_type_ids.append(ContentType.objects.get(model="produtodiamentroproduto").id)
-    permissoes = Permission.objects.exclude(content_type_id__in=content_type_ids)
+    content_type_ids.append(
+        ContentType.objects.get(model="produtoatributoproduto").id
+    )
+    content_type_ids.append(
+        ContentType.objects.get(model="produtodiamentroproduto").id
+    )
+    permissoes = Permission.objects.exclude(
+        content_type_id__in=content_type_ids
+    )
     if request.method == "GET":
         table_relacionada = grupo.permissions.all().order_by("-id")
         permissions = []
@@ -600,9 +657,21 @@ def add_permission_group(request, id_group):
                 else:
                     marcado = False
 
+            name_translated = " ".join(
+                [
+                    translation(w)
+                    .replace("Can", "Pode")
+                    .replace("add", "adicionar")
+                    .replace("change", "alterar")
+                    .replace("delete", "excluir")
+                    .replace("view", "visualizar")
+                    for w in (permissao.name).split()
+                ]
+            )
+
             permissao = {
                 "id": permissao.id,
-                "name": permissao.name,
+                "name": name_translated,
                 "marcado": marcado,
             }
             permissions.append(permissao)
@@ -611,7 +680,9 @@ def add_permission_group(request, id_group):
         context["permissoes"] = permissions
         context["table_relacionada"] = table_relacionada
         context["grupo"] = grupo
-        return TemplateResponse(request, "grupo_acesso/permissions.html", context)
+        return TemplateResponse(
+            request, "grupo_acesso/permissions.html", context
+        )
     elif request.method == "POST":
         try:
             list_id_permissions = request.POST.getlist("permissao_id[]")
@@ -637,10 +708,13 @@ def add_permission_group(request, id_group):
                 "As permissões foram adicionadas ao grupo",
             )
 
-            messages.success(request, "As permissões foram adicionadas ao grupo!")
+            messages.success(
+                request, "As permissões foram adicionadas ao grupo!"
+            )
             return redirect("/admin/grupo_acesso/")
         except Exception as e:
             messages.error(
-                request, "As permissões não foram criadas algum erro inesperado!"
+                request,
+                "As permissões não foram criadas algum erro inesperado!",
             )
             return redirect(f"/admin/grupo_acesso/")
