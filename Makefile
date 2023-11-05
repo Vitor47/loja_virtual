@@ -1,7 +1,7 @@
 # Makefile for Code Formatting and Import Removal in Django Application
 
 # Configuração
-PYTHON = python3.10
+PYTHON = python
 DJANGO_MANAGE = python manage.py
 
 # Comandos
