@@ -22,7 +22,10 @@ def perfil_site(request):
                     "55.555.555/5555-55"
                     cpf_cnpj = f"{cliente.cpf_cnpj[0:2]}.{cliente.cpf_cnpj[2:5]}.{cliente.cpf_cnpj[5:8]}/{cliente.cpf_cnpj[8:12]}-{cliente.cpf_cnpj[12:14]}"
 
-                telefone = f"({cliente.telefone[0:2]}) {cliente.telefone[2:7]}-{cliente.telefone[7:11]}"
+                telefone = (
+                    f"({cliente.telefone[0:2]})"
+                    f" {cliente.telefone[2:7]}-{cliente.telefone[7:11]}"
+                )
                 data_nascimento = cliente.data_nascimento
                 avatar = cliente.avatar
             else:
@@ -58,10 +61,14 @@ def perfil_site(request):
                 "logradouro": logradouro,
                 "nr_casa": nr_casa,
             }
-            return render(request, "perfil_site/index.html", {"perfil": perfil})
+            return render(
+                request, "perfil_site/index.html", {"perfil": perfil}
+            )
         elif request.method == "POST":
             try:
-                cliente = Cliente.objects.filter(user_cliente_id=user.id).first()
+                cliente = Cliente.objects.filter(
+                    user_cliente_id=user.id
+                ).first()
                 if cliente:
                     image = request.POST.get("image")
                     if image:
@@ -74,7 +81,9 @@ def perfil_site(request):
                             "message": True,
                         }
                         return JsonResponse(
-                            response, status=200, content_type="application/json"
+                            response,
+                            status=200,
+                            content_type="application/json",
                         )
                     else:
                         nome = request.POST.get("nome")
@@ -100,7 +109,10 @@ def perfil_site(request):
                             if user_verifica:
                                 messages.error(
                                     request,
-                                    "Este e-mail já existe por favor digite um e-mail diferente!",
+                                    (
+                                        "Este e-mail já existe por favor"
+                                        " digite um e-mail diferente!"
+                                    ),
                                 )
                                 return redirect("/perfil-site/")
 
@@ -110,7 +122,11 @@ def perfil_site(request):
                             busca = cpf_valida.search(cpf_cnpj)
                             if busca is None:
                                 messages.error(
-                                    request, "Este formato de CPF ou CNPJ não é valido!"
+                                    request,
+                                    (
+                                        "Este formato de CPF ou CNPJ não é"
+                                        " valido!"
+                                    ),
                                 )
                                 return redirect("/perfil-site/")
 
@@ -119,23 +135,32 @@ def perfil_site(request):
                             if len(cpf_cnpj) == 11:
                                 valida_cpf = is_cpf_valido(cpf_cnpj)
                                 if valida_cpf is False:
-                                    messages.error(request, "Este CPF não é valido!")
+                                    messages.error(
+                                        request, "Este CPF não é valido!"
+                                    )
                                     return redirect("/perfil-site/")
                             if len(cpf_cnpj) == 14:
                                 valida_cnpj = is_cnpj_valido(cpf_cnpj)
                                 if valida_cnpj is False:
-                                    messages.error(request, "Este CNPJ não é valido!")
+                                    messages.error(
+                                        request, "Este CNPJ não é valido!"
+                                    )
                                     return redirect("/perfil-site/")
 
                             cpf_verifica = (
-                                Cliente.objects.exclude(user_cliente_id=user.id)
+                                Cliente.objects.exclude(
+                                    user_cliente_id=user.id
+                                )
                                 .filter(cpf_cnpj__iexact=cpf_cnpj)
                                 .exists()
                             )
                             if cpf_verifica:
                                 messages.error(
                                     request,
-                                    "Este CPF ou CNPJ já existe por favor digite um CPF ou CNPJ diferente!",
+                                    (
+                                        "Este CPF ou CNPJ já existe por favor"
+                                        " digite um CPF ou CNPJ diferente!"
+                                    ),
                                 )
                                 return redirect("/perfil-site/")
 
@@ -180,13 +205,19 @@ def perfil_site(request):
                             else:
                                 messages.error(
                                     request,
-                                    "Aconteuceu algum erro inesperado, favor tentar novamente!",
+                                    (
+                                        "Aconteuceu algum erro inesperado,"
+                                        " favor tentar novamente!"
+                                    ),
                                 )
                                 return redirect("/perfil-site/")
-                        except Exception as e:
+                        except Exception:
                             messages.error(
                                 request,
-                                "Aconteceu algum erro insesperado favor tentar novamente!",
+                                (
+                                    "Aconteceu algum erro insesperado favor"
+                                    " tentar novamente!"
+                                ),
                             )
                             return redirect("/perfil-site/")
                 else:
@@ -197,7 +228,7 @@ def perfil_site(request):
                         response, status=400, content_type="application/json"
                     )
 
-            except Exception as e:
+            except Exception:
                 response = {
                     "message": False,
                 }
@@ -226,15 +257,21 @@ def edit_password_site(request):
                     else:
                         messages.error(
                             request,
-                            "A nova senha digitada não confere com a senha digitada para confirmar!",
+                            (
+                                "A nova senha digitada não confere com a senha"
+                                " digitada para confirmar!"
+                            ),
                         )
                         return redirect("/perfil-site/")
                 else:
                     messages.error(
-                        request, "Senha atual não confirma com o que foi digitado!"
+                        request,
+                        "Senha atual não confirma com o que foi digitado!",
                     )
                     return redirect("/perfil-site/")
 
-            except Exception as e:
-                messages.error(request, "Senha não editada algum erro inesperado!")
+            except Exception:
+                messages.error(
+                    request, "Senha não editada algum erro inesperado!"
+                )
                 return redirect("/perfil-site/")

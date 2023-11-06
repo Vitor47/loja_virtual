@@ -115,7 +115,9 @@ def create_produto(request):
             )
             if desconto is not None and desconto != "":
                 valor_formatado_desconto = (
-                    desconto.replace("R$:", "").replace(".", "").replace(",", ".")
+                    desconto.replace("R$:", "")
+                    .replace(".", "")
+                    .replace(",", ".")
                 )
             else:
                 valor_formatado_desconto = None
@@ -138,7 +140,8 @@ def create_produto(request):
                 )
             else:
                 messages.error(
-                    request, "Imagem com tamanho não permitido o limite é 500kb!"
+                    request,
+                    "Imagem com tamanho não permitido o limite é 500kb!",
                 )
                 return redirect("/admin/create_produto/")
 
@@ -191,7 +194,10 @@ def create_produto(request):
                     else:
                         messages.error(
                             request,
-                            "Imagem com tamanho não permitido o limite é 500kb!",
+                            (
+                                "Imagem com tamanho não permitido o limite é"
+                                " 500kb!"
+                            ),
                         )
                         return redirect("/admin/create_produto/")
 
@@ -207,7 +213,9 @@ def create_produto(request):
             messages.success(request, "Produto cadastrado com sucesso!")
             return redirect("/admin/produto/")
         except Exception:
-            messages.error(request, "Produto não cadastrado algum erro inesperado!")
+            messages.error(
+                request, "Produto não cadastrado algum erro inesperado!"
+            )
             return redirect("/admin/create_produto/")
 
 
@@ -248,7 +256,9 @@ def edit_produto(request, id):
             )
             if desconto is not None and desconto != "":
                 valor_formatado_desconto = (
-                    desconto.replace("R$:", "").replace(".", "").replace(",", ".")
+                    desconto.replace("R$:", "")
+                    .replace(".", "")
+                    .replace(",", ".")
                 )
             else:
                 valor_formatado_desconto = None
@@ -274,7 +284,8 @@ def edit_produto(request, id):
                     )
                 else:
                     messages.error(
-                        request, "Imagem com tamanho não permitido o limite é 500kb!"
+                        request,
+                        "Imagem com tamanho não permitido o limite é 500kb!",
                     )
                     return redirect("/admin/create_produto/")
 
@@ -328,7 +339,10 @@ def edit_produto(request, id):
                     else:
                         messages.error(
                             request,
-                            "Imagem com tamanho não permitido o limite é 500kb!",
+                            (
+                                "Imagem com tamanho não permitido o limite é"
+                                " 500kb!"
+                            ),
                         )
                         return redirect("/admin/create_produto/")
 
@@ -343,8 +357,10 @@ def edit_produto(request, id):
 
             messages.success(request, "Produto editado com sucesso!")
             return redirect("/admin/produto/")
-        except Exception as e:
-            messages.error(request, "Produto não editado algum erro inesperado!")
+        except Exception:
+            messages.error(
+                request, "Produto não editado algum erro inesperado!"
+            )
             return redirect(f"/admin/edit_produto/{id}")
 
 
@@ -410,7 +426,9 @@ def create_categoria_produto(request):
         try:
             nome = request.POST.get("nome_categoria")
             icone = request.POST.get("icone_categoria")
-            categoria = ProdutoCategoria(nome=nome, icone=icone, slug=slug(nome))
+            categoria = ProdutoCategoria(
+                nome=nome, icone=icone, slug=slug(nome)
+            )
             categoria.save()
 
             categoria.slug = slug(categoria.nome) + "_" + str(categoria.id)
@@ -427,9 +445,10 @@ def create_categoria_produto(request):
 
             messages.success(request, "Categoria adicionada com sucesso!")
             return redirect("/admin/categoria_produto/")
-        except Exception as e:
+        except Exception:
             messages.error(
-                request, "Categoria não adicionada aconteceu algum erro inesperado!"
+                request,
+                "Categoria não adicionada aconteceu algum erro inesperado!",
             )
             return redirect("/admin/categoria_produto/")
 
@@ -440,7 +459,9 @@ def create_categoria_produto(request):
 def edit_categoria_produto(request, id):
     categoria = ProdutoCategoria.objects.get(id=id)
     if request.method == "GET":
-        return render(request, "produto/categoria/edit.html", {"categoria": categoria})
+        return render(
+            request, "produto/categoria/edit.html", {"categoria": categoria}
+        )
     elif request.method == "POST":
         try:
             nome = request.POST.get("nome_categoria")
@@ -462,9 +483,10 @@ def edit_categoria_produto(request, id):
 
             messages.success(request, "Categoria editada com sucesso!")
             return redirect("/admin/categoria_produto/")
-        except Exception as e:
+        except Exception:
             messages.error(
-                request, "Categoria não editada aconteceu algum erro inesperado!"
+                request,
+                "Categoria não editada aconteceu algum erro inesperado!",
             )
             return redirect("/admin/categoria_produto/")
 
@@ -506,7 +528,9 @@ def atributo_produto(request):
         except (EmptyPage, InvalidPage):
             list_atributos = paginator.page(paginator.num_pages)
         return render(
-            request, "produto/atributo/index.html", {"atributos": list_atributos}
+            request,
+            "produto/atributo/index.html",
+            {"atributos": list_atributos},
         )
 
 
@@ -537,9 +561,10 @@ def create_atributo_produto(request):
 
             messages.success(request, "Atributo adicionado com sucesso!")
             return redirect("/admin/atributo_produto/")
-        except Exception as e:
+        except Exception:
             messages.error(
-                request, "Atributo não adicionado aconteceu algum erro inesperado!"
+                request,
+                "Atributo não adicionado aconteceu algum erro inesperado!",
             )
             return redirect("/admin/atributo_produto/")
 
@@ -550,7 +575,9 @@ def create_atributo_produto(request):
 def edit_atributo_produto(request, id):
     atributo = ProdutoAtributo.objects.get(id=id)
     if request.method == "GET":
-        return render(request, "produto/atributo/edit.html", {"atributo": atributo})
+        return render(
+            request, "produto/atributo/edit.html", {"atributo": atributo}
+        )
     elif request.method == "POST":
         try:
             nome = request.POST.get("nome_atributo")
@@ -571,9 +598,10 @@ def edit_atributo_produto(request, id):
 
             messages.success(request, "Atributo editado com sucesso!")
             return redirect("/admin/atributo_produto/")
-        except Exception as e:
+        except Exception:
             messages.error(
-                request, "Atributo não editado aconteceu algum erro inesperado!"
+                request,
+                "Atributo não editado aconteceu algum erro inesperado!",
             )
             return redirect("/admin/atributo_produto/")
 
@@ -650,17 +678,22 @@ def produto_atributo_produto(request, id):
                 request.user.id,
                 ContentType.objects.get_for_model(ProdutoAtributo).id,
                 atributo.id,
-                f"ADD -> {atributo.nome}",
+                f"ADD -> {atributo.id}",
                 ADDITION,
-                "Os produtos foram adicionados ao atributo",
+                f"Os produtos foram adicionados ao atributo {atributo.id}",
             )
 
-            messages.success(request, "Os produtos foram adicionados ao atributo!")
+            messages.success(
+                request, "Os produtos foram adicionados ao atributo!"
+            )
             return redirect("/admin/atributo_produto/")
-        except Exception as e:
+        except Exception:
             messages.error(
                 request,
-                "Os produtosnão foram adicionados ao atributo, algum erro inesperado!",
+                (
+                    "Os produtos não foram adicionados ao atributo, algum erro"
+                    " inesperado!"
+                ),
             )
             return redirect("/admin/atributo_produto/")
 
@@ -681,7 +714,9 @@ def diametro_produto(request):
         except (EmptyPage, InvalidPage):
             list_diameters = paginator.page(paginator.num_pages)
         return render(
-            request, "produto/diametro/index.html", {"list_diameters": list_diameters}
+            request,
+            "produto/diametro/index.html",
+            {"list_diameters": list_diameters},
         )
 
 
@@ -731,9 +766,10 @@ def create_diametro_produto(request):
 
             messages.success(request, "Diametro adicionado com sucesso!")
             return redirect("/admin/diametro_produto/")
-        except Exception as e:
+        except Exception:
             messages.error(
-                request, "Diametro não adicionado aconteceu algum erro inesperado!"
+                request,
+                "Diametro não adicionado aconteceu algum erro inesperado!",
             )
             return redirect("/admin/create_diametro_produto/")
 
@@ -790,9 +826,10 @@ def edit_diametro_produto(request, id):
 
             messages.success(request, "Diametro editado com sucesso!")
             return redirect("/admin/diametro_produto/")
-        except Exception as e:
+        except Exception:
             messages.error(
-                request, "Diametro não editado aconteceu algum erro inesperado!"
+                request,
+                "Diametro não editado aconteceu algum erro inesperado!",
             )
             return redirect(f"/admin/edit_diametro_produto/{id}")
 
@@ -870,14 +907,19 @@ def produto_diametro_produto(request, id):
                 diametro.id,
                 f"ADD -> {diametro.id}",
                 ADDITION,
-                "Os produtos foram adicionados ao diametro",
+                f"Os produtos foram adicionados ao diametro {diametro.id}",
             )
 
-            messages.success(request, "Os produtos foram adicionados ao diametro!")
+            messages.success(
+                request, "Os produtos foram adicionados ao diametro!"
+            )
             return redirect("/admin/diametro_produto/")
-        except Exception as e:
+        except Exception:
             messages.error(
                 request,
-                "Os produtos não foram adicionados ao diametro, algum erro inesperado!",
+                (
+                    "Os produtos não foram adicionados ao diametro, algum erro"
+                    " inesperado!"
+                ),
             )
             return redirect(f"/admin/produto_diametro_produto/{id}")

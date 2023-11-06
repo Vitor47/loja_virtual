@@ -124,12 +124,9 @@ def perfil(request):
                         request.user.id,
                         ContentType.objects.get_for_model(User).id,
                         user.id,
-                        (
-                            "EDIT ->"
-                            f" {user.first_name + '-' + user.username + '-' + user.email}"
-                        ),
+                        f"EDIT -> {user.id}",
                         CHANGE,
-                        "O Usuário com id -> %s alterou o perfil" % user.id,
+                        "O Usuário %s alterou o perfil" % user.id,
                     )
 
                     messages.success(request, "Perfil editado com sucesso!")
@@ -138,7 +135,7 @@ def perfil(request):
                     messages.error(request, "Perfil não encontrado!")
                     return redirect("/admin/perfil/")
 
-            except Exception as e:
+            except Exception:
                 messages.error(
                     request, "Perfil não editado algum erro inesperado!"
                 )
@@ -200,7 +197,7 @@ def senha(request):
                     messages.error(request, "Perfil não encontrado!")
                     return redirect("/admin/dashboard/")
 
-            except Exception as e:
+            except Exception:
                 messages.error(
                     request, "Senha não editada algum erro inesperado!"
                 )
@@ -291,14 +288,14 @@ def create_user(request):
                 request.user.id,
                 ContentType.objects.get_for_model(User).id,
                 user.id,
-                f"ADD -> {user.username + '-' + user.email}",
+                f"ADD -> {user.id}",
                 ADDITION,
                 "O usuário %s foi adicionado" % user.id,
             )
 
             messages.success(request, "Usuário criado com sucesso!")
             return redirect("/admin/usuario/")
-        except Exception as e:
+        except Exception:
             messages.error(
                 request, "Usuário não criado algum erro inesperado!"
             )
@@ -391,14 +388,14 @@ def edit_user(request, id):
                 request.user.id,
                 ContentType.objects.get_for_model(User).id,
                 user.id,
-                f"EDITOU -> {user.username + '-' + user.email}",
+                f"EDIT -> {user.id}",
                 CHANGE,
                 "O usuário %s foi editado" % user.id,
             )
 
             messages.success(request, "Usuário editado com sucesso!")
             return redirect("/admin/usuario/")
-        except Exception as e:
+        except Exception:
             messages.error(
                 request, "Usuário não editado algum erro inesperado!"
             )
@@ -469,14 +466,14 @@ def create_grupo_acesso(request):
                 request.user.id,
                 ContentType.objects.get_for_model(Group).id,
                 group.id,
-                f"ADD -> {group.name}",
+                f"ADD -> {group.id}",
                 ADDITION,
                 "O grupo %s foi adicionado" % group.id,
             )
 
             messages.success(request, "Grupo criado com sucesso!")
             return redirect("/admin/grupo_acesso/")
-        except Exception as e:
+        except Exception:
             messages.error(request, "Grupo não criado algum erro inesperado!")
             return redirect(f"/admin/grupo_acesso/")
 
@@ -509,14 +506,14 @@ def edit_grupo_acesso(request, id):
                 request.user.id,
                 ContentType.objects.get_for_model(Group).id,
                 group.id,
-                f"EDIT -> {group.name}",
+                f"EDIT -> {group.id}",
                 CHANGE,
                 "O grupo %s foi editado" % group.id,
             )
 
             messages.success(request, "O grupo foi editado com sucesso!")
             return redirect("/admin/grupo_acesso/")
-        except Exception as e:
+        except Exception:
             messages.error(
                 request, "O grupo não foi editado algum erro inesperado!"
             )
@@ -533,7 +530,7 @@ def delete_grupo_acesso(request, id):
             request.user.id,
             ContentType.objects.get_for_model(Group).id,
             group.id,
-            f"DELETE -> {group.name}",
+            f"DELETE -> {group.id}",
             DELETION,
             "O grupo %s foi deletado" % group.id,
         )
@@ -601,7 +598,7 @@ def add_users_group(request, id_group):
                 request.user.id,
                 ContentType.objects.get_for_model(Group).id,
                 grupo.id,
-                f"ADD ->",
+                f"ADD -> {grupo.id}",
                 ADDITION,
                 "Os Usuários foram adicionados ao grupo %s" % grupo.id,
             )
@@ -610,7 +607,7 @@ def add_users_group(request, id_group):
                 request, "Usuários foram adicionados ao grupo com sucesso!"
             )
             return redirect("/admin/grupo_acesso/")
-        except Exception as e:
+        except Exception:
             messages.error(
                 request,
                 (
@@ -703,7 +700,7 @@ def add_permission_group(request, id_group):
                 request.user.id,
                 ContentType.objects.get_for_model(Group).id,
                 grupo.id,
-                f"ADD -> {grupo.name}",
+                f"ADD -> {grupo.id}",
                 ADDITION,
                 "As permissões foram adicionadas ao grupo",
             )
@@ -712,7 +709,7 @@ def add_permission_group(request, id_group):
                 request, "As permissões foram adicionadas ao grupo!"
             )
             return redirect("/admin/grupo_acesso/")
-        except Exception as e:
+        except Exception:
             messages.error(
                 request,
                 "As permissões não foram criadas algum erro inesperado!",

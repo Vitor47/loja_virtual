@@ -1,0 +1,66 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Histórico{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="mt-4">
+        <h2> Histórico do Administrador </h2>
+    </div>
+
+    <table class="table table-hover container-box-admin">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Data</th>
+                <th scope="col">Usuário</th>
+                <th scope="col">Model</th>
+                <th scope="col">Ação</th>
+                <th scope="col">Descrição</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if historico.object_list.count > 0 %}
+            {% for item in historico.object_list  %}
+            <tr>
+                <td data-label="#" scope="row"> {{ forloop.counter }}</td>
+                <td data-label="Data">{{ item.action_time }}</td>
+                <td data-label="Usuário">{{ item.user.get_full_name }}</td>
+                <td data-label="Model">{{ item.content_type }}</td>
+                <td data-label="Ação">{{ item.object_repr }}</td>
+                <td data-label="Descrição">{{ item.change_message }}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <td>Nenhum Histórico</td>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="pagination mb-4">
+        <span class="step-links">
+            {% if historico.has_previous %}
+            <a class="btn-left" href="?page={{ historico.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>
+            {% endif %}
+
+            <span class="current">
+                {{ historico.number }} de {{ historico.paginator.num_pages }}
+            </span>
+
+            {% if historico.has_next %}
+            <a class="btn-right" href="?page={{ historico.next_page_number }}">{% bs_icon 'arrow-right-circle' size='1.5em' %}</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block 'body' %}
+{% endblock %}

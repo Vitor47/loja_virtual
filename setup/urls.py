@@ -45,6 +45,13 @@ urlpatterns = [
             namespace="apps.admin.sistema",
         ),
     ),
+    path(
+        "admin/",
+        include(
+            "apps.admin.historico.urls",
+            namespace="apps.admin.historico",
+        ),
+    ),
     path("", include("apps.site.urls", namespace="loja.apps.site")),
 ]
 

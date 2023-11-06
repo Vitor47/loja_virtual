@@ -59,12 +59,12 @@
             </ul>
         </li>
         <li class="li-admin">
-            <a href="#">
+            <a href="{% url 'admin.historico:historico' %}">
                 <i class='bx bx-history'></i>
                 <span class="link_name">Histórico</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link_name" href="#">Histórico</a></li>
+                <li><a class="link_name" href="{% url 'admin.historico:historico' %}">Histórico</a></li>
             </ul>
         </li>
         {% if perms.configuracao.view_configuracao %}
