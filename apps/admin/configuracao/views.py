@@ -55,7 +55,7 @@ def create_configuracao(request):
 
             messages.success(request, "Configuração cadastrada com sucesso!")
             return redirect("/admin/configuracao/")
-        except Exception as e:
+        except Exception:
             messages.error(
                 request, "Configuração não cadastrada algum erro inesperado!"
             )
@@ -68,7 +68,9 @@ def create_configuracao(request):
 def edit_configuracao(request, id):
     item = Configuracao.objects.get(id=id)
     if request.method == "GET":
-        return render(request, "configuracao/edit.html", {"configuracao": item})
+        return render(
+            request, "configuracao/edit.html", {"configuracao": item}
+        )
     elif request.method == "POST":
         try:
             nome = request.POST.get("nome_configuracao")
@@ -89,8 +91,10 @@ def edit_configuracao(request, id):
 
             messages.success(request, "Configuração editada com sucesso!")
             return redirect("/admin/configuracao/")
-        except Exception as e:
-            messages.error(request, "Configuração não editada algum erro inesperado!")
+        except Exception:
+            messages.error(
+                request, "Configuração não editada algum erro inesperado!"
+            )
             return redirect(f"/admin/edit_configuracao/{id}")
 
 

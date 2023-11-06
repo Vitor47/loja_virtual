@@ -59,8 +59,10 @@ def create_banner(request):
 
             messages.success(request, "Banner cadastrado com sucesso!")
             return redirect("/admin/banner/")
-        except Exception as e:
-            messages.error(request, "Banner não cadastrado algum erro inesperado!")
+        except Exception:
+            messages.error(
+                request, "Banner não cadastrado algum erro inesperado!"
+            )
             return redirect("/admin/create_banner/")
 
 
@@ -102,8 +104,10 @@ def edit_banner(request, id):
 
             messages.success(request, "Banner editado com sucesso!")
             return redirect("/admin/banner/")
-        except Exception as e:
-            messages.error(request, "Banner não editado algum erro inesperado!")
+        except Exception:
+            messages.error(
+                request, "Banner não editado algum erro inesperado!"
+            )
             return redirect(f"/admin/edit_banner/{id}")
 
 

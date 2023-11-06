@@ -35,24 +35,33 @@ def login(request):
                         messages.error(
                             request, "você não é cliente e sim administrador"
                         )
-                        return render(request, "conta/login.html", context=context)
+                        return render(
+                            request, "conta/login.html", context=context
+                        )
                     else:
-                        cliente = Cliente.objects.get(user_cliente_id=user_cliente.id)
+                        cliente = Cliente.objects.get(
+                            user_cliente_id=user_cliente.id
+                        )
                         if cliente.is_active:
                             login_django(request, user_cliente)
                             return redirect("/")
                         else:
                             messages.error(request, "Usuário inativo!")
-                            return render(request, "conta/login.html", context=context)
+                            return render(
+                                request, "conta/login.html", context=context
+                            )
                 else:
                     messages.error(request, "E-mail ou senha incorretos!")
                     return render(request, "conta/login.html", context=context)
             else:
-                messages.error(request, "Você não informou os dados obrigatórios!")
+                messages.error(
+                    request, "Você não informou os dados obrigatórios!"
+                )
                 return render(request, "conta/login.html", context=context)
-        except Exception as e:
+        except Exception:
             messages.error(
-                request, "Aconteceu algum erro insesperado favor tentar novamente!"
+                request,
+                "Aconteceu algum erro insesperado favor tentar novamente!",
             )
             return render(request, "conta/login.html", context=context)
 
@@ -76,7 +85,9 @@ def create_count(request):
         "form_cliente_endereco": form_cliente_endereco,
     }
     if request.method == "GET":
-        return render(request, "conta/create_conta.html", context=context_create_conta)
+        return render(
+            request, "conta/create_conta.html", context=context_create_conta
+        )
     elif request.method == "POST":
         create_form_user = CreateUserForm(request.POST)
         create_form_cliente = CreateClienteForm(request.POST)
@@ -93,7 +104,9 @@ def create_count(request):
 
             telefone = create_form_cliente.cleaned_data["telefone"]
             cpf_cnpj = create_form_cliente.cleaned_data["cpf_cnpj"]
-            data_nascimento = create_form_cliente.cleaned_data["data_nascimento"]
+            data_nascimento = create_form_cliente.cleaned_data[
+                "data_nascimento"
+            ]
 
             cep = create_form_cliente_endereco.cleaned_data["cep"]
             estado = create_form_cliente_endereco.cleaned_data["estado"]
@@ -103,11 +116,16 @@ def create_count(request):
             nr_casa = create_form_cliente_endereco.cleaned_data["nr_casa"]
 
             try:
-                user_verifica = User.objects.filter(email__iexact=email).exists()
+                user_verifica = User.objects.filter(
+                    email__iexact=email
+                ).exists()
                 if user_verifica:
                     messages.error(
                         request,
-                        "Este e-mail já existe por favor digite um e-mail diferente!",
+                        (
+                            "Este e-mail já existe por favor digite um e-mail"
+                            " diferente!"
+                        ),
                     )
                     return redirect("/criar-conta/")
 
@@ -116,7 +134,9 @@ def create_count(request):
                 )
                 busca = cpf_valida.search(cpf_cnpj)
                 if busca is None:
-                    messages.error(request, "Este formato de CPF ou CNPJ não é valido!")
+                    messages.error(
+                        request, "Este formato de CPF ou CNPJ não é valido!"
+                    )
                     return redirect("/criar-conta/")
 
                 r = re.compile(r"[^0-9]")
@@ -138,7 +158,10 @@ def create_count(request):
                 if cpf_verifica:
                     messages.error(
                         request,
-                        "Este CPF ou CNPJ já existe por favor digite um CPF ou CNPJ diferente!",
+                        (
+                            "Este CPF ou CNPJ já existe por favor digite um"
+                            " CPF ou CNPJ diferente!"
+                        ),
                     )
                     return redirect("/criar-conta/")
                 telefone = r.sub("", telefone)
@@ -182,18 +205,23 @@ def create_count(request):
                 cliente_endereco.save()
 
                 messages.success(
-                    request, "Conta criada com sucesso por favor faça login agora!"
+                    request,
+                    "Conta criada com sucesso por favor faça login agora!",
                 )
                 return render(request, "conta/login.html", context=context)
 
-            except Exception as e:
+            except Exception:
                 messages.error(
-                    request, "Conta não criada algum erro inesperado. Tente novamente!"
+                    request,
+                    "Conta não criada algum erro inesperado. Tente novamente!",
                 )
                 return redirect("/criar-conta/")
         else:
             messages.error(
                 request,
-                "Algum campo obrigatorio não preenchido, favor tentar novamente!",
+                (
+                    "Algum campo obrigatorio não preenchido, favor tentar"
+                    " novamente!"
+                ),
             )
             return redirect("/criar-conta/")
