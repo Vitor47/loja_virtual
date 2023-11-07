@@ -29,4 +29,4 @@ def historico(request):
             history = paginator.page(page)
         except (EmptyPage, InvalidPage):
             history = paginator.page(paginator.num_pages)
-        return render(request, "index.html", {"historico": history})
+        return render(request, "historico/index.html", {"historico": history})

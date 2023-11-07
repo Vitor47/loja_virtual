@@ -1,0 +1,56 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+
+{% block 'title' %}Pagamento{% endblock %}
+
+{% block 'head' %}
+{% endblock %}
+
+{% block 'dashboard' %}
+<div class="container">
+    <div class="mt-4">
+        <h2> Pagamento </h2>
+    </div>
+
+    <table class="table table-hover container-box-admin">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if pagamento.object_list.count > 0 %}
+            {% for item in pagamento.object_list  %}
+            <tr>
+                <td data-label="#" scope="row"> {{ forloop.counter }}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <td>Nenhum Pagamento</td>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="pagination mb-4">
+        <span class="step-links">
+            {% if pagamento.has_previous %}
+            <a class="btn-left" href="?page={{ pagamento.previous_page_number }}">{% bs_icon 'arrow-left-circle' size='1.5em' %}</a>
+            {% endif %}
+
+            <span class="current">
+                {{ pagamento.number }} de {{ pagamento.paginator.num_pages }}
+            </span>
+
+            {% if pagamento.has_next %}
+            <a class="btn-right" href="?page={{ pagamento.next_page_number }}">{% bs_icon 'arrow-right-circle' size='1.5em' %}</a>
+            {% endif %}
+        </span>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block 'body' %}
+{% endblock %}

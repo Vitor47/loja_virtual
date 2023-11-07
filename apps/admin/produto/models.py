@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class ProdutoCategoria(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+class ProdutoCategoria(models.Model):   
     nome = models.CharField(max_length=200, null=False, blank=False)
     slug = models.SlugField(max_length=200, null=False, blank=False)
     icone = models.CharField(max_length=200, null=False, blank=False)
@@ -15,8 +14,7 @@ class ProdutoCategoria(models.Model):
         return self.nome
 
 
-class ProdutoAtributo(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+class ProdutoAtributo(models.Model):  
     nome = models.CharField(max_length=200, null=False, blank=False)
     valor = models.CharField(max_length=200, null=False, blank=False)
 
@@ -32,9 +30,7 @@ class ProdutoTipo(models.Model):
         (1, "Ofertas"),
         (2, "Novidades"),
         (3, "Todos"),
-    )
-
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+    ) 
     tipo_id = models.IntegerField(choices=TIPO_CHOICES, null=False, blank=False)
 
     class Meta:
@@ -44,8 +40,7 @@ class ProdutoTipo(models.Model):
         return self.nome
 
 
-class Produto(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+class Produto(models.Model): 
     nome = models.CharField(max_length=200, null=False, blank=False)
     slug = models.SlugField(max_length=200, null=False, blank=False)
     valor = models.DecimalField(max_digits=12, decimal_places=2)
@@ -67,8 +62,7 @@ class Produto(models.Model):
         return self.nome
 
 
-class ProdutoImagens(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+class ProdutoImagens(models.Model):   
     imagem = models.ImageField(upload_to="produto/imagens")
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE, null=True)
     data_cad = models.DateField(null=False)
@@ -82,7 +76,6 @@ class ProdutoImagens(models.Model):
 
 
 class ProdutoAtributoProduto(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
     atributo = models.ForeignKey(ProdutoAtributo, on_delete=models.CASCADE, null=True)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE, null=True)
 
@@ -110,7 +103,6 @@ class ProdutoDiamentro(models.Model):
         (3, "Envelope"),
     )
 
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
     nCdServico = models.CharField(
         choices=CODIGO_SERVICO_CHOICES, max_length=200, null=False, blank=False
     )
@@ -131,7 +123,6 @@ class ProdutoDiamentro(models.Model):
 
 
 class ProdutoDiamentroProduto(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
     diametro = models.ForeignKey(ProdutoDiamentro, on_delete=models.CASCADE, null=True)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE, null=True)
 

@@ -1,8 +1,7 @@
 from django.db import models
 
 
-class Configuracao(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+class Configuracao(models.Model):  
     nome = models.CharField(max_length=200, null=False, blank=False)
     valor = models.CharField(max_length=200, null=False, blank=False)
 

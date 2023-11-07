@@ -50,6 +50,15 @@
         </li>
         {% endif %}
         <li class="li-admin">
+            <a href="{% url 'admin.pagamento:pagamento' %}">
+                <i class="far fa-money-bill-alt"></i>
+                <span class="link_name">Pagamentos</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="{% url 'admin.pagamento:pagamento' %}">Pagamentos</a></li>
+            </ul>
+        </li>
+        <li class="li-admin">
             <a href="{% url 'admin.cliente:cliente' %}">
                 <i class="fa-regular fa-user"></i>
                 <span class="link_name">Clientes</span>
