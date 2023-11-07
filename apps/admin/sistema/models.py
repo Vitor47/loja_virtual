@@ -1,8 +1,7 @@
 from django.db import models
 
 
-class Auditoria(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+class Auditoria(models.Model): 
     user = models.CharField(max_length=200, null=False, blank=False)
     mensagem = models.CharField(max_length=200, null=False, blank=False)
     ip = models.CharField(max_length=200, null=False, blank=False)

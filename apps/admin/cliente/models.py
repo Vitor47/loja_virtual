@@ -2,8 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Cliente(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+class Cliente(models.Model):   
     avatar = models.ImageField(upload_to="avatar", null=True)
     telefone = models.ImageField(max_length=200, null=False, blank=False)
     telefone = models.CharField(max_length=200, null=False, blank=False)
@@ -20,7 +19,6 @@ class Cliente(models.Model):
 
 
 class Endereco(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
     cep = models.CharField(max_length=200, null=False, blank=False)
     estado = models.CharField(max_length=200, null=False, blank=False)
     cidade = models.CharField(max_length=200, null=False, blank=False)

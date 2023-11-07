@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "apps.admin.produto",
     "apps.admin.sistema",
     "apps.admin.historico",
+    "apps.admin.pagamento",
     "apps.site",
     "django_bootstrap_icons",
     "widget_tweaks",

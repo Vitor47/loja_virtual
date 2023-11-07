@@ -2,8 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
-class Banner(models.Model):
-    id = (models.IntegerField(null=False, primary_key=True, auto_created=True),)
+class Banner(models.Model):  
     status = models.BooleanField(null=False)
     imagem = models.ImageField(upload_to="banner")
     data_cad = models.DateField(null=False)

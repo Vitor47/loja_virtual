@@ -52,7 +52,15 @@ urlpatterns = [
             namespace="apps.admin.historico",
         ),
     ),
+    path(
+        "admin/",
+        include(
+            "apps.admin.pagamento.urls",
+            namespace="apps.admin.pagamento",
+        ),
+    ),
     path("", include("apps.site.urls", namespace="loja.apps.site")),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
